@@ -21,5 +21,5 @@ app.get('*', function(req, res) {
     res.send(html)
 })
 // 监听7373端口
-app.listen(7373);
+app.listen(80);
 console.log('Eltur project is success!');
