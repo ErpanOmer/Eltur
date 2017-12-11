@@ -10,6 +10,12 @@ export default {
     return {
       msg: 'Welcome to Your Eltur'
     }
+  },
+  mounted () {
+    //  do something after mounting vue instance
+    this.$getData(this.$configs.api.index, '', response => {
+      console.log(response)
+    })
   }
 }
 </script>
