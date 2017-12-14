@@ -28,14 +28,11 @@ router.post('/api/Article',(req,res) => {
 // 获取已有账号接口
 router.get('/api/Article/:title',(req,res) => {
     //  通过模型去查找数据库
-    let title = req.query.title
-    console.log(title)
+    let title = req.query.title.toString()
     models.Article.find({ title: title }, (err,data) => {
         if (err) {
-          console.log(err)
-            res.send('coco');
+            res.send(err);
         } else {
-          console.log(data)
           res.send(data);
         }
     });
