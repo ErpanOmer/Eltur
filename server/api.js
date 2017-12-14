@@ -1,6 +1,6 @@
 // 可能是我的node版本问题，不用严格模式使用ES6语法会报错
 "use strict";
-// const models = require('./db');
+const models = require('./db');
 const express = require('express');
 const router = express.Router();
 
