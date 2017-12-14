@@ -17,7 +17,7 @@ export default {
       author: '爱人',
       detaild: '是吧！'
     }
-    this.$http.get(url, data.title).then(response => {
+    this.$http.get(url + '?title=' + data.title).then(response => {
       console.log(response)
     })
   }

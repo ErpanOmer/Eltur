@@ -29,10 +29,13 @@ router.post('/api/Article',(req,res) => {
 router.get('/api/Article/:title',(req,res) => {
     //  通过模型去查找数据库
     let title = req.query.title
-    models.Article.findOne({ title: title }, (err,data) => {
+    console.log(title)
+    models.Article.find({ title: title }, (err,data) => {
         if (err) {
-            res.send(err);
+          console.log(err)
+            res.send('coco');
         } else {
+          console.log(data)
           res.send(data);
         }
     });
