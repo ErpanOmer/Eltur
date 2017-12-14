@@ -7,10 +7,22 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  mounted () {
+    //  do something after mounting vue instance
+    let url = 'http://localhost/api/Article'
+    let data = {
+      title: '我是',
+      date: new Date(),
+      author: '爱人',
+      detaild: '是吧！'
+    }
+    this.$http.get(url, data.title).then(response => {
+      console.log(response)
+    })
+  }
 }
 </script>
-
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
