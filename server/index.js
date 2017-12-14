@@ -22,12 +22,6 @@ app.get('*', function(req, res, next) {
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
   const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8')
   res.send(html)
-  if (req.method == 'OPTIONS') {
-    res.send(200); /让options请求快速返回/
-  }
-  else {
-    next();
-  }
 })
 // 监听7373端口
 app.listen(80);
