@@ -1,10 +1,22 @@
 {
+  "name": "eltur",
+  "version": "1.0.0",
+  "description": "Eltur",
+  "author": "Erpan",
+  "private": true,
+  "scripts": {
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "start": "npm run dev",
+    "unit": "jest --config test/unit/jest.conf.js --coverage",
+    "e2e": "node test/e2e/runner.js",
+    "test": "npm run unit && npm run e2e",
+    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
+    "build": "node build/build.js"
+  },
   "dependencies": {
-<<<<<<< HEAD
     "express": "^4.16.2",
     "fastclick": "^1.0.6",
     "less-loader": "^4.0.5",
-    "mongoose": "^4.13.7",
     "vue": "^2.5.2",
     "vue-infinite-scroll": "^2.0.2",
     "vue-meta": "^1.4.0",
@@ -77,8 +89,4 @@
     "last 2 versions",
     "not ie <= 8"
   ]
-=======
-    "express": "^4.16.2"
-  }
->>>>>>> 043f3ee417c55b999a60321126423b5b889c2217
 }
