@@ -12,10 +12,6 @@ export default {
     }
   },
   mounted () {
-    //  do something after mounting vue instance
-    this.$getData(this.$configs.api.index, '', response => {
-      console.log(response)
-    })
   }
 }
 </script>
