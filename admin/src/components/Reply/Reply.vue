@@ -10,7 +10,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'I am Eltur Admin'
+      msg: 'Reply'
     }
   },
   components: {

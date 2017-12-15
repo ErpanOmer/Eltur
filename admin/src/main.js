@@ -1,3 +1,6 @@
+// import './skin/icomoon/style.css'
+import '@/assets/css/font_510396_a2ton0h0svr0ms4i/iconfont.css'
+import '@/assets/uyghurs.css'
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -35,7 +38,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   metaInfo: {
-    title: 'Eltur', // set a title
+    title: 'Eltur Admin', // set a title
     titleTemplate: '%s', // title is now "My Example App - Yay!"
     meta: [
       // { charset: 'utf-8' },
