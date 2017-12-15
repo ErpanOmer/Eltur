@@ -24,10 +24,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(Article);
 // 访问静态资源文件 这里是访问所有dist目录下的静态资源文件
-app.use(express.static(path.resolve(__dirname, '../dist')))
+//   eltur  前端模板
+app.use(express.static(path.resolve(__dirname, '../front/dist')))
+//    eltur  后台模板
+app.use(express.static(path.resolve(__dirname, '../admin/dist')))
 // 因为是单页应用 所有请求都走/dist/index.html
-app.get('*', function(req, res) {
-  const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8')
+app.get('/', function(req, res) {
+  const html = fs.readFileSync(path.resolve(__dirname, '../front/dist/index.html'), 'utf-8')
+  res.send(html)
+})
+//   如果是后台  进入这个
+app.get('/admin', function(req, res) {
+  const html = fs.readFileSync(path.resolve(__dirname, '../admin/dist/index.html'), 'utf-8')
   res.send(html)
 })
 // 监听7373端口
