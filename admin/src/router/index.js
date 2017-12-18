@@ -7,7 +7,7 @@ import Me from '@/components/Me/Me'
 Vue.use(Router)
 export default new Router({
   mode: 'history',
-  base: '/admin/',
+  base: '/admin',
   routes: [
     { path: '/', name: 'Index', component: Index },
     { path: '/Article', name: 'Article', component: Article },

@@ -8,7 +8,18 @@ const path = require('path');
 const bodyParser = require('body-parser')
 // 引入Express
 const express = require('express');
+//   日志插件
+const morgan = require('morgan')
 const app = express();
+// 自定义token
+morgan.token('from', function(req, res){
+    return req.query.from || '-';
+});
+// 自定义format，其中包含自定义的token
+morgan.format('Phantom', '[Phantom] :method :url :status :from');
+
+// 使用自定义的format
+app.use(morgan('Phantom'));
 //   配合前端 history 模式
 app.all('*',function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -26,13 +37,13 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(Article);
 // 访问静态资源文件 这里是访问所有dist目录下的静态资源文件
 // 因为是单页应用 所有请求都走/dist/index.html
-app.get('/', function(req, res) {
+app.get(/index/, function(req, res) {
   //   eltur  前端模板
   app.use(express.static(path.resolve(__dirname, '../dist/front')))
   const html = fs.readFileSync(path.resolve(__dirname, '../dist/front/index.html'), 'utf-8')
   res.send(html)
 })
-app.get(/.*admin$/, function(req, res) {
+app.get(/admin/, function(req, res) {
   //   eltur  后台模板
   app.use(express.static(path.resolve(__dirname, '../dist/admin')))
   const html = fs.readFileSync(path.resolve(__dirname, '../dist/admin/index.html'), 'utf-8')
