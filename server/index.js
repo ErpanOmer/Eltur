@@ -1,5 +1,5 @@
 // 引入编写好的api
-const Article = require('./Article/Article.api')
+const Article = require('./Application/Article/Article.api')
 // 引入文件模块
 const fs = require('fs');
 // 引入处理路径的模块
@@ -17,7 +17,6 @@ morgan.token('from', function(req, res){
 });
 // 自定义format，其中包含自定义的token
 morgan.format('Phantom', '[Phantom] :method :url :status :from');
-
 // 使用自定义的format
 app.use(morgan('Phantom'));
 //   配合前端 history 模式
