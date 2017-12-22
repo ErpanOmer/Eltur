@@ -1,8 +1,12 @@
-#This A Eltur Project!
+This A Eltur Project!
+=========
 
 [项目线上地址](http://www.eltur.cn)  
 ----------
  - 项目目录结果
+*   Red
+*   Green
+*   Blue
  ```javascript
 // 引入编写好的api
 const Article = require('./Application/Article/Article.api')
