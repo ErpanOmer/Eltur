@@ -3,12 +3,16 @@
 @import './transition.scss';
 @import './element-ui.scss';
 @import './sidebar.scss';
-
+@font-face {
+	font-family: 'UKIJTuzTom';
+	src: url('./font/UKIJTuzTom.ttf')  format('truetype'),
+	     url('./font/UKIJTuzTom.woff?l9auvo') format('woff');
+}
 body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  font-family: 'UKIJTuzTom';
 }
 
 html {

@@ -21,54 +21,38 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: _import('login/index'), hidden: true },
   { path: '/404', component: _import('404'), hidden: true },
-
   {
-    path: '/',
+    path: '',
     component: Layout,
-    redirect: '/dashboard',
-    name: 'Dashboard',
-    hidden: true,
+    redirect: 'dashboard',
     children: [{
       path: 'dashboard',
-      component: _import('dashboard/index')
+      component: _import('dashboard/index'),
+      name: 'dashboard',
+      meta: { title: 'باش بەت', icon: 'home', noCache: true }
     }]
   },
-
   {
-    path: '/example',
+    path: '/News',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
+    redirect: '/News/table',
+    name: 'News',
+    meta: { title: 'خەۋەر', icon: 'example' },
     children: [
       {
         path: 'Table',
         name: 'Table',
         component: _import('table/index'),
-        meta: { title: '文章', icon: 'table' }
+        meta: { title: 'يوللانغانلىرى', icon: 'table' }
       },
-      {
-        path: 'True',
-        name: 'Tree',
-        component: _import('tree/index'),
-        meta: { title: '树状', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
       {
         path: 'index',
         name: 'Form',
         component: _import('form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        meta: { title: 'يوللاش', icon: 'form' }
       }
     ]
   },
-
   { path: '*', redirect: '/404', hidden: true }
 ]
 export default new Router({
