@@ -1,0 +1,5 @@
+@font-face {
+	font-family: 'UKIJTuzTom';
+	src: url('./font/UKIJTuzTom.ttf')  format('truetype'),
+	     url('./font/UKIJTuzTom.woff?l9auvo') format('woff');
+}
