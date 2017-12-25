@@ -1,8 +1,9 @@
+//***************************************************//
+//********************  框架和依赖插件  ******************//
+//***************************************************//
 // 引入Express
 const express = require('express');
-// 引入编写好的api
-const Article = require('./Application/Article/Article.api')
-const User = require('./Admin/User/User.api')
+const app = express();
 // 引入文件模块
 const fs = require('fs');
 // 引入处理路径的模块
@@ -13,7 +14,6 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const passport = require('passport');// 用户认证模块passport
 const Strategy = require('passport-http-bearer').Strategy;// token验证模块
-const app = express();
 // 自定义token
 morgan.token('from', function(req, res){
     return req.query.from || '-';
@@ -25,8 +25,28 @@ app.use(morgan('Phantom'));
 app.use(passport.initialize());// 初始化passport模块
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+//***************************************************//
+//********************  结束  ******************//
+//***************************************************//
+//
+//
+//
+//
+//
+//****************************************************//
+//********************    请求api   ******************//
+//***************************************************//
+// 引入编写好的api
+const Article = require('./Application/Article/Article.api')
+const AdminUser = require('./Admin/User/AdminUser.api')
 app.use(Article);
 app.use(User);
+//***************************************************//
+//********************  结束  ******************//
+//***************************************************//
+//
+//
+//
 //   配合前端 history 模式
 app.all('*',function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');

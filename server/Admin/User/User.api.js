@@ -1,5 +1,5 @@
 const express = require('express');
-const User = require('./User.db.js');
+const AdminUser = require('./AdminUser.db.js');
 const jwt = require('jsonwebtoken');
 const config = require('../../db.config.js')
 const passport = require('passport');
@@ -12,7 +12,7 @@ router.post('/signup', (req, res) => {
   if (!req.body.name || !req.body.password) {
     res.json({success: false, message: '请输入您的账号密码.'});
   } else {
-    var newUser = new User({
+    var newUser = new AdminUser({
       name: req.body.name,
       password: req.body.password
     });
@@ -28,7 +28,7 @@ router.post('/signup', (req, res) => {
 
 // 检查用户名与密码并生成一个accesstoken如果验证通过
 router.post('/user/accesstoken', (req, res) => {
-  User.findOne({
+  AdminUser.findOne({
     name: req.body.name
   }, (err, user) => {
     if (err) {

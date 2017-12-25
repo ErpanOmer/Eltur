@@ -1,13 +1,13 @@
 const passport = require('passport');
 const Strategy = require('passport-http-bearer').Strategy;
 
-const User = require('./User.db.js');
+const AdminUser = require('./AdminUser.db.js');
 const config = require('../../db.config.js')
 
 module.exports = function(passport) {
     passport.use(new Strategy(
         function(token, done) {
-            User.findOne({
+            AdminUser.findOne({
                 token: token
             }, function(err, user) {
                 if (err) {
