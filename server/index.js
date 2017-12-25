@@ -11,6 +11,11 @@ const path = require('path');
 // 引入处理post数据的模块
 const bodyParser = require('body-parser')
 //   日志插件
+const session = require('express-session')
+const flash = require('connect-flash')
+const MongoStore = require('connect-mongo')(session)
+var mongoose = require('mongoose')
+const config = require('./db.config.js')
 const morgan = require('morgan')
 const passport = require('passport');// 用户认证模块passport
 const Strategy = require('passport-http-bearer').Strategy;// token验证模块
@@ -22,7 +27,18 @@ morgan.token('from', function(req, res){
 morgan.format('Phantom', '[Phantom] :method :url :status :from');
 // 使用自定义的format
 app.use(morgan('Phantom'));
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    store:new MongoStore({
+        mongooseConnection: mongoose.connection
+    }),
+    cookie:{maxAge:180 * 60 * 1000} //store保存时间
+}));
+app.use(flash());
 app.use(passport.initialize());// 初始化passport模块
+app.use(passport.session());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 //***************************************************//

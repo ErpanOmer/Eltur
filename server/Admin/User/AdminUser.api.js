@@ -26,7 +26,7 @@ router.post('/elturAdmin/signup', (req, res) => {
 });
 
 // 检查用户名与密码并生成一个accesstoken如果验证通过
-router.post('/elturAdmin/accesstoken', (req, res) => {
+router.post('/elturAdmin/Login', (req, res) => {
   AdminUser.findOne({
     name: req.body.name
   }, (err, user) => {
@@ -34,7 +34,7 @@ router.post('/elturAdmin/accesstoken', (req, res) => {
       throw err;
     }
     if (!user) {
-      res.json({success: false, message:'认证失败,用户不存在!'});
+      res.json({success: false, code: 8888, message:'认证失败,用户不存在!'});
     } else if(user) {
       // 检查密码是否正确
       user.comparePassword(req.body.password, (err, isMatch) => {
@@ -52,10 +52,10 @@ router.post('/elturAdmin/accesstoken', (req, res) => {
             success: true,
             message: '验证成功!',
             token: 'Bearer ' + token,
-            name: user.name
+            code: 8888,
           });
         } else {
-          res.send({success: false, message: '认证失败,密码错误!'});
+          res.send({success: false, code: 8888, message: '认证失败,密码错误!'});
         }
       });
     }
@@ -65,8 +65,9 @@ router.post('/elturAdmin/accesstoken', (req, res) => {
 // passport-http-bearer token 中间件验证
 // 通过 header 发送 Authorization -> Bearer  + token
 // 或者通过 ?access_token = token
-router.get('/elturAdmin/info', passport.authenticate('bearer', { session: false }), (req, res) => {
+router.get('/elturAdmin/info', passport.authenticate('bearer', { session: false, successRedirect: '/admin/dashboard', failureRedirect: '/admin/login', failureFlash: '验证失败' }), (req, res) => {
     res.json({username: req.user.name});
+    res.json(failureFlash)
 });
 
 module.exports = router;
