@@ -4,11 +4,10 @@ const jwt = require('jsonwebtoken');
 const config = require('../../db.config.js')
 const passport = require('passport');
 const router = express.Router();
-
 require('./passport.js')(passport);
 
 // 注册账户
-router.post('/signup', (req, res) => {
+router.post('/elturAdmin/signup', (req, res) => {
   if (!req.body.name || !req.body.password) {
     res.json({success: false, message: '请输入您的账号密码.'});
   } else {
@@ -27,7 +26,7 @@ router.post('/signup', (req, res) => {
 });
 
 // 检查用户名与密码并生成一个accesstoken如果验证通过
-router.post('/user/accesstoken', (req, res) => {
+router.post('/elturAdmin/accesstoken', (req, res) => {
   AdminUser.findOne({
     name: req.body.name
   }, (err, user) => {
@@ -40,7 +39,7 @@ router.post('/user/accesstoken', (req, res) => {
       // 检查密码是否正确
       user.comparePassword(req.body.password, (err, isMatch) => {
         if (isMatch && !err) {
-          var token = jwt.sign({name: user.name}, 'learnRestApiwithNickjs',{
+          var token = jwt.sign({name: user.name}, 'ILoveYou',{
             expiresIn: 10080
           });
           user.token = token;
@@ -66,9 +65,7 @@ router.post('/user/accesstoken', (req, res) => {
 // passport-http-bearer token 中间件验证
 // 通过 header 发送 Authorization -> Bearer  + token
 // 或者通过 ?access_token = token
-router.get('/users/info',
-  passport.authenticate('bearer', { session: false }),
-  function(req, res) {
+router.get('/elturAdmin/info', passport.authenticate('bearer', { session: false }), (req, res) => {
     res.json({username: req.user.name});
 });
 

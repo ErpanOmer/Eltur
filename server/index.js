@@ -40,7 +40,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 const Article = require('./Application/Article/Article.api')
 const AdminUser = require('./Admin/User/AdminUser.api')
 app.use(Article);
-app.use(User);
+app.use(AdminUser);
 //***************************************************//
 //********************  结束  ******************//
 //***************************************************//

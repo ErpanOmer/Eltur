@@ -14,10 +14,12 @@ const AdminUser = new Schema({
   },
   mobile: {
     type: String,
-    unique: true
+    unique: true,
+    default: ''
   },
   avatar: {
-    type: String
+    type: String,
+    default: ''
   },
   token: {
     type: String
