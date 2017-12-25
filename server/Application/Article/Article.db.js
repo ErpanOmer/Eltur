@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const config = require('../../db.config.js')
 /************** 定义模式loginSchema **************/
 const Article = new Schema({
-  title: { type : String, default : '', trim : true, require: true // 不可为空约束 },
-  body: { type : String, default : '', trim : true, require: true // 不可为空约束 },
+  title: { type : String, default : '', trim : true, require: true },   // 不可为空约束
+  body: { type : String, default : '', trim : true, require: true },   // 不可为空约束
   user: { type : Schema.ObjectId, ref : 'User' },
   comments: [{
     body: { type : String, default : '' },
