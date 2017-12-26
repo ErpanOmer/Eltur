@@ -5,7 +5,6 @@ const config = require('../../db.config.js')
 const passport = require('passport');
 const router = express.Router();
 require('./passport.js')(passport);
-
 // 注册账户
 router.post('/elturAdmin/signup', (req, res) => {
   if (!req.body.name || !req.body.password) {
@@ -34,7 +33,7 @@ router.post('/elturAdmin/Login', (req, res) => {
       throw err;
     }
     if (!user) {
-      res.json({success: false, code: 8888, message:'认证失败,用户不存在!'});
+      res.json({success: false, code: 7777, message: req.body });
     } else if(user) {
       // 检查密码是否正确
       user.comparePassword(req.body.password, (err, isMatch) => {

@@ -8,7 +8,6 @@ const service = axios.create({
   baseURL: 'http://localhost', // api的base_url
   timeout: 15000 // 请求超时时间
 })
-axios.defaults.headers['Content-Type'] = 'application/json;charset=UTF-8'
 // request拦截器
 service.interceptors.request.use(config => {
   if (store.getters.token) {

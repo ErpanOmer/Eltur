@@ -1,13 +1,12 @@
 import request from '@/utils/request'
-//   API
-const LOGIN = '/elturAdmin/Login'
+
 export function login(name, password) {
   return request({
-    url: LOGIN,
+    url: '/elturAdmin/Login',
     method: 'post',
     data: {
-      name,
-      password
+      name: name,
+      password: password
     }
   })
 }

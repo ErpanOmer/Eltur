@@ -4,6 +4,20 @@
 // 引入Express
 const express = require('express');
 const app = express();
+//   配合前端 history 模式
+app.all('*',function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Content-Length, Authorization,\'Origin\',Accept,X-Requested-With');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('X-Powered-By', ' 3.2.1');
+  res.header('Content-Type', 'application/json;charset=utf-8');
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 // 引入文件模块
 const fs = require('fs');
 // 引入处理路径的模块
@@ -63,18 +77,6 @@ app.use(AdminUser);
 //
 //
 //
-//   配合前端 history 模式
-app.all('*',function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
-  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  if (req.method == 'OPTIONS') {
-    res.send(200);
-  }
-  else {
-    next();
-  }
-});
 // 访问静态资源文件 这里是访问所有dist目录下的静态资源文件
 // 因为是单页应用 所有请求都走/dist/index.html
 app.get(/index/, function(req, res) {
