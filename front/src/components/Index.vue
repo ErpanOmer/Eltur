@@ -8,7 +8,7 @@
 export default {
   data () {
     return {
-      msg: 'Welcome to Your Eltur'
+      msg: 'Peherdin'
     }
   },
   mounted () {
