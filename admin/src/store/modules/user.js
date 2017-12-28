@@ -1,6 +1,6 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-
+import router from '@/router'
 const user = {
   state: {
     token: getToken(),
@@ -30,11 +30,11 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
-          const data = response.data
-          console.log(data)
-          setToken(data.token)
-          commit('SET_TOKEN', data.token)
-          resolve()
+          if (response.code === 520) {
+            setToken(response.token)
+            commit('SET_TOKEN', response.token)
+            resolve()
+          }
         }).catch(error => {
           reject(error)
         })
@@ -45,11 +45,12 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
-          const data = response.data
-          commit('SET_ROLES', data.role)
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
-          resolve(response)
+          if (response.code === 520) {
+            const data = response.data
+            commit('SET_NAME', data.name)
+            commit('SET_AVATAR', data.avatar)
+            resolve(response)
+          }
         }).catch(error => {
           reject(error)
         })
@@ -58,10 +59,12 @@ const user = {
 
     // 登出
     LogOut({ commit, state }) {
+      router.push('Login')
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
+          router.push('Login')
           removeToken()
           resolve()
         }).catch(error => {

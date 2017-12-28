@@ -19,17 +19,17 @@ import Layout from '../views/layout/Layout'
   }
 **/
 export const constantRouterMap = [
-  { path: '/login', component: _import('login/index'), hidden: true },
+  { path: '/login', component: _import('login/index'), name: 'Login', hidden: true },
   { path: '/404', component: _import('404'), hidden: true },
   {
     path: '',
     component: Layout,
-    redirect: 'dashboard',
+    redirect: 'Home',
     children: [{
-      path: 'dashboard',
-      component: _import('dashboard/index'),
-      name: 'dashboard',
-      meta: { title: 'باش بەت', icon: 'home', noCache: true }
+      path: 'Home',
+      component: _import('Home/index'),
+      name: 'Home',
+      meta: { title: '主页', icon: 'home', noCache: true }
     }]
   },
   {
@@ -37,19 +37,19 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/News/table',
     name: 'News',
-    meta: { title: 'خەۋەر', icon: 'example' },
+    meta: { title: '新闻', icon: 'example' },
     children: [
-      {
-        path: 'Table',
-        name: 'Table',
-        component: _import('table/index'),
-        meta: { title: 'يوللانغانلىرى', icon: 'table' }
-      },
       {
         path: 'index',
         name: 'Form',
         component: _import('form/index'),
-        meta: { title: 'يوللاش', icon: 'form' }
+        meta: { title: '发布新闻', icon: 'form' }
+      },
+      {
+        path: 'Table',
+        name: 'Table',
+        component: _import('table/index'),
+        meta: { title: '查看新闻', icon: 'table' }
       }
     ]
   },

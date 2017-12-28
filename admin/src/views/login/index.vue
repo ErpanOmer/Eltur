@@ -62,12 +62,14 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
-            this.$router.push({ path: '/' })
+            this.$message({
+              message: '登陆成功',
+              type: 'success'
+            })
+            this.$router.push({ name: 'Home' })
           }).catch(() => {
-            this.loading = false
           })
         } else {
           console.log('error submit!!')

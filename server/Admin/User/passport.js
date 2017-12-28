@@ -1,6 +1,5 @@
 const passport = require('passport');
 const Strategy = require('passport-http-bearer').Strategy;
-
 const AdminUser = require('./AdminUser.db.js');
 const config = require('../../db.config.js')
 
@@ -21,3 +20,11 @@ module.exports = function(passport) {
         }
     ));
 };
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});

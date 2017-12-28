@@ -1,8 +1,12 @@
 import request from '@/utils/request'
-
+//   API
+const LOGIN = '/elturAdmin/Login'
+const INFO = '/elturAdmin/Info'
+const LOG_OUT = '/elturAdmin/Info'
+//  METHODS
 export function login(name, password) {
   return request({
-    url: '/elturAdmin/Login',
+    url: LOGIN,
     method: 'post',
     data: {
       name: name,
@@ -13,7 +17,7 @@ export function login(name, password) {
 
 export function getInfo(token) {
   return request({
-    url: '/user/info',
+    url: INFO,
     method: 'get',
     params: { token }
   })
@@ -21,7 +25,7 @@ export function getInfo(token) {
 
 export function logout() {
   return request({
-    url: '/user/logout',
+    url: LOG_OUT,
     method: 'post'
   })
 }
