@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../../db.config.js')
 const passport = require('passport');
 const router = express.Router();
-require('./passport.js')(passport);
+require('../passport.js')(passport);
 // 注册账户
 router.post('/elturAdmin/signup', (req, res) => {
   if (!req.body.name || !req.body.password) {
