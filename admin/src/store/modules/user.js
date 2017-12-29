@@ -44,7 +44,7 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getInfo(state.token).then(response => {
+        getInfo().then(response => {
           if (response.code === 520) {
             const data = response.data
             commit('SET_NAME', data.name)
@@ -59,7 +59,6 @@ const user = {
 
     // 登出
     LogOut({ commit, state }) {
-      router.push('Login')
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')

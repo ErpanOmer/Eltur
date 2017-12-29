@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '../store'
+import router from '@/router'
 import { getToken } from '@/utils/auth'
 
 // 创建axios实例
@@ -24,20 +25,28 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   response => {
   /**
+  * code === token 验证失效
   * code === 8888 为服务器返回错误
   * code === 520 表示成功
   * 其他一律为报错
   */
     const responseData = response.data
-    if (responseData.code === 8888) {
+    if (responseData.code === 0 && !responseData.success) {
+      Message({
+        message: responseData.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+      router.push('Login')
+      return false
+    } else if (responseData.code === 8888 && !responseData.success) {
       Message({
         message: responseData.message,
         type: 'error',
         duration: 5 * 1000
       })
       return false
-    }
-    if (responseData.code === 520 && responseData.success) {
+    } else if (responseData.code === 520 && responseData.success) {
       return responseData
     } else {
       return Promise.reject('error')

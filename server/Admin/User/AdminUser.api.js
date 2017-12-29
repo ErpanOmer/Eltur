@@ -54,18 +54,27 @@ router.post('/elturAdmin/Login', (req, res) => {
             code: 520,
           });
         } else {
-          res.send({success: false, code: 8888, message: '登陆失败,密码错误!'});
+          res.json({success: false, code: 8888, message: '登陆失败,密码错误!'});
         }
       });
     }
   });
 });
-
 // passport-http-bearer token 中间件验证
 // 通过 header 发送 Authorization -> Bearer  + token
 // 或者通过 ?access_token = token
-router.get('/elturAdmin/Info', passport.authenticate('bearer', { failureRedirect: '/admin/login', failureFlash: '验证失败' }), (req, res) => {
-    const user = req.user
-    res.json({ success: true, code: 520 , data: { name: user.name, avatar: user.avatar }});
+router.get('/elturAdmin/Info', function(req, res, next) {
+  passport.authenticate('bearer', { session: false }, function(err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      res.json({success: false, code: 0, message: '请登录'});
+    }
+    if (user) {
+      const data = { name: user.name, avatar: user.avatar }
+      res.json({success: true, code: 520, message: '登陆成功', data });
+    }
+  })(req, res, next);
 });
 module.exports = router;

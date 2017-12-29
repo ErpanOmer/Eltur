@@ -10,10 +10,10 @@ module.exports = function(passport) {
                 token: token
             }, function(err, user) {
                 if (err) {
-                    return done(err, { message: '用户名错误!' });
+                    return done(err);
                 }
                 if (!user) {
-                    return done(null, false, { message: '用户名错误!' });
+                    return done(null, false);
                 }
                 return done(null, user);
             });
