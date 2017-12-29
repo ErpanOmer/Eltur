@@ -49,7 +49,7 @@ router.post('/elturAdmin/Login', (req, res) => {
           });
           res.json({
             success: true,
-            message: '验证成功!',
+            message: '登陆成功!',
             token: 'Bearer ' + token,
             code: 520,
           });
@@ -73,8 +73,42 @@ router.get('/elturAdmin/Info', function(req, res, next) {
     }
     if (user) {
       const data = { name: user.name, avatar: user.avatar }
-      res.json({success: true, code: 520, message: '登陆成功', data });
+      res.json({success: true, code: 520, message: '获取成功', data });
     }
   })(req, res, next);
 });
+
+router.get('/elturAdmin/Logout', (req, res ,next) => {
+  passport.authenticate('bearer', { session: false }, (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      res.json({success: false, code: 8888, message: '操作无效'});
+    }
+    if (user) {
+      AdminUser.findOne({
+          token: user.token
+      }, (err, self) => {
+          if (err) {
+              res.json({success: false, code: 8888, message: '退出失败'});
+              return next(err);
+          }
+          if (!self) {
+             res.json({success: false, code: 8888, message: '退出失败'});
+          }
+          if (self) {
+            self.token = '';
+            self.save(err => {
+              if (err) {
+                res.send(err);
+              }
+              res.json({success: true, code: 520, message: '退出成功'});
+          })
+        }
+      });
+
+    }
+  })(req, res, next);
+})
 module.exports = router;

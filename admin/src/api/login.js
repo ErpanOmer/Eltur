@@ -2,7 +2,7 @@ import request from '@/utils/request'
 //   API
 const LOGIN = '/elturAdmin/Login'
 const INFO = '/elturAdmin/Info'
-const LOG_OUT = '/elturAdmin/Info'
+const LOG_OUT = '/elturAdmin/Logout'
 //  METHODS
 export function login(name, password) {
   return request({
@@ -25,6 +25,6 @@ export function getInfo() {
 export function logout() {
   return request({
     url: LOG_OUT,
-    method: 'post'
+    method: 'get'
   })
 }

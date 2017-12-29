@@ -1,6 +1,7 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router from '@/router'
+import { Message } from 'element-ui'
 const user = {
   state: {
     token: getToken(),
@@ -60,12 +61,18 @@ const user = {
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          router.push('Login')
-          removeToken()
-          resolve()
+        logout().then(response => {
+          if (response.code === 520) {
+            commit('SET_TOKEN', '')
+            commit('SET_ROLES', [])
+            removeToken()
+            Message({
+              message: response.message,
+              type: 'success',
+              duration: 3 * 1000
+            })
+            router.push('Login')
+          }
         }).catch(error => {
           reject(error)
         })
