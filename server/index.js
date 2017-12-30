@@ -64,12 +64,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 //********************    请求api   ******************//
 //***************************************************//
 // 引入编写好的api
-const Article = require('./Application/Article/Article.api')
-const AdminUser = require('./Admin/User/AdminUser.api')
-const News = require('./Admin/News/News.api')
-app.use(News);
-app.use(Article);
-app.use(AdminUser);
+const ADMIN_API = require('./Admin')
+app.use(...ADMIN_API)
 //***************************************************//
 //********************  结束  ******************//
 //***************************************************//

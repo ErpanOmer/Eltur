@@ -73,7 +73,7 @@ router.get('/elturAdmin/Info', function(req, res, next) {
     }
     if (user) {
       const data = { name: user.name, avatar: user.avatar }
-      res.json({success: true, code: 520, message: '获取成功', data });
+      res.json({success: true, code: 520, message: '成功', data });
     }
   })(req, res, next);
 });
@@ -84,7 +84,7 @@ router.get('/elturAdmin/Logout', (req, res ,next) => {
       return next(err);
     }
     if (!user) {
-      res.json({success: false, code: 8888, message: '操作无效'});
+      res.json({success: false, code: 0, message: '请登录'});
     }
     if (user) {
       AdminUser.findOne({
