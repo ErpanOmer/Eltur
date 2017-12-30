@@ -8,7 +8,7 @@ yarn-error.log*
 selenium-debug.log
 server/*.log
 server/db.config.js
-
+images/
 # Editor directories and files
 .idea
 .vscode

@@ -74,6 +74,9 @@ app.use(...ADMIN_API)
 //
 // 访问静态资源文件 这里是访问所有dist目录下的静态资源文件
 // 因为是单页应用 所有请求都走/dist/index.html
+// 服务器 图片文件
+app.use(express.static(path.resolve(__dirname, '../images/')))
+//  服务器静态资源
 app.get(/index/, function(req, res) {
   //   eltur  前端模板
   app.use(express.static(path.resolve(__dirname, '../dist/front')))
