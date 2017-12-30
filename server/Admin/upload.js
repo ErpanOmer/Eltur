@@ -26,8 +26,6 @@ router.post('/elturAdmin/upload', (req, res, next) => {
       form.maxFieldsSize = 2 * 1024 * 1024;
       //form.maxFields = 1000;  设置所以文件的大小总和
       form.parse(req, function(err, fields, files) {
-        console.log('文件路径:' + files.cover.path);
-        console.log('文件名:'+files.cover.name);
         let time = (new Date()).getTime();
         //生成随机数
         let ran = parseInt(Math.random() * 8999 +10000);
@@ -42,7 +40,7 @@ router.post('/elturAdmin/upload', (req, res, next) => {
           if(err){
             res.json({ success: false, code: 8888, message: '上传失败' })
           }
-          res.json({ success: true, code: 520, message: '上传成功', url: newpath })
+          res.json({ success: true, code: 520, message: '上传成功', url: 'http://www.eltur.cn/images/' + newfilename })
         });
       });
     }
