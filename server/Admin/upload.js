@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const fs = require('fs');
 const path= require("path");
 const formidable = require('formidable');
@@ -19,7 +19,7 @@ router.post('/elturAdmin/upload', (req, res, next) => {
       //设置编辑
       form.encoding = 'utf-8';
       //设置文件存储路径
-      form.uploadDir = 'H:/Node/tmp';
+      form.uploadDir = '/var/Eltur/public/images/';
       //保留后缀
       form.keepExtensions = true;
       //设置单文件大小限制
@@ -37,7 +37,7 @@ router.post('/elturAdmin/upload', (req, res, next) => {
         let oldpath = path.normalize(files.cover.path);
         //新的路径
         let newfilename = 'eltur_' + time + ran + extname;
-        var newpath =  'H:/Node/tmp/' + newfilename;
+        var newpath =  '/var/Eltur/public/images/' + newfilename;
         fs.rename(oldpath, newpath, err =>{
           if(err){
             res.json({ success: false, code: 8888, message: '上传失败' })
