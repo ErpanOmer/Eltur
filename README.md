@@ -11,3 +11,4 @@ This A Eltur Project!
  ---|---server  //   node+express+mongodb 服务器
  -------|---index.js    //  服务器入库文件
  ```
+download these packages ok?
