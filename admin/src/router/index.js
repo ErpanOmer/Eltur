@@ -35,7 +35,7 @@ export const constantRouterMap = [
   {
     path: '/News',
     component: Layout,
-    redirect: 'Form',
+    redirect: 'News/Form',
     name: 'News',
     meta: { title: '新闻', icon: 'example' },
     children: [
