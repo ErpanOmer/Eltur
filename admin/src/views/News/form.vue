@@ -1,7 +1,7 @@
 <template>
   <div class="createPost-container">
-    <el-form class="form-container" :model="postForm" :rules="rules" ref="postForm">
-<!-- 
+    <el-form class="form-container" :model="newsData"  ref="newsData">
+<!--
       <sticky :className="'sub-navbar '+postForm.status">
         <template v-if="fetchSuccess">
 
@@ -62,29 +62,28 @@
 
       <div class="createPost-main-container">
         <el-row>
-          <el-col :span="21">
+          <el-col :span="24">
             <el-form-item style="margin-bottom: 40px;" prop="title">
-              <MDinput name="name" v-model="postForm.title" required :maxlength="100">
+              <MDinput name="name" v-model="newsData.title" required :maxlength="100">
                 标题
               </MDinput>
-              <span v-show="postForm.title.length>=26" class='title-prompt'>app可能会显示不全</span>
+              <span v-show="newsData.title.length>=26" class='title-prompt'>app可能会显示不全</span>
             </el-form-item>
 
             <div class="postInfo-container">
               <el-row>
                 <el-col :span="8">
-                  <el-form-item label-width="45px" label="作者:" class="postInfo-container-item">
-                    <multiselect v-model="postForm.author" :options="userLIstOptions" @search-change="" placeholder="搜索用户" selectLabel="选择"
-                      deselectLabel="删除" track-by="key" :internalSearch="false" label="key">
-                      <span slot='noResult'>无结果</span>
-                    </multiselect>
-                  </el-form-item>
+                  <el-form-item label="作者:">
+                      <el-select v-model="newsData.author" placeholder="请选择作者">
+                        <el-option :label="name" :value="name"></el-option>
+                      </el-select>
+                    </el-form-item>
                 </el-col>
 
                 <el-col :span="8">
                   <el-tooltip class="item" effect="dark" content="将替换作者" placement="top">
                     <el-form-item label-width="50px" label="来源:" class="postInfo-container-item">
-                      <el-input placeholder="将替换作者" style='min-width:150px;' v-model="postForm.source_name">
+                      <el-input placeholder="将替换作者" style='min-width:150px;' v-model="newsData.source_name">
                       </el-input>
                     </el-form-item>
                   </el-tooltip>
@@ -92,7 +91,7 @@
 
                 <el-col :span="8">
                   <el-form-item label-width="80px" label="发布时间:" class="postInfo-container-item">
-                    <el-date-picker v-model="postForm.display_time" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间">
+                    <el-date-picker v-model="newsData.display_time" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间">
                     </el-date-picker>
                   </el-form-item>
                 </el-col>
@@ -102,21 +101,24 @@
         </el-row>
 
         <el-form-item style="margin-bottom: 40px;" label-width="45px" label="摘要:">
-          <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="postForm.content_short">
+          <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="newsData.content_short">
           </el-input>
           <span class="word-counter" v-show="contentShortLength">{{contentShortLength}}字</span>
         </el-form-item>
-
+        <el-upload
+          class="avatar-uploader"
+          action="http://www.eltur.cn/elturAdmin/upload"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="newsData.image_uri" :src="newsData.image_uri" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
         <div class="editor-container">
-          <tinymce :height=400 ref="editor" v-model="postForm.content"></tinymce>
-        </div>
-
-        <div style="margin-bottom: 20px;">
-          <Upload v-model="postForm.image_uri"></Upload>
+          <tinymce :height=400 ref="editor" v-model="newsData.content"></tinymce>
         </div>
       </div>
     </el-form>
-
   </div>
 </template>
 
@@ -127,133 +129,70 @@ import MDinput from '@/components/MDinput'
 import Multiselect from 'vue-multiselect'// 使用的一个多选框组件，element-ui的select不能满足所有需求
 import 'vue-multiselect/dist/vue-multiselect.min.css'// 多选框组件css
 import Sticky from '@/components/Sticky' // 粘性header组件
-import { validateURL } from '@/utils/validate'
 import { fetchArticle } from '@/api/news'
-
-const defaultForm = {
-  status: 'draft',
-  title: '', // 文章题目
-  content: '', // 文章内容
-  content_short: '', // 文章摘要
-  source_uri: '', // 文章外链
-  image_uri: '', // 文章图片
-  source_name: '', // 文章外部作者
-  display_time: undefined, // 前台展示时间
-  id: undefined,
-  platforms: ['a-platform'],
-  comment_disabled: false
-}
-
 export default {
   name: 'articleDetail',
   components: { Tinymce, MDinput, Upload, Multiselect, Sticky },
-  props: {
-    isEdit: {
-      type: Boolean,
-      default: false
-    }
-  },
   data() {
-    const validateRequire = (rule, value, callback) => {
-      if (value === '') {
-        this.$message({
-          message: rule.field + '为必传项',
-          type: 'error'
-        })
-        callback(null)
-      } else {
-        callback()
-      }
-    }
-    const validateSourceUri = (rule, value, callback) => {
-      if (value) {
-        if (validateURL(value)) {
-          callback()
-        } else {
-          this.$message({
-            message: '外链url填写不正确',
-            type: 'error'
-          })
-          callback(null)
-        }
-      } else {
-        callback()
-      }
-    }
     return {
-      postForm: Object.assign({}, defaultForm),
       fetchSuccess: true,
       loading: false,
-      userLIstOptions: [],
-      platformsOptions: [
-        { key: 'a-platform', name: 'a-platform' },
-        { key: 'b-platform', name: 'b-platform' },
-        { key: 'c-platform', name: 'c-platform' }
-      ],
-      rules: {
-        image_uri: [{ validator: validateRequire }],
-        title: [{ validator: validateRequire }],
-        content: [{ validator: validateRequire }],
-        source_uri: [{ validator: validateSourceUri, trigger: 'blur' }]
+      newsData: {
+        author: '',
+        title: '', // 文章题目
+        content: '', // 文章内容
+        content_short: '', // 文章摘要
+        source_uri: '', // 文章外链
+        image_uri: '', // 文章图片
+        display_time: undefined // 前台展示时间
       }
     }
   },
   computed: {
     contentShortLength() {
-      return this.postForm.content_short.length
+      return this.newsData.content_short.length
+    },
+    name: function() {
+      return this.$store.getters.name
     }
   },
-  created() {
-    if (this.isEdit) {
-      this.fetchData()
-    } else {
-      this.postForm = Object.assign({}, defaultForm)
-    }
+  mounted() {
+    this.$nextTick(() => {
+      this.$store.dispatch('GetInfo').then(() => {
+      }).catch(() => {
+        this.$router.push('Login')
+        console.log('获取用户信息失败')
+      })
+    })
   },
   methods: {
+    handleAvatarSuccess(res, file) {
+      console.log(res)
+      this.imageUrl = URL.createObjectURL(file.raw)
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
+    },
     fetchData() {
       fetchArticle().then(response => {
-        this.postForm = response.data
+        this.newsData = response.data
       }).catch(err => {
         this.fetchSuccess = false
         console.log(err)
       })
     },
     submitForm() {
-      this.postForm.display_time = parseInt(this.display_time / 1000)
-      console.log(this.postForm)
-      this.$refs.postForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$notify({
-            title: '成功',
-            message: '发布文章成功',
-            type: 'success',
-            duration: 2000
-          })
-          this.postForm.status = 'published'
-          this.loading = false
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
-    draftForm() {
-      if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
-        this.$message({
-          message: '请填写必要的标题和内容',
-          type: 'warning'
-        })
-        return
-      }
-      this.$message({
-        message: '保存成功',
-        type: 'success',
-        showClose: true,
-        duration: 1000
-      })
-      this.postForm.status = 'draft'
+      this.newsData.display_time = parseInt(this.display_time / 1000)
+      console.log(this.newsData)
     }
   }
 }
@@ -299,4 +238,29 @@ export default {
       top: 0px;
     }
   }
+</style>
+<style media="screen">
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 </style>
