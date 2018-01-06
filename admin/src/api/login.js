@@ -1,12 +1,9 @@
 import request from '@/utils/request'
-//   API
-const LOGIN = '/elturAdmin/Login'
-const INFO = '/elturAdmin/Info'
-const LOG_OUT = '/elturAdmin/Logout'
+import config from '@/api/config'
 //  METHODS
 export function login(name, password) {
   return request({
-    url: LOGIN,
+    url: config.login,
     method: 'post',
     data: {
       name: name,
@@ -17,14 +14,14 @@ export function login(name, password) {
 
 export function getInfo() {
   return request({
-    url: INFO,
+    url: config.info,
     method: 'get'
   })
 }
 
 export function logout() {
   return request({
-    url: LOG_OUT,
+    url: config.info,
     method: 'get'
   })
 }
