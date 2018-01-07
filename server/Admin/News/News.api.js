@@ -7,14 +7,16 @@ require('../passport.js')(passport);
 //  上传新闻
 router.post('/elturAdmin/postNews', (req, res) => {
   const bodyParam = req.body
-  if (!bodyParam.title || !bodyParam.body) {
+  if (!bodyParam.title || !bodyParam.content) {
     res.json({success: false, code: 8888, message: '必须要输入标题和内容'});
   } else {
     let news = new News({
-      title: bodyParam.title,
-      body: bodyParam.body,
       author: bodyParam.author,
-      cover: bodyParam.cover
+      title: bodyParam.title,
+      content: bodyParam.content,
+      contentShort: bodyParam.contentShort || '',
+      cover: bodyParam.cover,
+      createdTime: bodyParam.createdTime || parseInt(new Date().getTime() / 1000)
     });
     // 保存用户账号
     news.save((err) => {

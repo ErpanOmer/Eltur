@@ -3,8 +3,9 @@
     <el-form class="form-container" :model="newsData"  ref="newsData">
       <div class="createPost-main-container">
         <el-row>
-          <el-col :span="24">
-            
+          <el-col :span="24" style="text-align:right;">
+            <el-button type="primary" icon="el-icon-edit-outline"@click="submitForm()">发布</el-button>
+            <el-button type="danger" icon="el-icon-circle-close-outline">取消</el-button>
           </el-col>
           <el-col :span="24">
             <el-form-item style="margin-bottom: 30px;" prop="title">
@@ -26,7 +27,7 @@
                 <el-col :span="8">
                   <el-tooltip class="item" effect="dark" content="将替换作者" placement="top">
                     <el-form-item label-width="50px" label="来源:" class="postInfo-container-item">
-                      <el-input placeholder="将替换作者" style='min-width:150px;' v-model="newsData.source_name">
+                      <el-input placeholder="将替换作者" style='min-width:150px;' v-model="newsData.sourceName">
                       </el-input>
                     </el-form-item>
                   </el-tooltip>
@@ -76,8 +77,9 @@ import MDinput from '@/components/MDinput'
 import Multiselect from 'vue-multiselect'// 使用的一个多选框组件，element-ui的select不能满足所有需求
 import 'vue-multiselect/dist/vue-multiselect.min.css'// 多选框组件css
 import Sticky from '@/components/Sticky' // 粘性header组件
-import { fetchArticle } from '@/api/news'
+import { postNews } from '@/api/news'
 import { getToken } from '@/utils/auth'
+import { isEmptyParam } from '@/utils/validate'
 export default {
   name: 'articleDetail',
   components: { Tinymce, MDinput, Upload, Multiselect, Sticky },
@@ -90,7 +92,7 @@ export default {
         title: '', // 文章题目
         content: '', // 文章内容
         contentShort: '', // 文章摘要
-        sourceUrl: '', // 文章外链
+        sourceName: '', // 来源
         cover: '', // 文章图片
         createdTime: undefined // 前台展示时间
       }
@@ -140,16 +142,39 @@ export default {
       return isImage && isLt2M
     },
     fetchData() {
-      fetchArticle().then(response => {
-        this.newsData = response.data
+    },
+    submitForm() {
+      const data = this.newsData
+      if (isEmptyParam(data.title)) {
+        this.$message.error('请输入标题！')
+        return false
+      }
+      if (isEmptyParam(data.author) && isEmptyParam(data.sourceName)) {
+        this.$message.error('请输入作者！')
+        return false
+      }
+      if (isEmptyParam(data.cover)) {
+        this.$message.error('请上传封面')
+        return false
+      }
+      if (isEmptyParam(data.content)) {
+        this.$message.error('请输入新闻内容')
+        return false
+      }
+      data.author = isEmptyParam(data.sourceName) ? data.author : data.sourceName
+      data.createdTime = isNaN(data.createdTime) ? parseInt(new Date().getTime() / 1000) : data.createdTime
+      console.log(data)
+      postNews(data).then(response => {
+        console.log(response)
+        if (response.code === 520 && response.success) {
+          this.$message.success('发布成功')
+        } else {
+          this.$message.error('发布失败！')
+        }
       }).catch(err => {
         this.fetchSuccess = false
         console.log(err)
       })
-    },
-    submitForm() {
-      this.newsData.display_time = parseInt(this.display_time / 1000)
-      console.log(this.newsData)
     }
   }
 }

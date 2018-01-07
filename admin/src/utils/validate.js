@@ -6,6 +6,10 @@ export function isvalidUsername(str) {
   const valid_map = ['Phantom']
   return valid_map.indexOf(str.trim()) >= 0
 }
+//    判断空值
+export function isEmptyParam(value) {
+  return value === '' || value === null || value === undefined
+}
 
 /* 合法uri*/
 export function validateURL(textval) {

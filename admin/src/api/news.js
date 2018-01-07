@@ -32,9 +32,9 @@ export function createArticle(data) {
   })
 }
 
-export function updateArticle(data) {
+export function postNews(data) {
   return request({
-    url: '/article/update',
+    url: config.postNews,
     method: 'post',
     data
   })

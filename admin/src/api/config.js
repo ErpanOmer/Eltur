@@ -2,5 +2,6 @@ export default {
   login: '/elturAdmin/Login',
   info: '/elturAdmin/Info',
   logout: '/elturAdmin/Logout',
-  upload: '/elturAdmin/upload'
+  upload: '/elturAdmin/upload',
+  postNews: '/elturAdmin/postNews'
 }

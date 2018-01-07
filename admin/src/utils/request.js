@@ -31,7 +31,6 @@ service.interceptors.response.use(
   * 其他一律为报错
   */
     const responseData = response.data
-    console.log(responseData)
     if (responseData.code === 0 && !responseData.success) {
       Message({
         message: responseData.message,

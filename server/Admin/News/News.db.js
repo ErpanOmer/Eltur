@@ -8,9 +8,8 @@ const News = new Schema({
   title: { type : String, default : '', trim : true, require: true },   // 不可为空约束
   content: { type : String, default : '', trim : true, require: true },   // 不可为空约束
   contentShort: { type: String, default: '' },   //  摘要
-  sourceUrl: { type: String, default: ''},   //  新闻外链
   cover: { type: String, default : '' },
-  createdTime  : { type : Date, default : Date.getTime() }
+  createdTime  : { type : Date, default : Date.now }
 });
 
 /************** 定义模型Model **************/
