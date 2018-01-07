@@ -1,11 +1,12 @@
 const express = require('express');
 const News = require('./News.db.js');
 const config = require('../../db.config.js')
-const passport = require('passport');
 const router = express.Router();
-require('../passport.js')(passport);
+//  api
+const api = '/elturAdmin/News'
+router.use(api, require('../Interceptor.js'))
 //  上传新闻
-router.post('/elturAdmin/postNews', (req, res) => {
+router.post(api, (req, res) => {
   const bodyParam = req.body
   if (!bodyParam.title || !bodyParam.content) {
     res.json({success: false, code: 8888, message: '必须要输入标题和内容'});
@@ -27,4 +28,5 @@ router.post('/elturAdmin/postNews', (req, res) => {
     });
   }
 });
+
 module.exports = router;

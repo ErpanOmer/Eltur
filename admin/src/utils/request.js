@@ -37,7 +37,7 @@ service.interceptors.response.use(
         type: 'error',
         duration: 5 * 1000
       })
-      router.push('Login')
+      router.push({ name: 'Login' })
       return false
     } else if (responseData.code === 8888 && !responseData.success) {
       Message({

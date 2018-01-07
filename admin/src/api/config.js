@@ -3,5 +3,5 @@ export default {
   info: '/elturAdmin/Info',
   logout: '/elturAdmin/Logout',
   upload: '/elturAdmin/upload',
-  postNews: '/elturAdmin/postNews'
+  News: '/elturAdmin/News'
 }

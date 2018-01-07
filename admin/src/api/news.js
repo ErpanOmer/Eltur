@@ -34,7 +34,7 @@ export function createArticle(data) {
 
 export function postNews(data) {
   return request({
-    url: config.postNews,
+    url: config.News,
     method: 'post',
     data
   })
