@@ -3,9 +3,19 @@
     <el-button icon='upload' :style="{background:color,borderColor:color}" @click=" dialogVisible=true" type="primary">上传图片
     </el-button>
     <el-dialog :visible.sync="dialogVisible">
-      <el-upload class="editor-slide-upload" action="https://httpbin.org/post" :multiple="true" :file-list="fileList" :show-file-list="true"
-        list-type="picture-card" :on-remove="handleRemove" :on-success="handleSuccess" :before-upload="beforeUpload">
-        <el-button size="small" type="primary">点击上传</el-button>
+      <el-upload
+      class="editor-slide-upload"
+      action="http://www.eltur.cn/elturAdmin/upload"
+      :headers="headers"
+      name="cover"
+      :multiple="true"
+      :file-list="fileList"
+      :show-file-list="true"
+      list-type="picture-card"
+      :on-remove="handleRemove"
+      :on-success="handleSuccess"
+      :before-upload="beforeUpload">
+      <el-button size="small" type="primary">点击上传</el-button>
       </el-upload>
       <el-button @click="dialogVisible = false">取 消</el-button>
       <el-button type="primary" @click="handleSubmit">确 定</el-button>
@@ -14,8 +24,7 @@
 </template>
 
 <script>
-// import { getToken } from 'api/qiniu'
-
+import { getToken } from '@/utils/auth'
 export default {
   name: 'editorSlideUpload',
   props: {
@@ -29,6 +38,11 @@ export default {
       dialogVisible: false,
       listObj: {},
       fileList: []
+    }
+  },
+  computed: {
+    headers: function() {
+      return { 'Authorization': getToken() }
     }
   },
   methods: {
@@ -52,7 +66,7 @@ export default {
       const objKeyArr = Object.keys(this.listObj)
       for (let i = 0, len = objKeyArr.length; i < len; i++) {
         if (this.listObj[objKeyArr[i]].uid === uid) {
-          this.listObj[objKeyArr[i]].url = response.files.file
+          this.listObj[objKeyArr[i]].url = response.url
           this.listObj[objKeyArr[i]].hasSuccess = true
           return
         }
@@ -69,6 +83,16 @@ export default {
       }
     },
     beforeUpload(file) {
+      const isImage = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isImage) {
+        this.$message.error('上传图片只能是 JPG 或者 PNG 格式!')
+        return
+      }
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!')
+        return
+      }
       const _self = this
       const _URL = window.URL || window.webkitURL
       const fileName = file.uid

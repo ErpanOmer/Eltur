@@ -4,11 +4,13 @@ const Schema = mongoose.Schema;
 const config = require('../../db.config.js')
 /************** 定义模式loginSchema **************/
 const News = new Schema({
+  author: { type: String, default : '', require: true },
   title: { type : String, default : '', trim : true, require: true },   // 不可为空约束
-  body: { type : String, default : '', trim : true, require: true },   // 不可为空约束
-  author: { type: String, default : '' },
+  content: { type : String, default : '', trim : true, require: true },   // 不可为空约束
+  contentShort: { type: String, default: '' },   //  摘要
+  sourceUrl: { type: String, default: ''},   //  新闻外链
   cover: { type: String, default : '' },
-  createdAt  : { type : Date, default : Date.now }
+  createdTime  : { type : Date, default : Date.getTime() }
 });
 
 /************** 定义模型Model **************/
