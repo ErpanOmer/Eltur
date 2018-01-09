@@ -2,6 +2,8 @@ const express = require('express');
 const News = require('./News.db.js');
 const config = require('../../db.config.js')
 const router = express.Router();
+//  查询函数
+const Query = require('../query.js')
 //  api
 const api = '/elturAdmin/News'
 // router.use(api, require('../Interceptor.js'))
@@ -33,29 +35,8 @@ router.get(`${api}/:id`, function(req, res){
 
 //   获取新闻列表
 router.get(api, (req, res) => {
-  //  参数
-  const query = req.query;
-  const key = query.key;
-  const value = query.value;
-  const search = {};
-  if (key !== undefined || value !== undefined) {
-    if (typeof key === 'string' && typeof value === 'string') {
-      search[key] = value
-    } else {
-      for (var i = 0; i < key.length; i++) {
-        console.log(key[i], value[i])
-        search[key[i]] = value[i]
-      }
-    }
-  }
-  console.log(search)
-  const options = {
-    sort: { createdTime: -1 },
-    lean: true,
-    page: query.page || 1,
-    limit: query.pageSize || 5
-  };
-  News.paginate(search, options).then(function(results) {
+  const { query, options } = Query(req.query)
+  News.paginate(query, options).then(function(results) {
     const data = {
       totalCount: results.total,
       pageSize: results.limit,
