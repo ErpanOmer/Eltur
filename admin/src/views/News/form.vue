@@ -153,16 +153,16 @@ export default {
         this.$message.error('请输入作者！')
         return false
       }
-      if (isEmptyParam(data.cover)) {
-        this.$message.error('请上传封面')
-        return false
-      }
+      // if (isEmptyParam(data.cover)) {
+      //   this.$message.error('请上传封面')
+      //   return false
+      // }
       if (isEmptyParam(data.content)) {
         this.$message.error('请输入新闻内容')
         return false
       }
       data.author = isEmptyParam(data.sourceName) ? data.author : data.sourceName
-      data.createdTime = isNaN(data.createdTime) ? parseInt(new Date().getTime() / 1000) : data.createdTime
+      data.createdTime = isNaN(data.createdTime) ? parseInt(new Date().getTime()) : data.createdTime
       console.log(data)
       postNews(data).then(response => {
         console.log(response)

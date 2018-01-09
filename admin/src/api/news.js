@@ -1,18 +1,18 @@
 import request from '@/utils/request'
 import config from '@/api/config'
 //
-export function fetchList(query) {
+export function getNews(query) {
   return request({
-    url: config.login,
+    url: config.News,
     method: 'get',
     params: query
   })
 }
 
-export function fetchArticle() {
+export function deleteNews(query) {
   return request({
-    url: '/article/detail',
-    method: 'get'
+    url: `${config.News}/${query}`,
+    method: 'delete'
   })
 }
 

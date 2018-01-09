@@ -33,6 +33,17 @@ router.get(`${api}/:id`, function(req, res){
   res.json({success: true, code: 520, message: '成功获取',data: req.news });
 });
 
+//   删除新闻
+router.delete(`${api}/:id`, function(req, res){
+  News.remove({ _id: req.news.id }, function(err, news) {
+    if (err) {
+      return next(err);
+    } else {
+      res.json({success: true, code: 520, message: '删除成功'});
+    }
+  });
+});
+
 //   获取新闻列表
 router.get(api, (req, res) => {
   const { query, options } = Query(req.query)
@@ -59,7 +70,7 @@ router.post(api, (req, res) => {
       content: bodyParam.content,
       contentShort: bodyParam.contentShort || '',
       cover: bodyParam.cover,
-      createdTime: bodyParam.createdTime || parseInt(new Date().getTime() / 1000)
+      createdTime: bodyParam.createdTime ?  ~~(bodyParam.createdTime / 1000) : ~~(new Date().getTime() / 1000)
     });
     // 保存用户账号
     news.save((err) => {

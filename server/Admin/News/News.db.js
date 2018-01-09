@@ -10,7 +10,7 @@ const News = new Schema({
   content: { type : String, default : '', trim : true, require: true },   // 不可为空约束
   contentShort: { type: String, default: '' },   //  摘要
   cover: { type: String, default : '' },
-  createdTime  : { type : Date, default : Date.now }
+  createdTime  : { type : Number, default : 0 }
 });
 News.plugin(mongoosePaginate);
 /************** 定义模型Model **************/
