@@ -6,7 +6,7 @@ const router = express.Router();
 const Query = require('../query.js')
 //  api
 const api = '/elturAdmin/News'
-// router.use(api, require('../Interceptor.js'))
+router.use(api, require('../Interceptor.js'))
 
 //   新闻详细
 router.param('id', function(req, res, next, id) {
