@@ -6,7 +6,7 @@ const router = express.Router();
 const Query = require('../query.js')
 //  api
 const api = '/elturAdmin/News'
-router.use(api, require('../Interceptor.js'))
+// router.use(api, require('../Interceptor.js'))
 
 //   新闻详细
 router.param('id', function(req, res, next, id) {
@@ -43,6 +43,19 @@ router.delete(`${api}/:id`, function(req, res){
     }
   });
 });
+
+// 更新新闻
+router.put(`${api}/:id`, (req, res) => {
+  const data = res.body
+  console.log(data)
+  News.update({ _id: req.news.id }, data, function(error){
+    if (error) {
+      return next(err);
+    } else {
+      res.json({success: true, code: 520, message: '修改成功'});
+    }
+  });
+})
 
 //   获取新闻列表
 router.get(api, (req, res) => {
