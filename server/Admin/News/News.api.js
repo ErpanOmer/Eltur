@@ -46,8 +46,11 @@ router.delete(`${api}/:id`, function(req, res){
 
 // 更新新闻
 router.put(`${api}/:id`, (req, res) => {
-  const data = res.body
-  console.log(data)
+  const data = req.body
+  if(JSON.stringify(data) === '{}') {
+    res.json({success: false, code: 8888, message: '无效的数据'});
+    return false
+  }
   News.update({ _id: req.news.id }, data, function(error){
     if (error) {
       return next(err);
