@@ -1,6 +1,6 @@
 const passport = require('passport');
 const Strategy = require('passport-http-bearer').Strategy;
-const AdminUser = require('../Admin/User/AdminUser.db.js');
+const AdminUser = require('./Model/AdminUser.js');
 const config = require('../db.config.js')
 module.exports = function(passport) {
     passport.use(new Strategy(

@@ -1,5 +1,5 @@
 const express = require('express');
-const AdminUser = require('./AdminUser.db.js');
+const AdminUser = require('../Model/AdminUser.js');
 const jwt = require('jsonwebtoken');
 const config = require('../../db.config.js')
 const passport = require('passport');

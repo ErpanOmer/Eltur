@@ -10,6 +10,9 @@ const News = new Schema({
   content: { type : String, default : '', trim : true, require: true },   // 不可为空约束
   contentShort: { type: String, default: '' },   //  摘要
   cover: { type: String, default : '' },
+  status: { type: Number, default: 0 },  // 0 代表未审核， 1 代表已审核
+  pageViews: { type: Number, default: 0 },   //  阅读数
+  
   createdTime  : { type : Number, default : 0 }
 });
 News.plugin(mongoosePaginate);
