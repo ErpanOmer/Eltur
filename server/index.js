@@ -65,7 +65,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 //***************************************************//
 // 引入编写好的api
 const ADMIN_API = require('./Admin')
+const PUBLIC = require('./Public')
 app.use(...ADMIN_API)
+app.use(PUBLIC)
 //***************************************************//
 //********************  结束  ******************//
 //***************************************************//
