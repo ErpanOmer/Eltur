@@ -21,27 +21,26 @@ router.post('/eltur/sms', (req, res) => {
         console.log(err)
       }
       if (!data) {
-        //  如果不存在次手机号执行
-        const createdTime = ~~(new Date().getTime() / 1000)
-        const sendingTime = createdTime
-        const sms = new Sms({ mobile, ip, createdTime, sendingTime, code, sendCount: +1 })
-        sms.save(err => {
-          if (err) {
-            console.log('保存失败')
-            console.log(err)
-          } else {
-            const text = '【云片网】您的验证码是' + code;
-            send(mobile, text, response => {
-              console.log(response)
-              if (response.code === 0) {
-                res.json({ success: true, code: 520, message: response.msg });
+        const text = '【云片网】您的验证码是' + code;
+        send(mobile, text, callback => {
+          const response = JSON.parse(callback)
+          if (response.code === 0) {
+            const createdTime = ~~(new Date().getTime() / 1000)
+            const sendingTime = createdTime
+            const sms = new Sms({ mobile, ip, createdTime, sendingTime, code, sendCount: +1 })
+            sms.save(err => {
+              if (err) {
+                console.log('保存失败')
+                console.log(err)
               } else {
-                res.json({ success: false, code: 8888, message: response.msg });
+                res.json({ success: true, code: 520, message: response.msg });
               }
-            });
+            })
+          } else {
+            res.json({ success: false, code: 8888, message: response.msg });
           }
-        })
-      }
+      })
+    }
       if (data) {
         const now = ~~(new Date().getTime() / 1000);
         const diffSeconds = parseInt((now - data.sendingTime), 10);
@@ -52,28 +51,28 @@ router.post('/eltur/sms', (req, res) => {
           const mode = parseInt((now - data.createdTime), 10);
           res.json({ success: false, code: 8888, message: `超过每小时发送次数, ${~~((60*60 - mode)/60)}分钟后再试试`});
         } else {
-          data.isUse = true;  //设置为已经使用过
-          data.code = code;
-          data.sendCount++;
-          data.sendingTime = ~~(new Date().getTime() / 1000)
-          data.save(err => {
-            if (err) {
-              console.log('保存失败');
-              console.log(err);
-            } else {
-              const text = '【云片网】您的验证码是' + code;
-              send(mobile, text, response => {
-                console.log(typeof response)
-                if (response.code === 0) {
-                  res.json({ success: true, code: 520, message: response.msg });
+          const text = '【云片网】您的验证码是' + code;
+          send(mobile, text, callback => {
+            const response = JSON.parse(callback)
+            if (response.code === 0) {
+              data.isUse = true;  //设置为已经使用过
+              data.code = code;
+              data.sendCount++;
+              data.sendingTime = ~~(new Date().getTime() / 1000)
+              data.save(err => {
+                if (err) {
+                  console.log('保存失败');
+                  console.log(err);
                 } else {
-                  res.json({ success: false, code: 8888, message: response.detail });
+                  res.json({ success: true, code: 520, message: response.msg });
                 }
-              });
+              })
+            } else {
+              res.json({ success: false, code: 8888, message: response.msg });
             }
-          })
+          });
         }
-        }
+      }
     })
   }
 });
