@@ -59,16 +59,9 @@ News.statics.postComment = function(data, callback) {
              if (news) {
                  news.comments.push(comment);
                  news.save(function(err) {});
-                 callback({
-                   success: true,
-                   code: 520,
-                   message: '评论成功'
-                 });
+                 callback({ success: true, code: 520, message: '评论成功' });
              } else {
-                 callback({
-                   success: false,
-                   code: 8888,
-                   message: '评论失败'
+                 callback({ success: false, code: 8888, message: '评论失败'
                  });
              }
          }
