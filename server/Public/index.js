@@ -21,7 +21,7 @@ router.post('/eltur/sms', (req, res) => {
         console.log(err)
       }
       if (!data) {
-        const text = '【云片网】您的验证码是' + code;
+        const text = '【Eltur易律途】Sizning Testix Codingiz: ' + code;
         send(mobile, text, callback => {
           const response = JSON.parse(callback)
           if (response.code === 0) {
@@ -51,7 +51,7 @@ router.post('/eltur/sms', (req, res) => {
           const mode = parseInt((now - data.createdTime), 10);
           res.json({ success: false, code: 8888, message: `超过每小时发送次数, ${~~((60*60 - mode)/60)}分钟后再试试`});
         } else {
-          const text = '【云片网】您的验证码是' + code;
+          const text = '【Eltur易律途】Sizning Testix Codingiz: ' + code;
           send(mobile, text, callback => {
             const response = JSON.parse(callback)
             if (response.code === 0) {
