@@ -67,7 +67,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 const ADMIN_API = require('./Admin')
 const PUBLIC = require('./Public')
 app.use(...ADMIN_API)
-app.use(PUBLIC)
+app.use(...PUBLIC)
 //***************************************************//
 //********************  结束  ******************//
 //***************************************************//
