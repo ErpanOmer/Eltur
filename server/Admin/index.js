@@ -1,9 +1,9 @@
-const AdminUser = require('./Api/AdminUser')
-const News = require('./Api/News')
-const Upload = require('./upload')
+const BACK_AdminUser = require('./Api/AdminUser')
+const BACK_News = require('./Api/News')
+const BACK_Upload = require('./upload')
 //    接口
 module.exports = [
-  AdminUser,
-  News,
-  Upload
+  BACK_AdminUser,
+  BACK_News,
+  BACK_Upload
 ]

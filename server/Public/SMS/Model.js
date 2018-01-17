@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const config = require('../db.config.js')
+const config = require('../../db.config.js')
 const Schema = mongoose.Schema;
 const ttl = require('mongoose-ttl');
 const Sms = new Schema({

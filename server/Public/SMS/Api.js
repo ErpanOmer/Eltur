@@ -21,15 +21,14 @@ router.post('/eltur/sms', (req, res) => {
         console.log(err)
       }
       if (!data) {
-        const text = '【云片网】您的验证码是' + code;
-        send(mobile, text, callback => {
+        send(mobile, code, callback => {
           const response = JSON.parse(callback)
           if (response.code === 0) {
             const createdTime = ~~(new Date().getTime() / 1000)
             const sendingTime = createdTime
             const sms = new Sms({ mobile, ip, createdTime, sendingTime, code, sendCount: +1 })
             sms.save(err => {
-              if (err) {
+              if (err) {code
                 console.log('保存失败')
                 console.log(err)
               } else {
@@ -51,8 +50,7 @@ router.post('/eltur/sms', (req, res) => {
           const mode = parseInt((now - data.createdTime), 10);
           res.json({ success: false, code: 8888, message: `超过每小时发送次数, ${~~((60*60 - mode)/60)}分钟后再试试`});
         } else {
-          const text = '【云片网】您的验证码是' + code;
-          send(mobile, text, callback => {
+          send(mobile, code, callback => {
             const response = JSON.parse(callback)
             if (response.code === 0) {
               data.isUse = true;  //设置为已经使用过

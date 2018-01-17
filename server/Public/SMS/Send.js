@@ -5,13 +5,14 @@ const send_sms_uri = '/v2/sms/single_send.json';
 // 智能匹配模板发送https地址
 const sms_host = 'sms.yunpian.com';
 //  导出通用  发送短信函数
-module.exports = function (mobile, text, callback){
+module.exports = function (mobile, code, callback){
   const post_data = {
   'apikey': apikey,
-  'mobile':mobile,
-  'text':text,
+  'mobile': mobile,
+  'text': '【Eltur易律途】Sizning Testix Codingiz: ' + code
   };//这是需要提交的数据
   const content = qs.stringify(post_data);
+  console.log(post_data)
   post(send_sms_uri, content, sms_host, cb => {
     callback(cb)
   });
