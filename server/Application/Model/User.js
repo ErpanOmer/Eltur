@@ -5,8 +5,7 @@ const bcrypt = require('bcrypt');
 const User = new Schema({
   name: {
     type: String,
-    unique: true, // 不可重复约束
-    require: true // 不可为空约束
+    default: ''
   },
   password: {
     type: String,
