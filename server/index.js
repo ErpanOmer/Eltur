@@ -48,8 +48,6 @@ app.use(session({
     cookie:{maxAge:180 * 60 * 1000} //store保存时间
 }));
 app.use(flash());
-app.use(passport.initialize());// 初始化passport模块
-app.use(passport.session());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 //***************************************************//
@@ -58,21 +56,20 @@ app.use(bodyParser.urlencoded({extended: false}));
 //
 //
 //
-//
-//
 //****************************************************//
 //********************    请求api   ******************//
 //***************************************************//
 // 引入编写好的api
-const ADMIN_API = require('./Admin')
-const PUBLIC = require('./Public')
 const APPLICATION_API = require('./Application')
 app.use(...APPLICATION_API)
+const ADMIN_API = require('./Admin')
 app.use(...ADMIN_API)
+const PUBLIC = require('./Public')
 app.use(...PUBLIC)
 //***************************************************//
 //********************  结束  ******************//
 //***************************************************//
+//
 //
 //
 //

@@ -3,9 +3,7 @@ const User = require('../Model/User.js');
 const Sms = require('../../Public/SMS/Model.js');
 const jwt = require('jsonwebtoken');
 const config = require('../../db.config.js')
-const passport = require('passport');
 const router = express.Router();
-require('../passport.js')(passport);
 const api = '/application/'
 // 注册账户
 router.post(`${api}register`, (req, res) => {
@@ -83,7 +81,7 @@ router.post(`${api}login`, (req, res) => {
               if ((sendingTime - now) > 60*10) {
                 res.json({success: false, code: 8888, message: '验证码无效，可能过期'})
               } else {
-                let token = jwt.sign({mobile: user.mobile}, 'ILoveYou',{ expiresIn: 10080 });
+                let token = jwt.sign({mobile: user.mobile}, 'YouLoveMe',{ expiresIn: 10080 });
                 user.token = token;
                 user.save(function(err){
                   if (err) {
@@ -107,7 +105,7 @@ router.post(`${api}login`, (req, res) => {
         // 检查密码是否正确
         user.comparePassword(body.password, (err, isMatch) => {
           if (isMatch && !err) {
-            let token = jwt.sign({mobile: user.mobile}, 'ILoveYou',{ expiresIn: 10080 })
+            let token = jwt.sign({mobile: user.mobile}, 'YouLoveMe',{ expiresIn: 10080 })
             user.token = token;
             user.save(function(err){
               if (err) {
@@ -123,21 +121,4 @@ router.post(`${api}login`, (req, res) => {
     }
   });
 });
-// passport-http-bearer token 中间件验证
-// 通过 header 发送 Authorization -> Bearer  + token
-// 或者通过 ?access_token = token
-router.get(`${api}getInfo`, function(req, res, next) {
-  passport.authenticate('bearer', { session: false }, function(err, user, info) {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      res.json({success: false, code: 0, message: '请登录'});
-    }
-    if (user) {
-      const data = { name: user.name, avatar: user.avatar, mobile: user.mobile }
-      res.json({success: true, code: 520, message: '登陆成功', data });
-    }
-  })(req, res, next);
-})
 module.exports = router;
