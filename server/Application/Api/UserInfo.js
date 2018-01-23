@@ -6,18 +6,7 @@ const api = '/application/'
 // 或者通过 ?access_token = token
 router.use(`${api}getInfo`, require('../Interceptor.js'))
 router.get(`${api}getInfo`, function(req, res, next) {
-  // passport.authenticate('bearer', { session: false }, function(err, user, info) {
-  //   if (err) {
-  //     return next(err);
-  //   }
-  //   if (!user) {
-  //     res.json({success: false, code: 0, message: '请登录'});
-  //   }
-  //   if (user) {
-  //     const data = { name: user.name, avatar: user.avatar, mobile: user.mobile }
-  //     res.json({success: true, code: 520, message: '登陆成功', data });
-  //   }
-  // })(req, res, next);
+  const data = { name: req.user.name, avatar: req.user.avatar }
+  res.json({success: true, code: 520, message: '成功', data })
 })
-
 module.exports = router

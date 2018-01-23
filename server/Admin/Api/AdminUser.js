@@ -66,7 +66,6 @@ router.post('/elturAdmin/Login', (req, res) => {
 // 或者通过 ?access_token = token
 router.get('/elturAdmin/Info', function(req, res, next) {
   passport.authenticate('bearer', { session: false }, function(err, user, info) {
-    console.log(info)
     if (err) {
       return next(err);
     }
