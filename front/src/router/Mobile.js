@@ -4,6 +4,8 @@ import Index from '@/components/Mobile/Index'
 import Article from '@/components/Mobile/Article/Index'
 import Member from '@/components/Mobile/Member/Index'
 import Consult from '@/components/Mobile/Consult/Index'
+import Login from '@/components/Mobile/Login'
+import Register from '@/components/Mobile/Register'
 Vue.use(Router)
 export default new Router({
   mode: 'history', //   后端支持可开
@@ -11,6 +13,8 @@ export default new Router({
     { path: '/', name: 'Index', component: Index },
     { path: '/Member', name: 'Member', component: Member },
     { path: '/Consult', name: 'Consult', component: Consult },
-    { path: '/Article', name: 'Article', component: Article }
+    { path: '/Article', name: 'Article', component: Article },
+    { path: '/Login', name: 'Login', component: Login },
+    { path: '/Register', name: 'Register', component: Register }
   ]
 })

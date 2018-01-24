@@ -19,6 +19,7 @@ import infiniteScroll from 'vue-infinite-scroll'
 import metaInfo from 'vue-meta'
 // toast
 import { ToastPlugin, LoadingPlugin, ConfirmPlugin } from 'vux'
+import Loading from '@/util/Loading'
 FastClick.attach(document.body)
 Vue.use(VueResource)
 Vue.use(store)
@@ -30,8 +31,38 @@ Vue.use(metaInfo)
 Vue.use(ConfirmPlugin)
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
+Vue.use(Loading, {
+  container: '#app'
+})
 Vue.config.productionTip = false
 
+/* =========================拦截器============================== */
+// 请求拦截器
+Vue.http.interceptors.push((request, next) => {
+  const token = localStorage.getItem('token')
+  if (!Vue.prototype.$isEmptyParam(token)) {
+    request.headers.set('token', token)
+  }
+  next((response) => {
+    const responseData = response.data
+    if (responseData.code === 0 && !responseData.success) {
+      localStorage.currentRoutePath = router.history.current.path
+      router.replace({ name: 'Login' })
+      return false
+    } else if (responseData.code === 8888 && !responseData.success) {
+      Vue.$vux.toast.text(responseData.message)
+      return false
+    } else if (responseData.code === 520 && responseData.success) {
+      return responseData
+    } else {
+      Vue.$vux.toast.show({
+        text: '网络繁忙，请您稍后重试',
+        type: 'cancel'
+      })
+      return false
+    }
+  })
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

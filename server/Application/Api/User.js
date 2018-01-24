@@ -87,7 +87,11 @@ router.post(`${api}login`, (req, res) => {
                   if (err) {
                     return console.log(err)
                   }
-                  res.json({ success: true, message: '登陆成功!', token, code: 520 })
+                  sms.code = '';
+                  sms.save(err => {})
+                  const data = {}
+                  data.token = token
+                  res.json({ success: true, message: '登陆成功!', data, code: 520 })
                 })
               }
             } else {
@@ -111,7 +115,9 @@ router.post(`${api}login`, (req, res) => {
               if (err) {
                 return console.log(err)
               }
-              res.json({ success: true, message: '登陆成功!', token, code: 520 })
+              const data = {}
+              data.token = token
+              res.json({ success: true, message: '登陆成功!', data, code: 520 })
             })
           } else {
             res.json({success: false, code: 8888, message: '登陆失败,密码错误!'});

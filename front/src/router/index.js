@@ -12,5 +12,4 @@ function IsPC () {
   }
   return flag
 }
-console.log(IsPC())
 export default IsPC() ? desktop : mobile

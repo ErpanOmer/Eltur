@@ -43,11 +43,10 @@ router.post('/eltur/sms', (req, res) => {
       if (data) {
         const now = ~~(new Date().getTime() / 1000);
         const diffSeconds = parseInt((now - data.sendingTime), 10);
-        console.log(diffSeconds)
-        if (diffSeconds < 1) {
+        const mode = parseInt((now - data.sendingTime), 10);
+        if (diffSeconds < 90) {
             res.json({ success: false, code: 8888, message: `${90 - diffSeconds}s 后再试试`})
-        } else if (data.sendCount >= 20) {
-          const mode = parseInt((now - data.createdTime), 10);
+        } else if (data.sendCount >= 5) {
           res.json({ success: false, code: 8888, message: `超过每小时发送次数, ${~~((60*60 - mode)/60)}分钟后再试试`});
         } else {
           send(mobile, code, callback => {
