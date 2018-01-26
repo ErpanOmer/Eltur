@@ -6,30 +6,60 @@
         <p class="back"><span>登陆/注册</span></p>
       </div>
     </blur>
-    <flexbox>
-      <flexbox-item>
-        <div class="flex-demo">
-          <img src="../../../assets/question.png" alt="">
-          <p>我的咨询</p>
+    <card>
+      <div slot="content" class="card-demo-flex card-demo-content01">
+        <div class="vux-1px-r">
+          <div class="flex-demo">
+            <div style="width: 32.5px;">
+              <img src="../../../assets/question.png" alt="">
+            </div>
+            <p style="margin-top: 7.5px;">我的问题</p>
+          </div>
         </div>
-      </flexbox-item>
-      <flexbox-item style="margin:0;">
-        <div class="flex-demo">
-          <img src="../../../assets/collection.png" alt="">
-          <p>我的收藏</p>
+        <div class="vux-1px-r">
+          <div class="flex-demo">
+            <div style="width: 30px;padding-top: 5px;">
+              <img src="../../../assets/reply.png" alt=""/>
+            </div>
+            <p style="margin-top: 10px;">我的评论</p>
+          </div>
         </div>
-      </flexbox-item>
-    </flexbox>
+        <div class="vux-1px-r">
+          <div class="flex-demo">
+            <div style="width: 40px;">
+              <img src="../../../assets/collection.png" alt="">
+            </div>
+            <p>我的收藏</p>
+          </div>
+        </div>
+      </div>
+    </card>
+    <group>
+      <cell title="个人资料" is-link>
+        <img slot="icon" width="25" style="display:block;margin-right:5px;" src="../../../assets/men.png"/>
+      </cell>
+      <cell title="反馈建议" is-link>
+        <img slot="icon" width="25" style="display:block;margin-right:5px;" src="../../../assets/me.png"/>
+      </cell>
+      <!-- <cell title="关于我们" is-link>
+        <img slot="icon" width="25" style="display:block;margin-right:5px;" src="../../../assets/us.png"/>
+      </cell> -->
+    </group>
+    <group>
+      <cell title="设置" is-link>
+        <img slot="icon" width="25" style="display:block;margin-right:5px;" src="../../../assets/setting.png"/>
+      </cell>
+    </group>
     <Tabbar></Tabbar>
   </div>
 </template>
 <script>
 import Tabbar from '@/components/Public/Tabbar'
-import { Flexbox, FlexboxItem, Blur } from 'vux'
+import { Flexbox, FlexboxItem, Blur, Card, Cell, Group } from 'vux'
 import background from '@/assets/47.jpg'
 export default {
   components: {
-    Tabbar, Blur, Flexbox, FlexboxItem
+    Tabbar, Blur, Flexbox, FlexboxItem, Card, Cell, Group
   },
   data: () => ({
     msg: '个人中心',
@@ -64,15 +94,32 @@ export default {
   line-height: 120px;
 }
 #member .flex-demo {
-  height: 100px;
-  box-sizing: border-box;
-  margin: 10px;
   font-size: 14px;
   padding-top: 5px;
   text-align: center;
   background-clip: border-box;
 }
+#member .flex-demo div{
+  margin: 0 auto;
+}
 #member .flex-demo img {
-  width: 50px;
+  width: 100%;
+}
+</style>
+<style scoped lang="less">
+@import '~vux/src/styles/1px.less';
+.card-demo-flex {
+  display: flex;
+}
+.card-demo-flex > div {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+    color: #636363;
+  }
+.card-demo-content01 {
+  padding: 10px 0;
 }
 </style>
