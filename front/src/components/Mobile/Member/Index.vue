@@ -35,7 +35,7 @@
       </div>
     </card>
     <group>
-      <cell title="个人资料" is-link>
+      <cell title="个人资料" is-link :link="{ name: 'PersonalData' }">
         <img slot="icon" width="25" style="display:block;margin-right:5px;" src="../../../assets/men.png"/>
       </cell>
       <cell title="反馈建议" is-link>
@@ -64,7 +64,18 @@ export default {
   data: () => ({
     msg: '个人中心',
     url: background
-  })
+  }),
+  mounted () {
+    this.$nextTick(() => {
+      if (this.$isEmptyParam(localStorage.token)) {
+        return false
+      } else {
+        this.$getData(this.$configs.api.memberInfo, '', response => {
+          console.log(response)
+        })
+      }
+    })
+  }
 }
 </script>
 <style media="screen">
