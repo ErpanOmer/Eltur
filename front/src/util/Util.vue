@@ -6,7 +6,8 @@
       api: {
         login: '/application/login',
         register: '/application/register',
-        sms: '/eltur/sms'
+        sms: '/eltur/sms',
+        memberInfo: '/application/getInfo'
       }
     }
     //   通用日期函数

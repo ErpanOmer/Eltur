@@ -15,7 +15,7 @@ router.post(`${api}register`, (req, res) => {
       if (err) {
         return console.log(err)
       } else if (mobile) {
-        res.json({ success: false, code: 8888, message: '此手机号已经被注册'})
+        res.json({ success: false, code: 8888, message: '此手机号已经被注册o'})
       } else if (!mobile) {
         Sms.findOne({ mobile: body.mobile }, (err, sms) => {
           if (err) {

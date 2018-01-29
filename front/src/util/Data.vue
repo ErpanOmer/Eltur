@@ -3,27 +3,20 @@
   Data.install = function (Vue, options) {
     Vue.prototype.$getData = function (url, string = '', success) {
       this.$loading()
-      if (typeof url === 'undefined') {
-        this.$vux.toast.show({
-          text: '数据错误',
-          type: 'cancel'
-        })
+      if (this.$isEmptyParam(url)) {
         this.$loading.end()
         return false
       }
       this.$http.get(this.$configs.apiURL + url + string)
       .then(response => {
-        const header = response.data.responseHeader
-        if (header.returnCode !== 0 && !this.$isEmptyParam(header.message)) {
-          let message = header.message.split(':')
-          message = message.length === 1 ? message[0] : message[1]
-          this.$vux.toast.text(message)
+        if (response.code === 8888 && !response.success) {
+          this.$vux.toast.text(response.message)
           this.$loading.end()
-          return
+          return false
         }
-        if (!this.$isEmptyParam(response) && !this.$isEmptyParam(response.data) && !this.$isEmptyParam(response.data.responseHeader) && !this.$isEmptyParam(response.data.responseHeader.returnCode) && response.data.responseHeader.returnCode === 0) {
-          if (!this.$isEmptyParam(response.data.responseData)) {
-            success(response.data.responseData)
+        if (!this.$isEmptyParam(response) && !this.$isEmptyParam(response.code) && response.code === 520 && response.success) {
+          if (!this.$isEmptyParam(response.data)) {
+            success(response.data)
           } else {
             success(true)
           }
@@ -31,17 +24,19 @@
         this.$loading.end()
       })
       .catch(response => {
-        if (!this.$isEmptyParam(response) && !this.$isEmptyParam(response.data) && !this.$isEmptyParam(response.data.responseHeader) && !this.$isEmptyParam(response.data.responseHeader.returnCode) && response.data.responseHeader.returnCode === 0) {
-          if (!this.$isEmptyParam(response.data.responseData)) {
-            success(response.data.responseData)
+        if (response.code === 8888 && !response.success) {
+          this.$vux.toast.text(response.message)
+          this.$loading.end()
+          return false
+        }
+        if (!this.$isEmptyParam(response) && !this.$isEmptyParam(response.code) && response.code === 520 && response.success) {
+          if (!this.$isEmptyParam(response.data)) {
+            success(response.data)
           } else {
             success(true)
           }
         } else {
-          this.$vux.toast.show({
-            text: '出错了',
-            type: 'cancel'
-          })
+          console.log(response)
         }
         this.$loading.end()
       })
@@ -81,10 +76,6 @@
           }
         } else {
           console.log(response)
-        //   this.$vux.toast.show({
-        //     text: '出错了',
-        //     type: 'cancel'
-        //   })
         }
         this.$loading.end()
       })

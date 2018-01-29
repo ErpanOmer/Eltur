@@ -44,6 +44,9 @@ body .weui-btn_primary, body .vux-tab-ink-bar, body .weui-btn_primary:not(.weui-
 body .weui-btn_disabled.weui-btn_primary {
   background-color:#777;
 }
+body .weui-cells__title {
+  margin: 0.77em 0;
+}
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s
 }
