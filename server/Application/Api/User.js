@@ -21,10 +21,12 @@ router.post(`${api}register`, (req, res) => {
           if (err) {
             return console.log(err)
           } else if (sms) {
+            console.log(sms.code)
             if (sms.code === body.code) {
               const now = ~~(new Date().getTime() / 1000)
               const sendingTime = sms.sendingTime
-              if ((sendingTime - now) > 60*10) {
+              console.log(sendingTime - now);
+              if ((now - sendingTime) > 60*10) {
                 res.json({success: false, code: 8888, message: '验证码无效，可能过期'})
               } else {
                 let user = new User({
@@ -38,6 +40,8 @@ router.post(`${api}register`, (req, res) => {
                   if (err) {
                     return console.log(err)
                   }
+                  sms.code = '';
+                  sms.save(err => {})
                   res.json({success: true, code: 520, message: '注册成功'});
                 })
               }
@@ -78,7 +82,7 @@ router.post(`${api}login`, (req, res) => {
             if (sms.code === body.code) {
               const now = ~~(new Date().getTime() / 1000)
               const sendingTime = sms.sendingTime
-              if ((sendingTime - now) > 60*10) {
+              if ((now - sendingTime) > 60*10) {
                 res.json({success: false, code: 8888, message: '验证码无效，可能过期'})
               } else {
                 let token = jwt.sign({mobile: user.mobile}, 'YouLoveMe',{ expiresIn: 10080 });

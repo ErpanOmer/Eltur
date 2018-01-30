@@ -3,7 +3,6 @@ const path= require("path");
 const formidable = require('formidable');
 
 module.exports = function (req, res, next) {
-  {
     const form = new formidable.IncomingForm();
     //设置编辑
     form.encoding = 'utf-8';

@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-require('./port.js')(passport);
+require('./passport.js')(passport);
 //   拦截器
 router.use((req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
