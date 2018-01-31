@@ -7,6 +7,7 @@ import Consult from '@/components/Mobile/Consult/Index'
 import Login from '@/components/Mobile/Login'
 import Register from '@/components/Mobile/Register'
 import PersonalData from '@/components/Mobile/Member/PersonalData'
+import Personal from '@/components/Mobile/Member/Personal'
 Vue.use(Router)
 export default new Router({
   mode: 'history', //   后端支持可开
@@ -17,6 +18,7 @@ export default new Router({
     { path: '/Article', name: 'Article', component: Article },
     { path: '/Login', name: 'Login', component: Login },
     { path: '/PersonalData', name: 'PersonalData', component: PersonalData },
-    { path: '/Register', name: 'Register', component: Register }
+    { path: '/Register', name: 'Register', component: Register },
+    { path: '/Personal', name: 'Personal', component: Personal }
   ]
 })
