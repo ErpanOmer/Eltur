@@ -38,7 +38,7 @@
       <cell title="个人资料" is-link :link="{ name: 'PersonalData' }">
         <img slot="icon" width="25" style="display:block;margin-right:5px;" src="../../../assets/men.png"/>
       </cell>
-      <cell title="反馈建议" is-link>
+      <cell title="反馈建议" is-link :link="{ name: 'Textarea'}">
         <img slot="icon" width="25" style="display:block;margin-right:5px;" src="../../../assets/me.png"/>
       </cell>
       <!-- <cell title="关于我们" is-link>
