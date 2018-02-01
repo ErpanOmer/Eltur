@@ -9,7 +9,10 @@ options.secretOrKey = 'YouLoveMe';
 
 module.exports = function(passport) {
   passport.use(new JwtStrategy(options, (jwt_payload, done) => {
-      User.findOne({token: jwt_payload.sub}, function(err, user) {
+      User.findOne({mobile: jwt_payload.mobile}, function(err, user) {
+        console.log(err)
+        console.log(jwt_payload)
+        console.log(user)
           if (err) {
               return done(err, false);
           }

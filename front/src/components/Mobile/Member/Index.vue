@@ -1,7 +1,7 @@
 <template>
   <div id="member">
     <blur :blur-amount=3 :url="url">
-      <div class="center">
+      <div class="center" @click="$router.replace({ name: 'Login' })">
         <img src="../../../assets/businessman.png">
         <p class="back"><span>登陆/注册</span></p>
       </div>
@@ -50,6 +50,7 @@
         <img slot="icon" width="25" style="display:block;margin-right:5px;" src="../../../assets/setting.png"/>
       </cell>
     </group>
+    <input type="file" @change="upload()">
     <Tabbar></Tabbar>
   </div>
 </template>
