@@ -1,7 +1,7 @@
 <script>
   let Data = {}
   Data.install = function (Vue, options) {
-    Vue.prototype.$getData = function (url, string = '', success) {
+    Vue.prototype.$getData = Data.getData = function (url, string = '', success) {
       this.$loading()
       if (this.$isEmptyParam(url)) {
         this.$loading.end()
@@ -163,5 +163,5 @@
       })
     }
   }
-  module.exports = Data
+  export default Data
 </script>

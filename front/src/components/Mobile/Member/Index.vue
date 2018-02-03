@@ -1,7 +1,11 @@
 <template>
   <div id="member">
     <blur :blur-amount=3 :url="url">
-      <div class="center" @click="$router.replace({ name: 'Login' })">
+      <div v-if="isLoading" class="center" @click="$router.replace({ name: 'Login' })">
+        <img v-if="$isEmptyParam(memberInfo.avatar)" src="../../../assets/businessman.png">
+        <img v-else :src="memberInfo.avatar">
+      </div>
+      <div v-else class="center" @click="$router.replace({ name: 'Login' })">
         <img src="../../../assets/businessman.png">
         <p class="back"><span>登陆/注册</span></p>
       </div>
@@ -66,16 +70,22 @@ export default {
     msg: '个人中心',
     url: background
   }),
+  computed: {
+    isLoading: function () {
+      return this.$store.getters.isLoading
+    },
+    memberInfo: function () {
+      return this.$store.getters.memberInfo
+    }
+  },
   mounted () {
-    this.$nextTick(() => {
-      if (this.$isEmptyParam(localStorage.token)) {
-        return false
-      } else {
-        this.$getData(this.$configs.api.memberInfo, '', response => {
-          console.log(response)
-        })
-      }
-    })
+    if (this.$isEmptyParam(localStorage.token)) {
+      return false
+    } else {
+      this.$store.dispatch('memberInfo').then(response => {
+        console.log(response)
+      })
+    }
   }
 }
 </script>
