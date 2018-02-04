@@ -1,7 +1,7 @@
 <template>
   <div id="member">
     <blur :blur-amount=3 :url="url">
-      <div v-if="isLoading" class="center" @click="$router.replace({ name: 'Login' })">
+      <div v-if="isLoading" class="center" @click="avatar()">
         <img v-if="$isEmptyParam(memberInfo.avatar)" src="../../../assets/businessman.png">
         <img v-else :src="memberInfo.avatar">
       </div>
@@ -54,7 +54,7 @@
         <img slot="icon" width="25" style="display:block;margin-right:5px;" src="../../../assets/setting.png"/>
       </cell>
     </group>
-    <input type="file" @change="upload()">
+    <input type="file" style="display:none;" ref="avatar" @change="upload($event)">
     <Tabbar></Tabbar>
   </div>
 </template>
@@ -85,6 +85,15 @@ export default {
       this.$store.dispatch('memberInfo').then(response => {
         console.log(response)
       })
+    }
+  },
+  methods: {
+    avatar: function () {
+      this.$refs.avatar.click()
+      this.$refs.avatar.click()
+    },
+    upload: function (e) {
+      console.log(e.target)
     }
   }
 }
