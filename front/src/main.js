@@ -19,6 +19,7 @@ import infiniteScroll from 'vue-infinite-scroll'
 import metaInfo from 'vue-meta'
 // toast
 import { ToastPlugin, LoadingPlugin, ConfirmPlugin } from 'vux'
+import VueProgress from 'vue-progress'
 import Loading from '@/util/Loading'
 FastClick.attach(document.body)
 Vue.use(VueResource)
@@ -31,6 +32,7 @@ Vue.use(metaInfo)
 Vue.use(ConfirmPlugin)
 Vue.use(ToastPlugin)
 Vue.use(LoadingPlugin)
+Vue.use(VueProgress)
 Vue.use(Loading, {
   container: '#app'
 })
