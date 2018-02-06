@@ -93,7 +93,6 @@ export default {
       this.$refs.avatar.click()
     },
     upload: function (e) {
-      console.log(e.target)
     }
   }
 }
