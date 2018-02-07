@@ -119,11 +119,6 @@ export default {
     }
   },
   methods: {
-    getText: function () {
-    },
-<<<<<<< HEAD
-    upload: function (e) {
-=======
     handleUploading: function (form, xhr) {
       const self = this
       xhr.upload.onprogress = function (e) {
@@ -142,7 +137,6 @@ export default {
     },
     avatar: function () {
       this.$refs.button.click()
->>>>>>> 7a3cbf0318eea276ec0fe8c14f203420ca22c764
     }
   }
 }
