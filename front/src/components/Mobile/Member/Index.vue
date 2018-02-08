@@ -119,8 +119,6 @@ export default {
     }
   },
   methods: {
-    getText: function () {
-    },
     handleUploading: function (form, xhr) {
       const self = this
       xhr.upload.onprogress = function (e) {
