@@ -12,7 +12,17 @@ router.use((req, res, next) => {
       res.json({success: false, code: 0, message: '请登录'});
     }
     if (user){
-      req.user = user
+      req.user = {
+        name: user.name,
+        sex: user.sex,
+        age: user.age,
+        birthday: user.birthday,
+        mobile: user.mobile,
+        avatar: user.avatar,
+        createdTime: user.createdTime,
+        updateTime: user.updateTime,
+        id: user._id
+      }
       next();
     }
   })(req, res, next);

@@ -1,10 +1,10 @@
 <template>
   <div id="member">
     <blur :blur-amount=3 :url="url">
-      <div v-if="isLoading" class="center" @click="avatar">
-        <img v-if="$isEmptyParam(memberInfo.avatar)" src="../../../assets/businessman.png">
-        <img v-else :src="memberInfo.avatar">
-        <p class="back"><span>{{per}}</span></p>
+      <div v-if="isLoading" class="center" @click="avatar()">
+        <img v-if="$isEmptyParam(userInfo.avatar)" src="../../../assets/businessman.png">
+        <img v-else :src="userInfo.avatar">
+        <p class="back" v-show="show"><span>{{per}}</span></p>
       </div>
       <div v-else class="center" @click="$router.replace({ name: 'Login' })">
         <img src="../../../assets/businessman.png">
@@ -65,7 +65,7 @@
       :upload-headers="headers"
       upload-url="http://www.eltur.cn/application/upload">
     </avatar-cropper>
-    <progress-bar type="circle" ref="line" :options="options"></progress-bar>
+    <progress-bar v-show="show" type="circle" ref="line" :options="options"></progress-bar>
   </div>
 </template>
 <script>
@@ -80,6 +80,7 @@ export default {
   data: () => ({
     msg: '个人中心',
     url: background,
+    show: false,
     per: null,
     options: {
       color: 'rgba(255, 255, 255, .9)',
@@ -102,8 +103,8 @@ export default {
     isLoading: function () {
       return this.$store.getters.isLoading
     },
-    memberInfo: function () {
-      return this.$store.getters.memberInfo
+    userInfo: function () {
+      return this.$store.getters.userInfo
     },
     headers: function () {
       return { token: localStorage.token }
@@ -113,26 +114,33 @@ export default {
     if (this.$isEmptyParam(localStorage.token)) {
       return false
     } else {
-      this.$store.dispatch('memberInfo').then(response => {
-        console.log(response)
-      })
+      this.$store.dispatch('userInfo')
     }
   },
   methods: {
     handleUploading: function (form, xhr) {
+      this.show = true
       const self = this
       xhr.upload.onprogress = function (e) {
         const loaded = e.loaded  //  已上传的大小
         const total = e.total  //   总大小
         self.per = Math.floor((loaded / total) * 100) + '%'  //   转换成百分比
-        // self.$refs.line.set(Math.floor((loaded / total)))
-        console.log((loaded / total))
         self.$refs.line.animate((loaded / total))
       }
     },
     handleUploaded: function (response, form, xhr) {
+      console.log(form)
+      this.show = false
       if (response.code === 520 && response.success) {
-        this.$vux.toast.text('上传成功')
+        this.$putData(this.$configs.api.userInfo, { avatar: response.url }, response => {
+          if (response) {
+            //  更新数据
+            this.$store.dispatch('userInfo')
+            this.$vux.toast.text('上传成功')
+          }
+        })
+      } else {
+        this.$vux.toast.text('上传失败')
       }
     },
     avatar: function () {
