@@ -32,6 +32,14 @@ const User = new Schema({
     type: String,
     default: ''
   },
+  address: {
+    type: String,
+    default: ''
+  },
+  signature: {
+    type: String,
+    default: ''
+  },
   token: {
     type: String
   },

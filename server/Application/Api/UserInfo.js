@@ -20,7 +20,9 @@ router.put(api, (req, res, next) => {
                       JSON.stringify(body.sex) ||
                       body.age ||
                       body.birthday ||
-                      body.avatar);
+                      body.avatar ||
+                      body.address ||
+                      body.signature);
   if (isParams) {
     User.update({ _id: req.user.id }, body, function(error){
       if (error) {

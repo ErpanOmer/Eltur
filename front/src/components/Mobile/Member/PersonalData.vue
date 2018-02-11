@@ -11,30 +11,21 @@
           <img v-else slot="default" width="45" height="45" @click="avatar()" style="display:block;margin-right:5px;" :src="userInfo.avatar"/>
         </cell>
         <popup-picker title="性别" :data="sexList" v-model="sex" @on-hide="modifySex"></popup-picker>
-        <datetime title="生日" v-model="time = userInfo.birthday" :min-year="1970" :max-year="2010" default-selected-value="1990-01-01" value-text-align="right" @on-confirm="modifyBirthday">
-        </datetime>
-        <x-address title="地址设置" v-model="value3" raw-value :list="addressData">
-        </x-address>
+        <datetime title="生日" v-model="time = userInfo.birthday" :min-year="1970" :max-year="2010" default-selected-value="1990-01-01" value-text-align="right" @on-confirm="modifyBirthday"></datetime>
+        <x-address title="地址设置" v-model="address" @on-hide="modifyAddress" :raw-value="true" :list="addressData"></x-address>
+        <cell title="个性签名" is-link @click.native="signatureShow = true"></cell>
       </group>
-      <group>
-        <x-switch title="个人说明" v-model="show5"></x-switch>
-      </group>
-      <popup v-model="show5" :hide-on-blur=false>
-        <div class="popup2">
+      <popup v-model="signatureShow" :hide-on-blur="true">
+        <div class="personal-popup">
           <group>
-            <x-switch title="个人说明" v-model="show5"></x-switch>
+            <x-textarea :max="50" placeholder="个性签名" :show-counter="true" :height="60" :rows="4"></x-textarea>
           </group>
-          <group>
-            <x-textarea :max="30" placeholder="介绍自己" :show-counter="true" :height="120" :rows="4"></x-textarea>
-          </group>
-          <x-button mini type="primary">保存</x-button>
+          <x-button mini style="float:right;margin-top:15px;" type="primary">保存</x-button>
         </div>
       </popup>
-      <group>
-        <box gap="10px 10px">
-          <x-button type="warn">退出账号</x-button>
-        </box>
-      </group>
+      <box gap="35px 10px">
+        <x-button type="warn">退出账号</x-button>
+      </box>
       <div v-transfer-dom class="modifay-name">
         <x-dialog v-model="show" @on-show="setInputFocus" class="dialog-demo">
           <div class="box">
@@ -60,7 +51,7 @@
   </template>
   <script>
   import AvatarCropper from 'vue-avatar-cropper'
-  import { XTextarea, Popup, PopupPicker, Spinner, XSwitch, GroupTitle, Datetime, XButton, Box, XAddress, Cell, Group, ChinaAddressV4Data, XDialog, TransferDomDirective as TransferDom } from 'vux'
+  import { XTextarea, Value2nameFilter as value2name, Popup, PopupPicker, Spinner, XSwitch, GroupTitle, Datetime, XButton, Box, XAddress, Cell, Group, ChinaAddressV4Data, XDialog, TransferDomDirective as TransferDom } from 'vux'
   export default {
     components: {
       XTextarea, Popup, XDialog, XSwitch, Datetime, XButton, Box, XAddress, Group, Cell, AvatarCropper, GroupTitle, Spinner, PopupPicker
@@ -96,19 +87,9 @@
         sexList: [['男', '女', '保密']],
         sex: ['保密'],
         time: '',
-        show5: false,
-        option: '',
-        options: [{
-          key: 'A',
-          value: '男'
-        }, {
-          key: 'B',
-          value: '女'
-        }],
-        paherden: 'paherden',
-        value3: ['广东省', '中山市', '--'],
-        addressData: ChinaAddressV4Data,
-        showAddress: false
+        signatureShow: false,
+        address: ['广东省', '中山市', '--'],
+        addressData: ChinaAddressV4Data
       }
     },
     mounted () {
@@ -156,6 +137,19 @@
           })
         })
       },
+      modifyAddress: function (value) {
+        if (value) {
+          this.$nextTick(() => {
+            const address = value2name(this.address, ChinaAddressV4Data)
+            this.$putData(this.$configs.api.userInfo, { address }, response => {
+              if (response) {
+                this.$store.dispatch('userInfo')
+                this.$vux.toast.text('修改成功')
+              }
+            })
+          })
+        }
+      },
       setInputFocus: function () {
         this.$refs.input.focus()
       },
@@ -189,14 +183,19 @@
   }
   </script>
 <style lang="less" scoped>
-.popup2 {
+.personal-popup {
+  box-sizing: border-box;
+  padding: 15px;
   padding-bottom:15px;
   height:400px;
 }
 </style>
 <style media="screen">
-  #personal-data .weui-cell:before, #personal-data .vux-cell-box:before {
+  #personal-data .weui-cell:before, #personal-data .vux-cell-box:before{
     left: 0;
+  }
+  #personal-data.weui-cells:before {
+    border: none;
   }
   #personal-data .name {
     display: block;

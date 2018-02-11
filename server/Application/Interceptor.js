@@ -19,6 +19,8 @@ router.use((req, res, next) => {
         birthday: user.birthday,
         mobile: user.mobile,
         avatar: user.avatar,
+        address: user.address,
+        signature: user.signature,
         createdTime: user.createdTime,
         updateTime: user.updateTime,
         id: user._id
