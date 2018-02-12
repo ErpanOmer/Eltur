@@ -13,14 +13,14 @@
         <popup-picker title="性别" :data="sexList" v-model="sex" @on-hide="modifySex"></popup-picker>
         <datetime title="生日" v-model="time = userInfo.birthday" :min-year="1970" :max-year="2010" default-selected-value="1990-01-01" value-text-align="right" @on-confirm="modifyBirthday"></datetime>
         <x-address title="地址设置" v-model="address" @on-hide="modifyAddress" :raw-value="true" :list="addressData"></x-address>
-        <cell title="个性签名" is-link @click.native="signatureShow = true"></cell>
+        <cell title="个性签名" is-link @click.native="signatureShow = true" :value="signature=userInfo.signature"></cell>
       </group>
       <popup v-model="signatureShow" :hide-on-blur="true">
         <div class="personal-popup">
           <group>
-            <x-textarea :max="50" placeholder="个性签名" :show-counter="true" :height="60" :rows="4"></x-textarea>
+            <x-textarea :max="50" placeholder="个性签名" v-model="signature=userInfo.signature" :show-counter="true" :height="60" :rows="4"></x-textarea>
           </group>
-          <x-button mini style="float:right;margin-top:15px;" type="primary">保存</x-button>
+          <x-button mini style="float:right;margin-top:15px;" type="primary" @click.native="submit()">提交</x-button>
         </div>
       </popup>
       <box gap="35px 10px">
@@ -88,6 +88,7 @@
         sex: ['保密'],
         time: '',
         signatureShow: false,
+        signature: '',
         address: ['广东省', '中山市', '--'],
         addressData: ChinaAddressV4Data
       }
@@ -95,6 +96,7 @@
     mounted () {
       this.$store.dispatch('userInfo').then(response => {
         this.$set(this.sex, 0, this.sexList[0][response.sex])
+        this.address = response.address.split(' ')
       })
     },
     methods: {
@@ -149,6 +151,18 @@
             })
           })
         }
+      },
+      submit: function () {
+        if (this.$isEmptyParam(this.signature)) {
+          this.$vux.toast.text('签名不能留空')
+          return false
+        }
+        this.$putData(this.$configs.api.userInfo, { signature: this.signature }, response => {
+          if (response) {
+            this.$store.dispatch('userInfo')
+            this.$vux.toast.text('修改成功')
+          }
+        })
       },
       setInputFocus: function () {
         this.$refs.input.focus()
