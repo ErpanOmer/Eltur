@@ -5,22 +5,22 @@ Vue.use(Vuex)
 const Store = new Vuex.Store({
   state: {
     isLoading: false,
-    memberInfo: {}    //  用户信息
+    userInfo: {}    //  用户信息
   },
   getters: {
     isLoading: state => state.isLoading,
-    memberInfo: state => state.memberInfo
+    userInfo: state => state.userInfo
   },
   mutations: {},
   actions: {
-    memberInfo ({commit, state}) {
+    userInfo ({commit, state}) {
       return new Promise((resolve, reject) => {
-        Vue.http.get(self.$configs.apiURL + self.$configs.api.memberInfo)
+        Vue.http.get(self.$configs.apiURL + self.$configs.api.userInfo)
         .then(res => {}, res => {
           if (res.code === 520 && res.success) {
-            state.memberInfo = res.data
+            state.userInfo = res.data
             state.isLoading = true
-            resolve(state.memberInfo)
+            resolve(state.userInfo)
           }
         }).catch(err => {
           reject(err)

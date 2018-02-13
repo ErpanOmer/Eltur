@@ -47,6 +47,12 @@ body .weui-btn_disabled.weui-btn_primary {
 body .weui-cells__title {
   margin: 0.77em 0;
 }
+body .vux-popup-dialog {
+  overflow: hidden;
+}
+body .vux-popup-header-right, body .dp-header .dp-item.dp-right {
+  color: orange;
+}
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s
 }

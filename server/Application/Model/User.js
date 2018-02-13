@@ -19,12 +19,24 @@ const User = new Schema({
     type: Number,
     default: 0
   },
+  birthday: {
+    type: String,
+    default: '1990-01-01'
+  },
   mobile: {
     type: String,
     unique: true,
     default: ''
   },
   avatar: {
+    type: String,
+    default: ''
+  },
+  address: {
+    type: String,
+    default: ''
+  },
+  signature: {
     type: String,
     default: ''
   },
