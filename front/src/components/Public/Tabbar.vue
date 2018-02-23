@@ -3,7 +3,7 @@
     <tabbar class="ages-tabbar" style="position: fixed;">
       <tabbar-item :selected="$route.name === 'Index'" @click.native="$router.push({ name: 'Index' })">
         <span slot="icon" class="icon iconfont icon-xinwen"></span>
-        <span slot="label">新闻</span>
+        <span slot="label">首页</span>
       </tabbar-item>
       <tabbar-item  :selected="$route.name === 'Article'" @click.native="$router.push({ name: 'Article' })">
         <span slot="icon" class="icon iconfont icon-icon9"></span>

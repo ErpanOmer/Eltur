@@ -12,7 +12,7 @@
         </cell>
         <popup-picker title="性别" :data="sexList" v-model="sex" @on-hide="modifySex"></popup-picker>
         <datetime title="生日" v-model="time = userInfo.birthday" :min-year="1970" :max-year="2010" default-selected-value="1990-01-01" value-text-align="right" @on-confirm="modifyBirthday"></datetime>
-        <x-address title="地址设置" v-model="address" @on-hide="modifyAddress" :raw-value="true" :list="addressData"></x-address>
+        <x-address title="地址设置" v-model="address" @on-hide="modifyAddress" :raw-value="true" :list="addressData" style="border-top: 1px solid #eee;"></x-address>
         <cell title="个性签名" is-link @click.native="signatureShow = true" :value="signature=userInfo.signature"></cell>
       </group>
       <popup v-model="signatureShow" :hide-on-blur="true">
@@ -207,9 +207,6 @@
 <style media="screen">
   #personal-data .weui-cell:before, #personal-data .vux-cell-box:before{
     left: 0;
-  }
-  #personal-data.weui-cells:before {
-    border: none;
   }
   #personal-data .name {
     display: block;

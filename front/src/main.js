@@ -58,7 +58,7 @@ Vue.http.interceptors.push((request, next) => {
       return responseData
     } else {
       Vue.$vux.toast.show({
-        text: '网络繁忙，请您稍后重试',
+        text: '网络繁忙，请稍后',
         type: 'cancel'
       })
       return false
