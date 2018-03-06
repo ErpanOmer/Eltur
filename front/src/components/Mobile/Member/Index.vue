@@ -78,7 +78,6 @@ export default {
     Tabbar, Blur, Flexbox, FlexboxItem, Card, Cell, Group, AvatarCropper
   },
   data: () => ({
-    msg: '个人中心',
     url: background,
     show: false,
     per: null,
