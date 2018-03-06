@@ -11,6 +11,7 @@ import Textarea from '@/components/Mobile/Member/Textarea'
 Vue.use(Router)
 export default new Router({
   mode: 'history', //   后端支持可开
+  base: 'index/',
   routes: [
     { path: '/', name: 'Index', component: Index },
     { path: '/Member', name: 'Member', component: Member },
