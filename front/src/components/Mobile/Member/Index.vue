@@ -3,7 +3,7 @@
     <blur :blur-amount=3 :url="url">
       <div class="center">
         <img src="../../../assets/businessman.png">
-        <p class="back" link="Login"><span>登陆/注册</span></p>
+        <p class="back"><span>登陆/注册</span></p>
       </div>
     </blur>
     <card>

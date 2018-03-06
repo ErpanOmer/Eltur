@@ -1,7 +1,7 @@
 <script>
   let Data = {}
   Data.install = function (Vue, options) {
-    Vue.prototype.$getData = function (url, string = '', success) {
+    Vue.prototype.$getData = Data.getData = function (url, string = '', success) {
       this.$loading()
       if (this.$isEmptyParam(url)) {
         this.$loading.end()
@@ -83,41 +83,38 @@
     Vue.prototype.$putData = function (url, param, success) {
       this.$loading()
       if (this.$isEmptyParam(url)) {
-        this.$vux.toast.show({
-          text: this.$t('error.http_request_url_error'),
-          type: 'cancel'
-        })
         this.$loading.end()
         return false
       }
       this.$http.put(this.$configs.apiURL + url, param)
-      .then((response) => {
-        const header = response.data.responseHeader
-        if (header.returnCode !== 0 && !this.$isEmptyParam(header.message)) {
-          let message = header.message.split(':')
-          message = message.length === 1 ? message[0] : message[1]
-          this.$vux.toast.text(message)
+      .then(response => {
+        if (response.code === 8888 && !response.success) {
+          this.$vux.toast.text(response.message)
           this.$loading.end()
-          return
+          return false
         }
-        if (!this.$isEmptyParam(response) && !this.$isEmptyParam(response.data) && !this.$isEmptyParam(response.data.responseHeader) && !this.$isEmptyParam(response.data.responseHeader.returnCode) && response.data.responseHeader.returnCode === 0) {
-          if (!this.$isEmptyParam(response.data.responseData)) {
-            success(response.data.responseData)
+        if (!this.$isEmptyParam(response) && !this.$isEmptyParam(response.code) && response.code === 520 && response.success) {
+          if (!this.$isEmptyParam(response.data)) {
+            success(response.data)
           } else {
             success(true)
           }
         }
         this.$loading.end()
-      })
-      .catch(function (response) {
-        let message = this.$t('error.http_request_error')
-        if (!this.$isEmptyParam(response) && !this.$isEmptyParam(response.data) && !this.$isEmptyParam(response.data.responseHeader) && !this.$isEmptyParam(response.data.responseHeader.message)) {
-          message = response.data.responseHeader.message
+      }).catch(response => {
+        if (response.code === 8888 && !response.success) {
+          this.$vux.toast.text(response.message)
+          this.$loading.end()
+          return false
         }
-        this.$vux.toast.show({
-          text: message,
-          type: 'cancel'
-        })
+        if (!this.$isEmptyParam(response) && !this.$isEmptyParam(response.code) && response.code === 520 && response.success) {
+          if (!this.$isEmptyParam(response.data)) {
+            success(response.data)
+          } else {
+            success(true)
+          }
+        } else {
+        }
         this.$loading.end()
       })
     }
@@ -163,5 +160,5 @@
       })
     }
   }
-  module.exports = Data
+  export default Data
 </script>

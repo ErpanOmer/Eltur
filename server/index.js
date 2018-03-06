@@ -7,7 +7,7 @@ const app = express();
 //   配合前端 history 模式
 app.all('*',function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild, token');
+  res.header('Access-Control-Allow-Headers', 'Content-Length, Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie, HTTP_TOKEN, Authorization, token');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
   if (req.method === 'OPTIONS') {
     res.sendStatus(200);
@@ -61,10 +61,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 //***************************************************//
 // 引入编写好的api
 const APPLICATION_API = require('./Application')
-app.use(...APPLICATION_API)
 const ADMIN_API = require('./Admin')
-app.use(...ADMIN_API)
 const PUBLIC = require('./Public')
+app.use(...APPLICATION_API)
+app.use(...ADMIN_API)
 app.use(...PUBLIC)
 //***************************************************//
 //********************  结束  ******************//

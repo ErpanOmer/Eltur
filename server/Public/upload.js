@@ -18,9 +18,9 @@ module.exports = function (req, res, next) {
       //生成随机数
       let ran = parseInt(Math.random() * 8999 +10000);
       //拿到扩展名
-      let extname = path.extname(files.cover.name);
+      let extname = path.extname(files.file.name);
       //path.normalize('./path//upload/data/../file/./123.jpg'); 规范格式文件名
-      let oldpath = path.normalize(files.cover.path);
+      let oldpath = path.normalize(files.file.path);
       //新的路径
       let newfilename = 'eltur_' + time + ran + extname;
       var newpath =  '/var/Eltur/public/images/' + newfilename;

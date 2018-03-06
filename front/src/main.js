@@ -20,6 +20,7 @@ import metaInfo from 'vue-meta'
 // toast
 import { ToastPlugin, LoadingPlugin, ConfirmPlugin } from 'vux'
 import Loading from '@/util/Loading'
+import VueProgress from '@/util/vue-progress'
 FastClick.attach(document.body)
 Vue.use(VueResource)
 Vue.use(store)
@@ -30,6 +31,7 @@ Vue.use(infiniteScroll)
 Vue.use(metaInfo)
 Vue.use(ConfirmPlugin)
 Vue.use(ToastPlugin)
+Vue.use(VueProgress)
 Vue.use(LoadingPlugin)
 Vue.use(Loading, {
   container: '#app'
@@ -56,7 +58,7 @@ Vue.http.interceptors.push((request, next) => {
       return responseData
     } else {
       Vue.$vux.toast.show({
-        text: '网络繁忙，请您稍后重试',
+        text: '网络繁忙，请稍后',
         type: 'cancel'
       })
       return false

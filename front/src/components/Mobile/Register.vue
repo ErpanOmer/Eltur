@@ -95,7 +95,7 @@ export default {
       this.$postData(this.$configs.api.register, data, response => {
         if (response) {
           const currentRoutePath = localStorage.getItem('currentRoutePath')
-          this.$postData(this.$configs.api.login, { mobile: data.mobile, password: data.password }, response => {
+          this.$postData(this.$configs.api.login, { mobile: data.mobile, password: data.password, status: 2 }, response => {
             localStorage.token = response.token
             this.$vux.toast.text('注册成功')
             if (!this.$isEmptyParam(currentRoutePath)) {
