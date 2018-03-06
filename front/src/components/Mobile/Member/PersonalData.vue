@@ -7,34 +7,31 @@
         </cell>
       <input type="file" ref="cover" style="display:none;" @change="coco($event)">
         <popup-radio title="性别" :options="options" v-model="option" placeholder="请选择性别"></popup-radio>
-        <datetime title="生日" v-model="time" value-text-align="right">
+        <datetime title="生日" v-model="time">
         </datetime>
         <x-address title="地址设置" v-model="value3" raw-value :list="addressData">
         </x-address>
       </group>
       <group>
-        <x-switch title="个人说明" v-model="show5"></x-switch>
+        <cell title="个人说明" is-link @click.native="show5 = true"></cell>
       </group>
-      <popup v-model="show5" :hide-on-blur=false>
+      <popup v-model="show5" :hide-on-blur="true">
         <div class="popup2">
           <group>
-            <x-switch title="个人说明" v-model="show5"></x-switch>
+            <x-textarea :max="120" placeholder="介绍自己" :show-counter="true" :height="120" :rows="4"></x-textarea>
           </group>
-          <group>
-            <x-textarea :max="30" placeholder="介绍自己" :show-counter="true" :height="120" :rows="4"></x-textarea>
-          </group>
-          <x-button mini type="primary">保存</x-button>
+          <div style="float:right;margin:10px;">
+            <x-button mini type="primary">保存</x-button>
+          </div>
         </div>
       </popup>
-      <group>
-        <box gap="10px 10px">
+        <box gap="30px 10px">
           <x-button type="warn">退出账号</x-button>
         </box>
-      </group>
       <confirm v-model="show"
       show-input
       ref="confirm5"
-      title="修改姓名"
+      title="修改用户名"
       @on-cancel="onCancel"
       @on-confirm="onConfirm"
       @on-show="onShow"

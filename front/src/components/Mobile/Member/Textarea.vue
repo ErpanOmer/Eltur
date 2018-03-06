@@ -3,8 +3,9 @@
     <group title="反馈意见">
       <x-textarea :max="150" placeholder="请输入您的意见！" :show-counter="true" :height="120" :rows="4"></x-textarea>
     </group>
-    <x-button mini plain link="BACK">返回</x-button>
+    <div style="float:right;margin-right:10px;"><x-button mini plain link="BACK">返回</x-button>
     <x-button mini type="primary">提交</x-button>
+    </div>
   </div>
 </template>
 <script>
