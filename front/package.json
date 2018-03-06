@@ -1,8 +1,8 @@
 {
-  "name": "ages",
+  "name": "Eltur",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "JimmyXu <xiaowuxuxuye0@163.com>",
+  "author": "Eltur",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
@@ -19,6 +19,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "vue": "^2.2.2",
+    "vue-avatar-cropper": "0.0.23",
     "vue-awesome": "^2.3.3",
     "vue-infinite-scroll": "^2.0.2",
     "vue-meta": "^1.1.0",
