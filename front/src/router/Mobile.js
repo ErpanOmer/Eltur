@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/components/Mobile/Index'
-import Article from '@/components/Mobile/Article/Index'
-import Member from '@/components/Mobile/Member/Index'
-import Consult from '@/components/Mobile/Consult/Index'
-import Login from '@/components/Mobile/Login'
-import Register from '@/components/Mobile/Register'
-import PersonalData from '@/components/Mobile/Member/PersonalData'
-import Textarea from '@/components/Mobile/Member/Textarea'
-import Process from '@/components/Mobile/Consult/Process'
-import Lawyer from '@/components/Mobile/Consult/Lawyer'
+const Index = resolve => require(['@/components/Mobile/Index'], resolve)
+const Article = resolve => require(['@/components/Mobile/Article/Index'], resolve)
+const Member = resolve => require(['@/components/Mobile/Member/Index'], resolve)
+const Consult = resolve => require(['@/components/Mobile/Consult/Index'], resolve)
+const Login = resolve => require(['@/components/Mobile/Login'], resolve)
+const Register = resolve => require(['@/components/Mobile/Register'], resolve)
+const PersonalData = resolve => require(['@/components/Mobile/Member/PersonalData'], resolve)
+const Textarea = resolve => require(['@/components/Mobile/Member/Textarea'], resolve)
+const Process = resolve => require(['@/components/Mobile/Consult/Process'], resolve)
+const Lawyer = resolve => require(['@/components/Mobile/Consult/Lawyer'], resolve)
 Vue.use(Router)
 export default new Router({
   mode: 'history', //   后端支持可开
