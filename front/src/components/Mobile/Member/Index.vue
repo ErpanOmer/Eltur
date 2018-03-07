@@ -1,7 +1,12 @@
 <template>
   <div id="member">
     <blur :blur-amount=3 :url="url">
-      <div class="center">
+      <div v-if="isLoading" class="center" @click="avatar()">
+        <img v-if="$isEmptyParam(userInfo.avatar)" src="../../../assets/businessman.png">
+        <img v-else :src="userInfo.avatar">
+        <p class="back" v-show="show"><span>{{per}}</span></p>
+      </div>
+      <div v-else class="center" @click="$router.replace({ name: 'Login' })">
         <img src="../../../assets/businessman.png">
         <p class="back"><span>登陆/注册</span></p>
       </div>
@@ -51,30 +56,95 @@
       </cell>
     </group>
     <Tabbar></Tabbar>
+    <button id="pick-avatar" style="display:none;" ref="button">Select An image</button>
+    <avatar-cropper
+      @uploaded="handleUploaded"
+      @uploading="handleUploading"
+      trigger="#pick-avatar"
+      upload-form-name="file"
+      :upload-headers="headers"
+      upload-url="http://www.eltur.cn/application/upload">
+    </avatar-cropper>
+    <progress-bar v-show="show" type="circle" ref="line" :options="options"></progress-bar>
   </div>
 </template>
 <script>
 import Tabbar from '@/components/Public/Tabbar'
+import AvatarCropper from 'vue-avatar-cropper'
 import { Flexbox, FlexboxItem, Blur, Card, Cell, Group } from 'vux'
 import background from '@/assets/47.jpg'
 export default {
   components: {
-    Tabbar, Blur, Flexbox, FlexboxItem, Card, Cell, Group
+    Tabbar, Blur, Flexbox, FlexboxItem, Card, Cell, Group, AvatarCropper
   },
   data: () => ({
-    msg: '个人中心',
-    url: background
-  }),
-  mounted () {
-    this.$nextTick(() => {
-      if (this.$isEmptyParam(localStorage.token)) {
-        return false
-      } else {
-        this.$getData(this.$configs.api.memberInfo, '', response => {
-          console.log(response)
-        })
+    url: background,
+    show: false,
+    per: null,
+    options: {
+      color: 'rgba(255, 255, 255, .9)',
+      strokeWidth: 7,
+      trailWidth: 7,
+      trailColor: 'rgba(255, 255, 255, .1)',
+      svgStyle: {
+        position: 'absolute',
+        top: '25px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: '-1',
+        display: 'block',
+        width: '115px',
+        height: '115px'
       }
-    })
+    }
+  }),
+  computed: {
+    isLoading: function () {
+      return this.$store.getters.isLoading
+    },
+    userInfo: function () {
+      return this.$store.getters.userInfo
+    },
+    headers: function () {
+      return { token: localStorage.token }
+    }
+  },
+  mounted () {
+    if (this.$isEmptyParam(localStorage.token)) {
+      return false
+    } else {
+      this.$store.dispatch('userInfo')
+    }
+  },
+  methods: {
+    handleUploading: function (form, xhr) {
+      this.show = true
+      const self = this
+      xhr.upload.onprogress = function (e) {
+        const loaded = e.loaded  //  已上传的大小
+        const total = e.total  //   总大小
+        self.per = Math.floor((loaded / total) * 100) + '%'  //   转换成百分比
+        self.$refs.line.animate((loaded / total))
+      }
+    },
+    handleUploaded: function (response, form, xhr) {
+      console.log(form)
+      this.show = false
+      if (response.code === 520 && response.success) {
+        this.$putData(this.$configs.api.userInfo, { avatar: response.url }, response => {
+          if (response) {
+            //  更新数据
+            this.$store.dispatch('userInfo')
+            this.$vux.toast.text('上传成功')
+          }
+        })
+      } else {
+        this.$vux.toast.text('上传失败')
+      }
+    },
+    avatar: function () {
+      this.$refs.button.click()
+    }
   }
 }
 </script>
