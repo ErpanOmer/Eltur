@@ -171,9 +171,9 @@
         const self = this
         this.progress = true
         xhr.upload.onprogress = function (e) {
-          const loaded = e.loaded  //  已上传的大小
-          const total = e.total  //   总大小
-          self.per = Math.floor((loaded / total) * 100) + '%'  //   转换成百分比
+          const loaded = e.loaded // 已上传的大小
+          const total = e.total // 总大小
+          self.per = Math.floor((loaded / total) * 100) + '%' // 转换成百分比
         }
       },
       handleUploaded: function (response, form, xhr) {

@@ -24,7 +24,7 @@ export default {
     mobile: '',
     code: '',
     second: 60,
-    sended: false,  //  是否发送验证码
+    sended: false, // 是否发送验证码
     agree: true,
     password: '',
     password2: '',

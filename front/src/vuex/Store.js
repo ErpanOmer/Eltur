@@ -5,7 +5,7 @@ Vue.use(Vuex)
 const Store = new Vuex.Store({
   state: {
     isLoading: false,
-    userInfo: {}    //  用户信息
+    userInfo: {} // 用户信息
   },
   getters: {
     isLoading: state => state.isLoading,
@@ -15,8 +15,7 @@ const Store = new Vuex.Store({
   actions: {
     userInfo ({commit, state}) {
       return new Promise((resolve, reject) => {
-        Vue.http.get(self.$configs.apiURL + self.$configs.api.userInfo)
-        .then(res => {}, res => {
+        Vue.http.get(self.$configs.apiURL + self.$configs.api.userInfo).then(res => {}, res => {
           if (res.code === 520 && res.success) {
             state.userInfo = res.data
             state.isLoading = true

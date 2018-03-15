@@ -7,8 +7,7 @@
         this.$loading.end()
         return false
       }
-      this.$http.get(this.$configs.apiURL + url + string)
-      .then(response => {
+      this.$http.get(this.$configs.apiURL + url + string).then(response => {
         if (response.code === 8888 && !response.success) {
           this.$vux.toast.text(response.message)
           this.$loading.end()
@@ -22,8 +21,7 @@
           }
         }
         this.$loading.end()
-      })
-      .catch(response => {
+      }).catch(response => {
         if (response.code === 8888 && !response.success) {
           this.$vux.toast.text(response.message)
           this.$loading.end()
@@ -47,8 +45,7 @@
         this.$loading.end()
         return false
       }
-      this.$http.post(this.$configs.apiURL + url, data)
-      .then(response => {
+      this.$http.post(this.$configs.apiURL + url, data).then(response => {
         if (response.code === 8888 && !response.success) {
           this.$vux.toast.text(response.message)
           this.$loading.end()
@@ -86,8 +83,7 @@
         this.$loading.end()
         return false
       }
-      this.$http.put(this.$configs.apiURL + url, param)
-      .then(response => {
+      this.$http.put(this.$configs.apiURL + url, param).then(response => {
         if (response.code === 8888 && !response.success) {
           this.$vux.toast.text(response.message)
           this.$loading.end()
@@ -128,8 +124,7 @@
         this.$loading.end()
         return false
       }
-      this.$http.delete(this.$configs.apiURL + url + string)
-      .then((response) => {
+      this.$http.delete(this.$configs.apiURL + url + string).then((response) => {
         const header = response.data.responseHeader
         if (header.returnCode !== 0 && !this.$isEmptyParam(header.message)) {
           let message = header.message.split(':')
@@ -146,8 +141,7 @@
           }
         }
         this.$loading.end()
-      })
-      .catch(function (response) {
+      }).catch(function (response) {
         let message = this.$t('error.http_request_error')
         if (!this.$isEmptyParam(response) && !this.$isEmptyParam(response.data) && !this.$isEmptyParam(response.data.responseHeader) && !this.$isEmptyParam(response.data.responseHeader.message)) {
           message = response.data.responseHeader.message

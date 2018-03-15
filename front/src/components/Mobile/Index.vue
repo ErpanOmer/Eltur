@@ -3,6 +3,9 @@
     <div class="swiper">
       <swiper loop auto :list="img_list" v-model="demo01_index" :aspect-ratio="100/195"></swiper>
     </div>
+    <group>
+      <cell></cell>
+    </group>
     <panel header="最新新闻" :footer="footer" :list="list" :type="type"></panel>
     <Tabbar></Tabbar>
   </div>

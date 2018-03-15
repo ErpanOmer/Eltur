@@ -121,9 +121,9 @@ export default {
       this.show = true
       const self = this
       xhr.upload.onprogress = function (e) {
-        const loaded = e.loaded  //  已上传的大小
-        const total = e.total  //   总大小
-        self.per = Math.floor((loaded / total) * 100) + '%'  //   转换成百分比
+        const loaded = e.loaded // 已上传的大小
+        const total = e.total // 总大小
+        self.per = Math.floor((loaded / total) * 100) + '%' // 转换成百分比
         self.$refs.line.animate((loaded / total))
       }
     },
@@ -133,7 +133,6 @@ export default {
       if (response.code === 520 && response.success) {
         this.$putData(this.$configs.api.userInfo, { avatar: response.url }, response => {
           if (response) {
-            //  更新数据
             this.$store.dispatch('userInfo')
             this.$vux.toast.text('上传成功')
           }
