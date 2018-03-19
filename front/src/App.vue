@@ -23,6 +23,9 @@ body {
 }
 </style>
 <style>
+#app {
+  margin-bottom: 60px;
+}
 body .weui-cells,
 body .weui-toast__content,
 body .router-link-active {
@@ -39,7 +42,7 @@ body .vux-tab .vux-tab-item.vux-tab-selected {
   color: #191718;
 }
 body .weui-btn_primary, body .vux-tab-ink-bar, body .weui-btn_primary:not(.weui-btn_disabled):active {
-    background-color: #191718;
+    background-color: #f80;
 }
 body .weui-btn_disabled.weui-btn_primary {
   background-color:#777;
