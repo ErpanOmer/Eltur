@@ -1,4 +1,4 @@
-import './assets/font_510396_oqlaq81z92ju4n29/iconfont.css'
+import './assets/font_510396_ozb0o7izjb57b9/iconfont.css'
 import Vue from 'vue'
 import App from './App'
 import router from './router'

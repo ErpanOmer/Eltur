@@ -10,6 +10,7 @@ const PersonalData = resolve => require(['@/components/Mobile/Member/PersonalDat
 const Textarea = resolve => require(['@/components/Mobile/Member/Textarea'], resolve)
 const Process = resolve => require(['@/components/Mobile/Consult/Process'], resolve)
 const Lawyer = resolve => require(['@/components/Mobile/Consult/Lawyer'], resolve)
+const ArticleDetail = resolve => require(['@/components/Mobile/ArticleDetail'], resolve)
 Vue.use(Router)
 export default new Router({
   mode: 'history', //   后端支持可开
@@ -24,6 +25,7 @@ export default new Router({
     { path: '/Register', name: 'Register', component: Register },
     { path: '/Textarea', name: 'Textarea', component: Textarea },
     { path: '/Process', name: 'Process', component: Process },
-    { path: '/Lawyer', name: 'Lawyer', component: Lawyer }
+    { path: '/Lawyer', name: 'Lawyer', component: Lawyer },
+    { path: '/ArticleDetail', name: 'ArticleDetail', component: ArticleDetail }
   ]
 })

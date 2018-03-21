@@ -15,7 +15,7 @@
         <span>最新推荐</span>
       </div>
     </group>
-    <div class="list" v-for="item in 10">
+    <div class="list" v-for="item in 10" @click="$router.push({ name: 'ArticleDetail' })">
       <flexbox :gutter="0">
         <flexbox-item :span="3/12">
           <div class="cover" :style="'background:url(' + img_list[0].img + ') center center no-repeat;background-size: cover;'"></div>

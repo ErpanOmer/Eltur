@@ -56,6 +56,13 @@ body .vux-popup-dialog {
 body .vux-popup-header-right, body .dp-header .dp-item.dp-right {
   color: orange;
 }
+body .clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s
 }
