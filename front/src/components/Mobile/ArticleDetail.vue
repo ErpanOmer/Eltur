@@ -65,23 +65,32 @@
           </div>
       </div>
     </div>
-    <div class="write-comment">
+    <div class="write-comment clearfix">
       <div class="left">
         <span slot="icon" class="icon iconfont icon-write"></span>
         <span style="margin-left:5px;">我来评论</span>
       </div>
-      <div class="right">
-        <span slot="icon" class="icon iconfont icon-fenxiang" style="margin-right:15px;"></span>
-        <span slot="icon" class="icon iconfont icon-ziyuan"></span>
+      <div class="right clearfix">
+        <flexbox :gutter="0">
+          <flexbox-item>
+            <span class="icon iconfont icon-linedesign-01" style="font-size: 23px;"><badge text="2"></badge></span>
+          </flexbox-item>
+          <flexbox-item>
+            <span class="icon iconfont icon-fenxiang"></span>
+          </flexbox-item>
+          <flexbox-item>
+            <span class="icon iconfont icon-ziyuan"></span>
+          </flexbox-item>
+        </flexbox>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { Flexbox, FlexboxItem, Group } from 'vux'
+import { Flexbox, FlexboxItem, Group, Badge } from 'vux'
 export default {
   components: {
-    Flexbox, FlexboxItem, Group
+    Flexbox, FlexboxItem, Group, Badge
   },
   data: () => ({
     img: 'http://thumb.niutuku.com/960x1/8f/b8/8fb8fb2623afa6336e2be205718f5f0e.jpg'
@@ -206,7 +215,7 @@ export default {
   }
   #article-detail .write-comment .left {
     float: left;
-    width: 70%;
+    width: 60%;
     box-sizing: border-box;
     margin-top: 2.5px;
     line-height: 30px;
@@ -218,14 +227,21 @@ export default {
   }
   #article-detail .write-comment .right {
     float: right;
-    width: 30%;
+    width: 40%;
     box-sizing: border-box;
     margin-top: 2.5px;
     line-height: 30px;
-    border-radius: 12px;
-    font-size: 14px;
-    color: #333;
-    text-align: center;
+    color: #f90;
     padding-left: 15px;
+  }
+  #article-detail .write-comment .right .iconfont {
+    font-size: 20px;
+  }
+  #article-detail .write-comment .right .vux-flexbox-item {
+    text-align: center;
+  }
+  #article-detail .write-comment .right .vux-badge-single {
+    margin-bottom: 10px;
+    margin-left: -5px;
   }
 </style>
