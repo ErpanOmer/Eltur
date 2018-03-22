@@ -27,5 +27,12 @@ export default new Router({
     { path: '/Process', name: 'Process', component: Process },
     { path: '/Lawyer', name: 'Lawyer', component: Lawyer },
     { path: '/ArticleDetail', name: 'ArticleDetail', component: ArticleDetail }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {x: 0, y: 0}
+    }
+  }
 })
