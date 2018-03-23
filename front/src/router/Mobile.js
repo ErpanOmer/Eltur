@@ -11,6 +11,7 @@ const Textarea = resolve => require(['@/components/Mobile/Member/Textarea'], res
 const Process = resolve => require(['@/components/Mobile/Consult/Process'], resolve)
 const Lawyer = resolve => require(['@/components/Mobile/Consult/Lawyer'], resolve)
 const ArticleDetail = resolve => require(['@/components/Mobile/ArticleDetail'], resolve)
+const QuickConsultation = resolve => require(['@/components/Mobile/QuickConsultation'], resolve)
 Vue.use(Router)
 export default new Router({
   mode: 'history', //   后端支持可开
@@ -26,7 +27,8 @@ export default new Router({
     { path: '/Textarea', name: 'Textarea', component: Textarea },
     { path: '/Process', name: 'Process', component: Process },
     { path: '/Lawyer', name: 'Lawyer', component: Lawyer },
-    { path: '/ArticleDetail', name: 'ArticleDetail', component: ArticleDetail }
+    { path: '/ArticleDetail', name: 'ArticleDetail', component: ArticleDetail },
+    { path: '/QuickConsultation', name: 'QuickConsultation', component: QuickConsultation }
   ],
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {

@@ -4,7 +4,7 @@
       <swiper loop auto :list="img_list" :aspect-ratio="100/195"></swiper>
     </div>
     <group>
-      <cell is-link>
+      <cell is-link @click.native="$router.push({ name: 'QuickConsultation' })">
         <img slot="icon" width="40px" src="../../assets/info.png" alt="">
         <span slot="title" style="margin-left:10px;font-size:15px;">快速咨询<badge text="限时免费" style="margin:0 0 2px 10px;"></badge></span>
       </cell>

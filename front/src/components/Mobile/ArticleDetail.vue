@@ -5,16 +5,21 @@
       <p class="time"><span>11分钟前</span><span style="float:right;">Phantom</span></p>
       <div class="cover" :style="'background:url(' + img + ') center center no-repeat;background-size: cover;'"></div>
       <div class="text">
-        的设计教案设计大家阿斯利康大家教案设计沙龙的教科书家啊啦啦啦啦啦啦啦啦啦啦啦啦
-        的设计教案设计大家阿斯利康大家教案设计沙龙的教科书家啊啦啦啦啦啦啦啦啦啦啦啦啦
-        的设计教案设计大家阿斯利康大家教案设计沙龙的教科书家啊啦啦啦啦啦啦啦啦啦啦啦啦
-        的设计教案设计大家阿斯利康大家教案设计沙龙的教科书家啊啦啦啦啦啦啦啦啦啦啦啦啦
-        的设计教案设计大家阿斯利康大家教案设计沙龙的教科书家啊啦啦啦啦啦啦啦啦啦啦啦啦
-        的设计教案设计大家阿斯利康大家教案设计沙龙的教科书家啊啦啦啦啦啦啦啦啦啦啦啦啦
-        的设计教案设计大家阿斯利康大家教案设计沙龙的教科书家啊啦啦啦啦啦啦啦啦啦啦啦啦
-        的设计教案设计大家阿斯利康大家教案设计沙龙的教科书家啊啦啦啦啦啦啦啦啦啦啦啦啦
-        的设计教案设计大家阿斯利康大家教案设计沙龙的教科书家啊啦啦啦啦啦啦啦啦啦啦啦啦
-        的设计教案设计大家阿斯利康大家教案设计沙龙的教科书家啊啦啦啦啦啦啦啦啦啦啦啦啦
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp婚后男女双方觉得不合适，或者共同生活感情破裂，都不想继续一起过的，那么可以协议离婚。不过双方自愿离婚，签订离婚协议书时，需要确定财产分割、小孩抚养等事宜，所以有些人担心会影响自己的利益，所以便要找专业人士律师代写。但是，有些人又担心找律师麻烦，所以自己也跃跃欲试。
+　　<br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp实际上，可以自己写离婚协议书，觉得麻烦的也可以请律师代写，完全可以根据自身实际情况自行决定。所以，也并不是必须要求请律师写离婚协议书。
+　　并且，自己写离婚协议书一般要包含以下内容：
+　　<br>1、明确双方同意解除婚姻关系<br>
+    2、明确子女的抚养权<br>
+　　具体而言，子女抚养权可以是由一方抚养，也可以是由双方共同抚养，还可以是分别抚养一段期限。<br>
+　　3、明确子女抚养费<br>
+　　按规定，没有与子女共同生活的一方需向抚养子女一方支付抚养费，主要包括支付标准、支付方式等问题。<br>
+　　4、明确探望权<br>
+　　在离婚协议中约定好探望的时间、地点、方式、周期以及中止探望权的情形可以避免离婚后不必要的纠纷，有利于抚养子女一方的生活安宁。<br>
+　　5、明确分割夫妻共同财产<br>
+　　具体地，夫妻共同财产既包括积极的财产如动产不动产和债权等，也包括消极的财产如债务，夫妻应承担的国家税收、行政罚款等。<br>
+　　6、明确赔偿补偿<br>
+　　7、明确困难救济<br>
+　　最后，实践中若离婚争议大，尤其是涉及财产分割争议、孩子抚养权及抚养费争议，双方难以协商一致的，为避免日后产生不必要的纠纷，比如一方不认账等，那么建议可以在必要时找个专业的律师介入，代写离婚协议书。
       </div>
       <div class="fabulous">
         <div class="back">
@@ -66,7 +71,7 @@
       </div>
     </div>
     <div class="write-comment clearfix">
-      <div class="left">
+      <div class="left" @click="show=true">
         <span slot="icon" class="icon iconfont icon-write"></span>
         <span style="margin-left:5px;">我来评论</span>
       </div>
@@ -84,17 +89,32 @@
         </flexbox>
       </div>
     </div>
+    <popup v-model="show" :hide-on-blur="true">
+      <div class="comment-popup">
+        <group>
+          <x-textarea :max="100" placeholder="评论内容" v-model="comment" :show-counter="true" :height="100" :rows="4"></x-textarea>
+        </group>
+        <x-button mini style="float:right;margin-top:15px;" type="primary" @click.native="submit()">提交</x-button>
+        <x-button mini style="float:left;margin-top:15px;" type="warn" @click.native="show=false">取消</x-button>
+      </div>
+    </popup>
   </div>
 </template>
 <script>
-import { Flexbox, FlexboxItem, Group, Badge } from 'vux'
+import { Flexbox, FlexboxItem, Group, Badge, Popup, XTextarea, XButton } from 'vux'
 export default {
   components: {
-    Flexbox, FlexboxItem, Group, Badge
+    Flexbox, FlexboxItem, Group, Badge, Popup, XTextarea, XButton
   },
   data: () => ({
+    show: false,
+    comment: '',
     img: 'http://thumb.niutuku.com/960x1/8f/b8/8fb8fb2623afa6336e2be205718f5f0e.jpg'
-  })
+  }),
+  methods: {
+    submit: function () {
+    }
+  }
 }
 </script>
 <style media="screen">
@@ -104,7 +124,7 @@ export default {
     background-color: #fff;
   }
   #article-detail .main .tit {
-    font-size: 17px;
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 5px;
   }
@@ -121,7 +141,8 @@ export default {
     border-radius: 5px;
   }
   #article-detail .main .text {
-    font-size: 15px;
+    font-size: 16px;
+    line-height: 1.8;
     color: #333;
   }
   #article-detail .main .fabulous {
@@ -244,4 +265,9 @@ export default {
     margin-bottom: 10px;
     margin-left: -5px;
   }
+#article-detail .comment-popup {
+  box-sizing: border-box;
+  padding:0 10px;
+  height:200px;
+}
 </style>

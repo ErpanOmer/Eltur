@@ -42,7 +42,7 @@ body .vux-tab .vux-tab-item.vux-tab-selected {
   color: #191718;
 }
 body .weui-btn_primary, body .vux-tab-ink-bar, body .weui-btn_primary:not(.weui-btn_disabled):active {
-    background-color: #f80;
+    background-color: #ffa500;
 }
 body .weui-btn_disabled.weui-btn_primary {
   background-color:#777;
