@@ -72,13 +72,12 @@
 import Tabbar from '@/components/Public/Tabbar'
 import AvatarCropper from 'vue-avatar-cropper'
 import { Flexbox, FlexboxItem, Blur, Card, Cell, Group } from 'vux'
-import background from '@/assets/47.jpg'
 export default {
   components: {
     Tabbar, Blur, Flexbox, FlexboxItem, Card, Cell, Group, AvatarCropper
   },
   data: () => ({
-    url: background,
+    url: '',
     show: false,
     per: null,
     options: {

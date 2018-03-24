@@ -26,6 +26,9 @@ body {
 #app {
   margin-bottom: 60px;
 }
+body .vux-no-group-title {
+  margin-top: 0.77em;
+}
 body .weui-cells,
 body .weui-toast__content,
 body .router-link-active {
@@ -39,9 +42,10 @@ body .weui-btn_mini {
   min-width: 101px;
 }
 body .vux-tab .vux-tab-item.vux-tab-selected {
-  color: #191718;
+  color: #ffa500;
 }
-body .weui-btn_primary, body .vux-tab-ink-bar, body .weui-btn_primary:not(.weui-btn_disabled):active {
+body .weui-btn_primary, body .vux-tab-ink-bar,
+body .weui-btn_primary:not(.weui-btn_disabled):active {
     background-color: #ffa500;
 }
 body .weui-btn_disabled.weui-btn_primary {

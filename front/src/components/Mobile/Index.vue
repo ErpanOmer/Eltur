@@ -60,7 +60,18 @@ export default {
       img: 'http://thumb.niutuku.com/960x1/da/35/da357021b4d95225d374c86f14fec6a8.jpg',
       title: ''
     }]
-  })
+  }),
+  mounted () {
+    // do something after mounting vue instance
+    // this.getData()
+  },
+  methods: {
+    // getData: function () {
+    //   this.$http.get('http://qc.wa.news.cn/nodeart/list?nid=113207&pgnum=1&cnt=20&tp=1&orderby=1').then(res => {
+    //     console.log(res)
+    //   })
+    // }
+  }
 }
 </script>
 <style media="screen">
