@@ -7,7 +7,8 @@
         login: '/application/login',
         register: '/application/register',
         sms: '/eltur/sms',
-        userInfo: '/application/userInfo'
+        userInfo: '/application/userInfo',
+        news: '/elturAdmin/News'
       }
     }
     //   通用日期函数
@@ -34,6 +35,28 @@
       if (type === 3) {
         return YEAR + '-' + MONTH + '-' + DAY + '  ' + HOURS + ':' + MINUTES + ':' + SECONDS
       }
+    }
+    Vue.prototype.$formatTime = function (time) {
+      time = +time * 1000
+      const d = new Date(time)
+      const now = Date.now()
+
+      const diff = (now - d) / 1000
+
+      if (diff < 30) {
+        return '刚刚'
+      } else if (diff < 3600) { // less 1 hour
+        return Math.ceil(diff / 60) + '分钟前'
+      } else if (diff < 3600 * 24) {
+        return Math.ceil(diff / 3600) + '小时前'
+      } else if (diff < 3600 * 24 * 2) {
+        return '1天前'
+      }
+      // if (option) {
+      //   return parseTime(time, option)
+      // } else {
+      //   return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
+      // }
     }
     //  这个函数的功能是 手机格式化输出
     //  第一个参数是11位手机号， 类型可以是字符串 & 数字， 必填

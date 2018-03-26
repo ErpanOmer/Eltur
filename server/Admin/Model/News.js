@@ -32,7 +32,8 @@ const News = new Schema({
   status: { type: Number, default: 0 },  // 0 代表未审核， 1 代表已审核
   pageViews: { type: Number, default: 0 },   //  阅读数
   comments: { type: [Comment] },
-  createdTime: { type : Number, default : 0 }
+  createdTime: { type : Number, default : 0 },
+  stringTime: { type: String, default: '' }
 });
 News.plugin(mongoosePaginate);
 

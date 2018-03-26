@@ -15,19 +15,19 @@
         <span>最新推荐</span>
       </div>
     </group>
-    <div class="list" v-for="item in 10" @click="$router.push({ name: 'ArticleDetail' })">
+    <div class="list" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item._id }})">
       <flexbox :gutter="0">
         <flexbox-item :span="3/12">
-          <div class="cover" :style="'background:url(' + img_list[0].img + ') center center no-repeat;background-size: cover;'"></div>
+          <div class="cover" :style="'background:url(' + item.cover + ') center center no-repeat;background-size: cover;'"></div>
         </flexbox-item>
         <flexbox-item :span="9/12">
           <div class="tit">
-            <p class="name">倒萨的教案设计大奖教上的杰卡斯经典就爱上了角度来讲案设计的骄傲的记录</p>
+            <p class="name" v-text="item.title"></p>
           </div>
           <p class="info">
-            <span slot="icon" class="icon iconfont icon-linedesign-14">4555</span>
-            <span slot="icon" class="icon iconfont icon-linedesign-01" style="margin-left:20px;">4555</span>
-            <span style="float:right;font-size:13px;">刚刚</span>
+            <span slot="icon" class="icon iconfont icon-linedesign-14" v-text="item.pageViews"></span>
+            <!-- <span slot="icon" class="icon iconfont icon-linedesign-01" style="margin-left:20px;">4555</span> -->
+            <span style="float:right;font-size:13px;" v-text="$formatTime(item.createdTime)"></span>
           </p>
         </flexbox-item>
       </flexbox>
@@ -43,6 +43,7 @@ export default {
     Tabbar, Swiper, Cell, Group, Radio, Badge, Flexbox, FlexboxItem
   },
   data: () => ({
+    list: [],
     img_list: [{
       url: '',
       img: 'http://thumb.niutuku.com/960x1/8f/b8/8fb8fb2623afa6336e2be205718f5f0e.jpg',
@@ -62,15 +63,14 @@ export default {
     }]
   }),
   mounted () {
-    // do something after mounting vue instance
-    // this.getData()
+    this.getData()
   },
   methods: {
-    // getData: function () {
-    //   this.$http.get('http://qc.wa.news.cn/nodeart/list?nid=113207&pgnum=1&cnt=20&tp=1&orderby=1').then(res => {
-    //     console.log(res)
-    //   })
-    // }
+    getData: function () {
+      this.$getData(this.$configs.api.news, '', response => {
+        this.list = response.list
+      })
+    }
   }
 }
 </script>
@@ -134,7 +134,7 @@ export default {
     height: 22px;
     line-height: 22px;
     box-sizing: border-box;
-    padding:0 10px 0 0;
+    padding:0 5px 0 0;
   }
   #index .list .vux-flexbox .vux-flexbox-item .info .iconfont {
     font-size: 13px;

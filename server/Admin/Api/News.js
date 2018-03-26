@@ -86,7 +86,8 @@ router.post(api, (req, res) => {
       content: bodyParam.content,
       contentShort: bodyParam.contentShort || '',
       cover: bodyParam.cover,
-      createdTime: bodyParam.createdTime ?  ~~(bodyParam.createdTime / 1000) : ~~(new Date().getTime() / 1000)
+      createdTime: bodyParam.createdTime ?  ~~(bodyParam.createdTime / 1000) : ~~(new Date().getTime() / 1000),
+      stringTime: bodyParam.stringTime
     });
     // 保存用户账号
     news.save((err) => {
