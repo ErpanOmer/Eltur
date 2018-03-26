@@ -15,35 +15,42 @@
         <span>最新推荐</span>
       </div>
     </group>
-    <div class="list" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item._id }})">
-      <flexbox :gutter="0">
-        <flexbox-item :span="3/12">
-          <div class="cover" :style="'background:url(' + item.cover + ') center center no-repeat;background-size: cover;'"></div>
-        </flexbox-item>
-        <flexbox-item :span="9/12">
-          <div class="tit">
-            <p class="name" v-text="item.title"></p>
-          </div>
-          <p class="info">
-            <span slot="icon" class="icon iconfont icon-linedesign-14" v-text="item.pageViews"></span>
-            <!-- <span slot="icon" class="icon iconfont icon-linedesign-01" style="margin-left:20px;">4555</span> -->
-            <span style="float:right;font-size:13px;" v-text="$formatTime(item.createdTime)"></span>
-          </p>
-        </flexbox-item>
-      </flexbox>
+    <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="30">
+      <div class="list" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item._id }})">
+        <flexbox :gutter="0">
+          <flexbox-item :span="3/12">
+            <div class="cover" :style="'background:url(' + item.cover + ') center center no-repeat;background-size: cover;'"></div>
+          </flexbox-item>
+          <flexbox-item :span="9/12">
+            <div class="tit">
+              <p class="name" v-text="item.title"></p>
+            </div>
+            <p class="info">
+              <span slot="icon" class="icon iconfont icon-linedesign-14" v-text="`${item.pageViews}人看过`"></span>
+              <!-- <span slot="icon" class="icon iconfont icon-linedesign-01" style="margin-left:20px;">4555</span> -->
+              <span style="float:right;font-size:13px;" v-text="$formatTime(item.createdTime)"></span>
+            </p>
+          </flexbox-item>
+        </flexbox>
+      </div>
     </div>
+    <Divider v-if="noMore" style="margin-top: 5px;font-size: 14px;">没有更多了</Divider>
     <Tabbar></Tabbar>
   </div>
 </template>
 <script>
 import Tabbar from '@/components/Public/Tabbar'
-import { Swiper, Cell, Group, Radio, Badge, Flexbox, FlexboxItem } from 'vux'
+import { Swiper, Cell, Group, Radio, Badge, Flexbox, FlexboxItem, Divider } from 'vux'
 export default {
   components: {
-    Tabbar, Swiper, Cell, Group, Radio, Badge, Flexbox, FlexboxItem
+    Tabbar, Swiper, Cell, Group, Radio, Badge, Flexbox, FlexboxItem, Divider
   },
   data: () => ({
     list: [],
+    noMore: false,
+    isEmpty: false,
+    page: 1,
+    pageSize: 20,
     img_list: [{
       url: '',
       img: 'http://thumb.niutuku.com/960x1/8f/b8/8fb8fb2623afa6336e2be205718f5f0e.jpg',
@@ -66,9 +73,34 @@ export default {
     this.getData()
   },
   methods: {
+    loadMore: function () {
+      if (this.list.length === 0) {
+        return
+      }
+      if (this.noMore) {
+        return
+      }
+      this.busy = true
+      setTimeout(() => {
+        this.getData()
+        this.busy = false
+      }, 1500)
+    },
     getData: function () {
-      this.$getData(this.$configs.api.news, '', response => {
-        this.list = response.list
+      this.$getData(this.$configs.api.news, `?page=${this.page}&pageSize=${this.pageSize}`, response => {
+        const list = response.list
+        if (JSON.stringify(list) === '[]') {
+          if (this.list.length === 0) {
+            this.isEmpty = true
+            return
+          } else {
+            this.noMore = true
+            return
+          }
+        } else {
+          this.list = this.list.concat(list)
+          this.page++
+        }
       })
     }
   }

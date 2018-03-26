@@ -37,26 +37,35 @@
       }
     }
     Vue.prototype.$formatTime = function (time) {
-      time = +time * 1000
-      const d = new Date(time)
-      const now = Date.now()
-
-      const diff = (now - d) / 1000
-
-      if (diff < 30) {
-        return '刚刚'
-      } else if (diff < 3600) { // less 1 hour
-        return Math.ceil(diff / 60) + '分钟前'
-      } else if (diff < 3600 * 24) {
-        return Math.ceil(diff / 3600) + '小时前'
-      } else if (diff < 3600 * 24 * 2) {
-        return '1天前'
+      let result = ''
+      let minute = 1000 * 60
+      let hour = minute * 60
+      let day = hour * 24
+      let month = day * 30
+      let now = new Date().getTime()
+      let diffValue = now - time * 1000
+      if (diffValue < 0) {
+        return
       }
-      // if (option) {
-      //   return parseTime(time, option)
-      // } else {
-      //   return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
-      // }
+      let monthC = diffValue / month
+      let weekC = diffValue / (7 * day)
+      let dayC = diffValue / day
+      let hourC = diffValue / hour
+      let minC = diffValue / minute
+      if (monthC >= 1) {
+        result = '' + parseInt(monthC) + '月前'
+      } else if (weekC >= 1) {
+        result = '' + parseInt(weekC) + '周前'
+      } else if (dayC >= 1) {
+        result = '' + parseInt(dayC) + '天前'
+      } else if (hourC >= 1) {
+        result = '' + parseInt(hourC) + '小时前'
+      } else if (minC >= 1) {
+        result = '' + parseInt(minC) + '分钟前'
+      } else {
+        result = '刚刚'
+      }
+      return result
     }
     //  这个函数的功能是 手机格式化输出
     //  第一个参数是11位手机号， 类型可以是字符串 & 数字， 必填

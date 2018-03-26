@@ -14,25 +14,85 @@
         <span>使用工具</span>
       </div>
     </group>
+    <div class="tools">
+      <flexbox :gutter="0" style="margin-bottom:25px;">
+        <flexbox-item>
+          <div class="left" style="float:left;">
+            <span slot="icon" class="icon iconfont icon-icon" style="font-size:32px;"></span>
+          </div>
+          <div class="right" style="float:left;">
+            <p style="color:#333;font-size:15px;">利息</p>
+            <p>分段计算</p>
+          </div>
+        </flexbox-item>
+        <flexbox-item>
+          <div class="left" style="float:left;">
+            <span slot="icon" class="icon iconfont icon-renwuyanchizhong" style="font-size:38px;"></span>
+          </div>
+          <div class="right" style="float:left;">
+            <p style="color:#333;font-size:15px;">延迟利息</p>
+            <p>分类计算</p>
+          </div>
+        </flexbox-item>
+        <flexbox-item>
+          <div class="left" style="float:left;">
+            <span slot="icon" class="icon iconfont icon-50"></span>
+          </div>
+          <div class="right" style="float:left;">
+            <p style="color:#333;font-size:15px;">个税</p>
+            <p>工资薪金</p>
+          </div>
+        </flexbox-item>
+      </flexbox>
+      <flexbox :gutter="0">
+        <flexbox-item>
+          <div class="left" style="float:left;">
+            <span slot="icon" class="icon iconfont icon-leibieguanli" style="font-size: 26px;"></span>
+          </div>
+          <div class="right" style="float:left;">
+            <p style="color:#333;font-size:15px;">个税</p>
+            <p>其它项目</p>
+          </div>
+        </flexbox-item>
+        <flexbox-item>
+          <div class="left" style="float:left;">
+            <span slot="icon" class="icon iconfont icon-msnui-report-complain"></span>
+          </div>
+          <div class="right" style="float:left;">
+            <p style="color:#333;font-size:15px;">诉讼费</p>
+            <p>案件申请</p>
+          </div>
+        </flexbox-item>
+        <flexbox-item>
+          <div class="left" style="float:left;">
+            <span slot="icon" class="icon iconfont icon-zhucaishenqing" style="font-size: 26px;"></span>
+          </div>
+          <div class="right" style="float:left;">
+            <p style="color:#333;font-size:15px;">诉讼费</p>
+            <p>案件受理</p>
+          </div>
+        </flexbox-item>
+      </flexbox>
+    </div>
     <group>
       <div slot="default" class="title">
         <span style="display:inline-block;"></span>
-        <span>最新推荐</span>
+        <span>周排行</span>
       </div>
     </group>
-    <div class="list" v-for="item in 5" @click="$router.push({ name: 'ArticleDetail' })">
+    <div class="list" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item._id }})">
       <flexbox :gutter="0">
         <flexbox-item :span="3/12">
-          <div class="cover" :style="'background:url(' + img + ') center center no-repeat;background-size: cover;'"></div>
+          <div class="cover" :style="'background:url(' + item.cover + ') center center no-repeat;background-size: cover;'"></div>
         </flexbox-item>
         <flexbox-item :span="9/12">
           <div class="tit">
-            <p class="name">倒萨的教案设计大奖教上的杰卡斯经典就爱上了角度来讲案设计的骄傲的记录</p>
+            <p class="name" v-text="item.title"></p>
           </div>
           <p class="info">
-            <span slot="icon" class="icon iconfont icon-linedesign-14">4555</span>
-            <span slot="icon" class="icon iconfont icon-linedesign-01" style="margin-left:20px;">4555</span>
-            <span style="float:right;font-size:13px;">刚刚</span>
+            <span slot="icon" class="icon iconfont icon-linedesign-14" v-text="`${item.pageViews}人看过`"></span>
+            <!-- <span slot="icon" class="icon iconfont icon-linedesign-01" style="margin-left:20px;">4555</span> -->
+            <span style="float:right;font-size:13px;" v-text="$formatTime(item.createdTime)"></span>
           </p>
         </flexbox-item>
       </flexbox>
@@ -41,14 +101,16 @@
   </div>
 </template>
 <script>
-import { Tab, TabItem, Flexbox, FlexboxItem, Scroller, Group } from 'vux'
+import { Tab, TabItem, Flexbox, FlexboxItem, Scroller, Group, Grid, GridItem } from 'vux'
 import Tabbar from '@/components/Public/Tabbar'
 export default {
   components: {
-    Tabbar, Tab, TabItem, Flexbox, FlexboxItem, Scroller, Group
+    Tabbar, Tab, TabItem, Flexbox, FlexboxItem, Scroller, Group, Grid, GridItem
   },
   data () {
     return {
+      list: [],
+      useTools: [],
       img: 'http://thumb.niutuku.com/960x1/8f/b8/8fb8fb2623afa6336e2be205718f5f0e.jpg',
       itemList: [
         { name: '推荐', src: require('@/assets/icon/more.png') },
@@ -62,6 +124,20 @@ export default {
         { name: '治安刑事', src: require('@/assets/icon/police.png') },
         { name: '诉讼仲裁', src: require('@/assets/icon/litigation.png') }
       ]
+    }
+  },
+  mounted () {
+    // do something after mounting vue instance
+    this.weekSort()
+  },
+  methods: {
+    onItemClick: function (index) {
+    },
+    weekSort: function () {
+      this.$getData(this.$configs.api.news, `?page=1&pageSize=10`, response => {
+        const list = response.list
+        this.list = list
+      })
     }
   }
 }
@@ -157,5 +233,22 @@ export default {
 }
 #article .weui-cells {
   margin-top: 0;
+}
+#article .tools {
+  background-color: #fff;
+  font-size: 12px;
+  box-sizing: border-box;
+  padding:15px 10px;
+  color: #aaa;
+}
+#article .tools .left {
+  width: 40%;
+  text-align: center;
+  height: 45px;
+  line-height: 43px;
+}
+#article .tools .left .iconfont {
+  font-size: 30px;
+  color: #f90;
 }
 </style>
