@@ -8,8 +8,6 @@ const Login = resolve => require(['@/components/Mobile/Login'], resolve)
 const Register = resolve => require(['@/components/Mobile/Register'], resolve)
 const PersonalData = resolve => require(['@/components/Mobile/Member/PersonalData'], resolve)
 const Textarea = resolve => require(['@/components/Mobile/Member/Textarea'], resolve)
-const Process = resolve => require(['@/components/Mobile/Consult/Process'], resolve)
-const Lawyer = resolve => require(['@/components/Mobile/Consult/Lawyer'], resolve)
 const ArticleDetail = resolve => require(['@/components/Mobile/ArticleDetail'], resolve)
 const QuickConsultation = resolve => require(['@/components/Mobile/QuickConsultation'], resolve)
 Vue.use(Router)
@@ -25,8 +23,6 @@ export default new Router({
     { path: '/PersonalData', name: 'PersonalData', component: PersonalData },
     { path: '/Register', name: 'Register', component: Register },
     { path: '/Textarea', name: 'Textarea', component: Textarea },
-    { path: '/Process', name: 'Process', component: Process },
-    { path: '/Lawyer', name: 'Lawyer', component: Lawyer },
     { path: '/ArticleDetail', name: 'ArticleDetail', component: ArticleDetail },
     { path: '/QuickConsultation', name: 'QuickConsultation', component: QuickConsultation }
   ],
