@@ -77,7 +77,7 @@
     <group>
       <div slot="default" class="title">
         <span style="display:inline-block;"></span>
-        <span>周排行</span>
+        <span>阅读排行</span>
       </div>
     </group>
     <div class="list" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item._id }})">

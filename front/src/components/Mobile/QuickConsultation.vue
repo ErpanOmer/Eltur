@@ -20,7 +20,7 @@
         <x-textarea :max="200" placeholder="你可以在输入框简单描述你的问题" v-model="question" :show-counter="true" :height="180" :rows="4"></x-textarea>
       </group>
       <div style="padding:30px 15px 15px;">
-        <x-button type="primary" @click.native="submit()">开始咨询</x-button>
+        <x-button type="primary" @click.native="submit()">提交问题</x-button>
       </div>
     </div>
   </div>
