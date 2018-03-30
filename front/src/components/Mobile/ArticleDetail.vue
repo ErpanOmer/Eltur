@@ -11,7 +11,7 @@
           <div class="back" v-if="!isUp" :key="isUp" @click="giveUp()"><img src="../../assets/fabulous.png"></div>
           <div class="back down" v-else :key="isUp" @click="giveUp()"><img src="../../assets/fabulous.png"></div>
         </transition>
-        <p>{{detail.fabulous + Number(isUp)}}人攒过</p>
+        <p>{{detail.fabulous}}人攒过</p>
         <!-- <flexbox :gutter="0">
           <flexbox-item>
             <img src="../../assets/businessman.png" alt="">
@@ -126,11 +126,19 @@ export default {
           return item.id === id
         })
         if (!existence) {
-          list.push({id})
-          localStorage.setItem('FabulousList', JSON.stringify(list))
+          this.$postData(this.$configs.api.fabulous, { id, addNum: 1 }, response => {
+            if (response) {
+              list.push({id})
+              localStorage.setItem('FabulousList', JSON.stringify(list))
+            }
+          })
         }
       } else {
-        localStorage.setItem('FabulousList', JSON.stringify([{id}]))
+        this.$postData(this.$configs.api.fabulous, { id, addNum: 1 }, response => {
+          if (response) {
+            localStorage.setItem('FabulousList', JSON.stringify([{id}]))
+          }
+        })
       }
     } else {
       if (FabulousList) {
@@ -142,8 +150,12 @@ export default {
           const index = list.findIndex(item => {
             return item.id === id
           })
-          list[index] = ''
-          localStorage.setItem('FabulousList', JSON.stringify(list))
+          this.$postData(this.$configs.api.fabulous, { id, addNum: -1 }, response => {
+            if (response) {
+              list[index] = ''
+              localStorage.setItem('FabulousList', JSON.stringify(list))
+            }
+          })
         }
       }
     }
@@ -151,12 +163,12 @@ export default {
   },
   methods: {
     giveUp: function () {
-      this.$postData(this.$configs.api.fabulous, {}, response => {
-        console.log(response)
-      })
       this.isUp = !this.isUp
       if (this.isUp) {
+        this.detail.fabulous++
         this.$vux.toast.text('点赞成功')
+      } else {
+        this.detail.fabulous--
       }
     },
     getDetail: function (id) {
@@ -213,7 +225,7 @@ export default {
   }
   #article-detail .main .fabulous {
     box-sizing: border-box;
-    padding: 40px 40px 20px;
+    padding-top: 20px;
   }
   #article-detail .main .fabulous .back {
     width: 70px;

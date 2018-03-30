@@ -67,12 +67,10 @@
         }
         if (!this.$isEmptyParam(response) && !this.$isEmptyParam(response.code) && response.code === 520 && response.success) {
           if (!this.$isEmptyParam(response.data)) {
-            success(response.data)
+            success(response)
           } else {
             success(true)
           }
-        } else {
-          console.log(response)
         }
         this.$loading.end()
       })
