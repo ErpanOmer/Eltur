@@ -126,9 +126,8 @@ export default {
       console.log(index)
     },
     weekSort: function () {
-      this.$getData(this.$configs.api.readingRankings, `?page=1&pageSize=10`, response => {
-        const list = response.list
-        this.list = list
+      this.$getData(this.$configs.api.readingRankings, `?page=1&pageSize=10&sort=pageViews&order=-1`, response => {
+        this.list = response.list
       })
     }
   }
