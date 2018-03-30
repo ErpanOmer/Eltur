@@ -9,7 +9,8 @@
         sms: '/eltur/sms',
         userInfo: '/application/userInfo',
         article: '/application/Article',
-        readingRankings: '/application/readingRankings'
+        readingRankings: '/application/readingRankings',
+        fabulous: '/application/Fabulous'
       }
     }
     //   通用日期函数

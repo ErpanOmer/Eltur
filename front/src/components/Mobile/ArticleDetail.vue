@@ -7,11 +7,12 @@
       <div class="text" v-html="detail.content">
       </div>
       <div class="fabulous">
-        <div class="back">
-          <img src="../../assets/fabulous.png" alt="">
-        </div>
-        <p>20人攒过</p>
-        <flexbox :gutter="0">
+        <transition name="fade" mode="out-in">
+          <div class="back" v-if="!isUp" :key="isUp" @click="giveUp()"><img src="../../assets/fabulous.png"></div>
+          <div class="back down" v-else :key="isUp" @click="giveUp()"><img src="../../assets/fabulous.png"></div>
+        </transition>
+        <p>{{detail.fabulous + Number(isUp)}}人攒过</p>
+        <!-- <flexbox :gutter="0">
           <flexbox-item>
             <img src="../../assets/businessman.png" alt="">
           </flexbox-item>
@@ -27,7 +28,7 @@
           <flexbox-item>
             <img src="../../assets/businessman.png" alt="">
           </flexbox-item>
-        </flexbox>
+        </flexbox> -->
       </div>
     </div>
     <group>
@@ -92,16 +93,72 @@ export default {
     Flexbox, FlexboxItem, Group, Badge, Popup, XTextarea, XButton
   },
   data: () => ({
+    isUp: false,
     detail: {},
     show: false,
     comment: '',
     img: 'http://thumb.niutuku.com/960x1/8f/b8/8fb8fb2623afa6336e2be205718f5f0e.jpg'
   }),
   mounted () {
-    console.log(this.$route.query.id)
-    this.getDetail(this.$route.query.id)
+    const id = this.$route.query.id
+    if (this.$isEmptyParam(id)) {
+      this.$vux.toast.text('非法操作')
+      this.$router.go(-1)
+      return
+    } else {
+      const FabulousList = localStorage.getItem('FabulousList')
+      if (FabulousList) {
+        const list = JSON.parse(FabulousList)
+        this.isUp = list.some(item => {
+          return item.id === id
+        })
+      }
+      this.getDetail(this.$route.query.id)
+    }
+  },
+  beforeRouteLeave (to, from, next) {
+    const id = this.$route.query.id
+    const FabulousList = localStorage.FabulousList
+    if (this.isUp) {
+      if (FabulousList) {
+        const list = JSON.parse(FabulousList)
+        const existence = list.some(item => {
+          return item.id === id
+        })
+        if (!existence) {
+          list.push({id})
+          localStorage.setItem('FabulousList', JSON.stringify(list))
+        }
+      } else {
+        localStorage.setItem('FabulousList', JSON.stringify([{id}]))
+      }
+    } else {
+      if (FabulousList) {
+        const list = JSON.parse(FabulousList)
+        const existence = list.some(item => {
+          return item.id === id
+        })
+        if (existence) {
+          const index = list.findIndex(item => {
+            return item.id === id
+          })
+          list[index] = ''
+          localStorage.setItem('FabulousList', JSON.stringify(list))
+        }
+      }
+    }
+    next()
   },
   methods: {
+    giveUp: function () {
+      this.$postData(this.$configs.api.fabulous, {}, response => {
+        console.log(response)
+      })
+      this.isUp = !this.isUp
+      if (this.isUp) {
+        this.$vux.toast.text('点赞成功')
+      }
+    },
     getDetail: function (id) {
       this.$getData(this.$configs.api.article, `/${id}`, response => {
         this.detail = response
@@ -171,6 +228,13 @@ export default {
     width: 40%;
     display: block;
     margin: 0 auto;
+  }
+  #article-detail .main .fabulous .down {
+    background-color: #ccc;
+    padding-top: 23px;
+  }
+  #article-detail .main .fabulous .down img {
+    transform:rotateX(180deg);
   }
   #article-detail .main .fabulous p {
     text-align: center;
