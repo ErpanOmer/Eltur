@@ -16,7 +16,7 @@
       </div>
     </group>
     <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="30">
-      <div class="list" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item._id }})">
+      <div class="list" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item.id }})">
         <flexbox :gutter="0">
           <flexbox-item :span="3/12">
             <div class="cover" :style="'background:url(' + item.cover + ') center center no-repeat;background-size: cover;'"></div>
@@ -87,7 +87,7 @@ export default {
       }, 1500)
     },
     getData: function () {
-      this.$getData(this.$configs.api.news, `?page=${this.page}&pageSize=${this.pageSize}`, response => {
+      this.$getData(this.$configs.api.article, `?page=${this.page}&pageSize=${this.pageSize}`, response => {
         const list = response.list
         if (JSON.stringify(list) === '[]') {
           if (this.list.length === 0) {

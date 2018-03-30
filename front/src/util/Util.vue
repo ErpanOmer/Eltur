@@ -2,13 +2,14 @@
   let Util = {}
   Util.install = function (Vue, options) {
     Vue.prototype.$configs = {
-      apiURL: 'http://www.eltur.cn',
+      apiURL: 'http://172.29.108.143',
       api: {
         login: '/application/login',
         register: '/application/register',
         sms: '/eltur/sms',
         userInfo: '/application/userInfo',
-        news: '/elturAdmin/News'
+        article: '/application/Article',
+        readingRankings: '/application/readingRankings'
       }
     }
     //   通用日期函数

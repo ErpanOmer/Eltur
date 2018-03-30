@@ -67,6 +67,7 @@
     height: 100%;
     top: 0;
     left: 0;
+    z-index: 100001;
     background: transparent;
 
     &__loader {

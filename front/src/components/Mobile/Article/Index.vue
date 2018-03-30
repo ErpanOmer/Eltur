@@ -1,20 +1,20 @@
 <template>
   <div id="article">
     <tab>
-      <tab-item v-for="(item, index) in itemList" :key="index" :selected="index === 0" v-text="item.name"></tab-item>
+      <tab-item v-for="(item, index) in itemList" :key="index" :selected="itemIndex === index" v-text="item" @on-item-click="onItemClick"></tab-item>
     </tab>
-    <scroller lock-y :scrollbar-x="false" height="150px" style="background-color:#fff;">
+    <scroller lock-y :scrollbar-x="false" height="150px" style="background-color:#fff;" v-show="itemIndex === 0">
       <div class="box">
         <div class="box-item" v-for="item in 5" :style="'background:url(' + img + ') center center no-repeat;background-size: cover;'"></div>
       </div>
     </scroller>
-    <group>
+    <group v-show="itemIndex === 0">
       <div slot="default" class="title">
         <span style="display:inline-block;"></span>
         <span>使用工具</span>
       </div>
     </group>
-    <div class="tools">
+    <div class="tools" v-show="itemIndex === 0">
       <flexbox :gutter="0" style="margin-bottom:25px;">
         <flexbox-item>
           <div class="left" style="float:left;">
@@ -74,13 +74,13 @@
         </flexbox-item>
       </flexbox>
     </div>
-    <group>
+    <group v-show="itemIndex === 0">
       <div slot="default" class="title">
         <span style="display:inline-block;"></span>
         <span>阅读排行</span>
       </div>
     </group>
-    <div class="list" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item._id }})">
+    <div class="list" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item.id }})">
       <flexbox :gutter="0">
         <flexbox-item :span="3/12">
           <div class="cover" :style="'background:url(' + item.cover + ') center center no-repeat;background-size: cover;'"></div>
@@ -112,18 +112,8 @@ export default {
       list: [],
       useTools: [],
       img: 'http://thumb.niutuku.com/960x1/8f/b8/8fb8fb2623afa6336e2be205718f5f0e.jpg',
-      itemList: [
-        { name: '推荐', src: require('@/assets/icon/more.png') },
-        { name: '交通事故', src: require('@/assets/icon/traffic.png') },
-        { name: '婚姻家庭', src: require('@/assets/icon/marry.png') },
-        { name: '公司工商', src: require('@/assets/icon/company.png') },
-        { name: '房产土地', src: require('@/assets/icon/home.png') },
-        { name: '合同纠纷', src: require('@/assets/icon/contract.png') },
-        { name: '责权责务', src: require('@/assets/icon/right.png') },
-        { name: '劳动用工', src: require('@/assets/icon/work.png') },
-        { name: '治安刑事', src: require('@/assets/icon/police.png') },
-        { name: '诉讼仲裁', src: require('@/assets/icon/litigation.png') }
-      ]
+      itemList: ['推荐', '婚姻家庭', '交通事故', '劳动用工', '治安刑事', '医疗事故', '房产土地', '责权责务', '合同纠纷', '征地拆迁'],
+      itemIndex: 0
     }
   },
   mounted () {
@@ -132,9 +122,11 @@ export default {
   },
   methods: {
     onItemClick: function (index) {
+      this.itemIndex = index
+      console.log(index)
     },
     weekSort: function () {
-      this.$getData(this.$configs.api.news, `?page=1&pageSize=10`, response => {
+      this.$getData(this.$configs.api.readingRankings, `?page=1&pageSize=10`, response => {
         const list = response.list
         this.list = list
       })

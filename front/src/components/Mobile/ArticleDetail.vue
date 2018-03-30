@@ -2,7 +2,7 @@
   <div id="article-detail">
     <div class="main">
       <p class="tit" v-text="detail.title"></p>
-      <p class="time"><span v-text="$formatTime(detail.createdTime)"></span><span style="float:right;" v-text="detail.author"></span></p>
+      <p class="time"><span v-text="$formatTime(detail.createdTime)"></span><span style="float:right;" v-text="$isEmptyParam(detail.author) ? '来源: ' + detail.source : '作者 ' + detail.author"></span></p>
       <!-- <div class="cover" :style="'background:url(' + detail.cover + ') center center no-repeat;background-size: cover;'"></div> -->
       <div class="text" v-html="detail.content">
       </div>
@@ -103,7 +103,7 @@ export default {
   },
   methods: {
     getDetail: function (id) {
-      this.$getData(this.$configs.api.news, `/${id}`, response => {
+      this.$getData(this.$configs.api.article, `/${id}`, response => {
         this.detail = response
       })
     },

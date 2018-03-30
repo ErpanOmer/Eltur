@@ -22,25 +22,29 @@ const Comment = new Schema({
     default: 0
   }
 });
-/************** 定义模式News **************/
-const News = new Schema({
-  author: { type: String, default : '', require: true },
+/************** 定义模式Article **************/
+const Article = new Schema({
+  author: { type: String, default : '', require: true },   //  作者
+  source: { type: String, default: '' },   //  来源
   title: { type : String, default : '', trim : true, require: true },   // 不可为空约束
   content: { type : String, default : '', trim : true, require: true },   // 不可为空约束
   contentShort: { type: String, default: '' },   //  摘要
   cover: { type: String, default : '' },
   status: { type: Number, default: 0 },  // 0 代表未审核， 1 代表已审核
   pageViews: { type: Number, default: 0 },   //  阅读数
+  fabulous: { type: Number, default: 0 },  //  点赞数
+  category: { type: Number, default: 0 },  //  文章类型
   comments: { type: [Comment] },
   createdTime: { type : Number, default : 0 },
+  updatedTime: { type: Number, default: 0},
   stringTime: { type: String, default: '' }
 });
-News.plugin(mongoosePaginate);
+Article.plugin(mongoosePaginate);
 
 /************** 定义模型静态方法 **************/
 //   data参数  包含  author, text, cover, createdTime, 和 id
-News.statics.postComment = function(data, callback) {
-     const NewsModel = mongoose.model('News');
+Article.statics.postComment = function(data, callback) {
+     const NewsModel = mongoose.model('Article');
      const CommentModel = mongoose.model('Comment');
      const comment = new CommentModel();
      //   写入评论
@@ -70,4 +74,4 @@ News.statics.postComment = function(data, callback) {
  }
 /************** 定义模型Model **************/
 mongoose.model('Comment', Comment);
-module.exports = mongoose.model('News', News);
+module.exports = mongoose.model('Article', Article);
