@@ -48,7 +48,7 @@ Vue.http.interceptors.push((request, next) => {
   next((response) => {
     const responseData = response.data
     if (responseData.code === 0 && !responseData.success) {
-      localStorage.currentRoutePath = router.history.current.path
+      localStorage.currentRoutePath = router.currentRoute.fullPath
       router.replace({ name: 'Login' })
       return false
     } else if (responseData.code === 8888 && !responseData.success) {

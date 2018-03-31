@@ -113,11 +113,11 @@ export default {
           this.$vux.toast.text('登陆成功')
           if (!this.$isEmptyParam(currentRoutePath)) {
             setTimeout(() => {
-              this.$router.push(currentRoutePath)
+              this.$router.replace(currentRoutePath)
             }, 1500)
           } else {
             setTimeout(() => {
-              this.$router.push({ name: 'Index' })
+              this.$router.replace({ name: 'Index' })
             }, 1500)
           }
         }

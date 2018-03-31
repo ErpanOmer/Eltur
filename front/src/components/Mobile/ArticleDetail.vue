@@ -2,7 +2,11 @@
   <div id="article-detail">
     <div class="main">
       <p class="tit" v-text="detail.title"></p>
-      <p class="time"><span v-text="$formatTime(detail.createdTime)"></span><span style="float:right;" v-text="$isEmptyParam(detail.author) ? '来源: ' + detail.source : '作者 ' + detail.author"></span></p>
+      <p class="time">
+        <span v-text="$formatTime(detail.createdTime)"></span>
+        <span style="margin-left:10px;" v-text="$isEmptyParam(detail.author) ? '来源: ' + detail.source : '作者 ' + detail.author"></span>
+        <span style="float:right;color:#f90;" v-text="itemList[detail.category]"></span>
+      </p>
       <!-- <div class="cover" :style="'background:url(' + detail.cover + ') center center no-repeat;background-size: cover;'"></div> -->
       <div class="text" v-html="detail.content">
       </div>
@@ -38,24 +42,22 @@
       </div>
     </group>
     <div class="comment">
-      <div class="comment-list clearfix" v-for="item in 10">
-          <div class="cover">
-            <img width="100%" src="../../assets/businessman.png" alt="">
-          </div>
-          <div class="right">
-            <div class="head">
-              <p>name</p>
-              <p style="color: #999;font-size: 12px;">58分钟之前</p>
+      <transition-group name="list-complete">
+        <div class="comment-list clearfix list-complete-item" v-for="item in detail.comments" :key="item.createdTime">
+            <div class="cover">
+              <img width="100%" :src="item.cover" alt="">
             </div>
-            <div class="content" style="color:#000;">
-              就到家啊时间多久啊是几点结束了咯啊啊啊急急急就到家啊时间多久啊是几点结束了咯啊啊啊急急急
-              就到家啊时间多久啊是几点结束了咯啊啊啊急急急
-              就到家啊时间多久啊是几点结束了咯啊啊啊急急急
-              就到家啊时间多久啊是几点结束了咯啊啊啊急急急
+            <div class="right">
+              <div class="head">
+                <p v-text="item.name"></p>
+                <p style="color: #999;font-size: 12px;" v-text="$formatTime(item.createdTime)"></p>
+              </div>
+              <div class="content" style="color:#000;" v-text="item.text"></div>
             </div>
-          </div>
-      </div>
+        </div>
+      </transition-group>
     </div>
+    <Divider style="margin-top: 5px;font-size: 14px;" v-text="`${commentsLength >= 1 ? '没有更多评论了' : '暂时没人评论'}`"></Divider>
     <div class="write-comment clearfix">
       <div class="left" @click="show=true">
         <span slot="icon" class="icon iconfont icon-write"></span>
@@ -64,7 +66,7 @@
       <div class="right clearfix">
         <flexbox :gutter="0">
           <flexbox-item>
-            <span class="icon iconfont icon-linedesign-01" style="font-size: 23px;"><badge text="2"></badge></span>
+            <span class="icon iconfont icon-linedesign-01" style="font-size: 23px;"><badge v-show="commentsLength >= 1" :text="commentsLength"></badge></span>
           </flexbox-item>
           <flexbox-item>
             <span class="icon iconfont icon-fenxiang"></span>
@@ -87,16 +89,18 @@
   </div>
 </template>
 <script>
-import { Flexbox, FlexboxItem, Group, Badge, Popup, XTextarea, XButton } from 'vux'
+import { Flexbox, FlexboxItem, Group, Badge, Popup, XTextarea, XButton, Divider } from 'vux'
 export default {
   components: {
-    Flexbox, FlexboxItem, Group, Badge, Popup, XTextarea, XButton
+    Flexbox, FlexboxItem, Group, Badge, Popup, XTextarea, XButton, Divider
   },
   data: () => ({
     isUp: false,
     detail: {},
     show: false,
     comment: '',
+    itemList: ['推荐', '婚姻家庭', '交通事故', '劳动用工', '治安刑事', '医疗事故', '房产土地', '责权责务', '合同纠纷', '征地拆迁'],
+    commentsLength: 0,
     img: 'http://thumb.niutuku.com/960x1/8f/b8/8fb8fb2623afa6336e2be205718f5f0e.jpg'
   }),
   mounted () {
@@ -117,6 +121,13 @@ export default {
     }
   },
   beforeRouteLeave (to, from, next) {
+    if (to.name === 'Login') {
+      if (!this.$isEmptyParam(this.comment)) {
+        this.$store.commit('setPostCommet', this.comment)
+      }
+    } else {
+      this.$store.commit('setPostCommet', '')
+    }
     const id = this.$route.query.id
     const FabulousList = localStorage.FabulousList
     if (this.isUp) {
@@ -174,9 +185,34 @@ export default {
     getDetail: function (id) {
       this.$getData(this.$configs.api.article, `/${id}`, response => {
         this.detail = response
+        this.$nextTick(() => {
+          this.commentsLength = this.detail.comments.length
+        })
+        const comment = this.$store.getters.getPostComment
+        if (!this.$isEmptyParam(comment)) {
+          this.comment = comment
+          this.show = true
+        }
       })
     },
     submit: function () {
+      this.$postData(this.$configs.api.comments, { text: this.comment, id: this.$route.query.id }, response => {
+        if (response) {
+          this.$store.dispatch('userInfo').then(response => {
+            const data = {
+              cover: response.avatar,
+              name: response.name,
+              text: this.comment,
+              createdTime: ~~(new Date().getTime() / 1000)
+            }
+            this.detail.comments.unshift(data)
+            this.show = false
+            this.$vux.toast.text('评论成功')
+            this.commentsLength++
+            this.$store.commit('setPostCommet', '')
+          })
+        }
+      })
     }
   }
 }
@@ -298,13 +334,13 @@ export default {
     width: 41px;
     height: 41px;
     float: left;
-    border-radius: 50%;
+    border-radius: 12px;
     overflow: hidden;
   }
   #article-detail .comment .comment-list .right {
     float: left;
     width: calc(100% - 60px);
-    margin-left: 5px;
+    margin-left: 10px;
   }
   #article-detail .comment .comment-list .right .content {
     margin: 2.5px 0;
@@ -321,7 +357,7 @@ export default {
   }
   #article-detail .write-comment .left {
     float: left;
-    width: 60%;
+    width: 55%;
     box-sizing: border-box;
     margin-top: 2.5px;
     line-height: 30px;
@@ -333,7 +369,7 @@ export default {
   }
   #article-detail .write-comment .right {
     float: right;
-    width: 40%;
+    width: 45%;
     box-sizing: border-box;
     margin-top: 2.5px;
     line-height: 30px;
@@ -346,7 +382,7 @@ export default {
   #article-detail .write-comment .right .vux-flexbox-item {
     text-align: center;
   }
-  #article-detail .write-comment .right .vux-badge-single {
+  #article-detail .write-comment .right .vux-badge {
     margin-bottom: 10px;
     margin-left: -5px;
   }

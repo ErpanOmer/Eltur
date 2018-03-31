@@ -5,13 +5,24 @@ Vue.use(Vuex)
 const Store = new Vuex.Store({
   state: {
     isLoading: false,
-    userInfo: {} // 用户信息
+    userInfo: {}, // 用户信息
+    postComment: '',
+    itemIndex: 0
   },
   getters: {
     isLoading: state => state.isLoading,
-    userInfo: state => state.userInfo
+    userInfo: state => state.userInfo,
+    getPostComment: state => state.postComment,
+    getItemIndex: state => state.itemIndex
   },
-  mutations: {},
+  mutations: {
+    setPostCommet (state, commet) {
+      state.postComment = commet
+    },
+    setItemIndex (state, index) {
+      state.itemIndex = index
+    }
+  },
   actions: {
     userInfo ({commit, state}) {
       return new Promise((resolve, reject) => {

@@ -2,7 +2,7 @@
   let Util = {}
   Util.install = function (Vue, options) {
     Vue.prototype.$configs = {
-      apiURL: 'http://172.29.108.143',
+      apiURL: 'http://192.168.191.1',
       api: {
         login: '/application/login',
         register: '/application/register',
@@ -10,7 +10,8 @@
         userInfo: '/application/userInfo',
         article: '/application/Article',
         readingRankings: '/application/readingRankings',
-        fabulous: '/application/Fabulous'
+        fabulous: '/application/Fabulous',
+        comments: '/application/Comments'
       }
     }
     //   通用日期函数

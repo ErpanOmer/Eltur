@@ -5,11 +5,15 @@ var mongoosePaginate = require('mongoose-paginate');
 const config = require('../../db.config.js')
 /************** 定义模型Comment **************/
 const Comment = new Schema({
+  articleId: {
+    type: String,
+    default: ''
+  },
   text: {
     type: String,
     required: true
   },
-  author: {
+  name: {
     type: String,
     required: true,
   },
@@ -42,18 +46,19 @@ const Article = new Schema({
 Article.plugin(mongoosePaginate);
 
 /************** 定义模型静态方法 **************/
-//   data参数  包含  author, text, cover, createdTime, 和 id
+//   data参数  包含  name, text, cover, createdTime, 和 id
 Article.statics.postComment = function(data, callback) {
-     const NewsModel = mongoose.model('Article');
+     const Article = mongoose.model('Article');
      const CommentModel = mongoose.model('Comment');
      const comment = new CommentModel();
      //   写入评论
+     comment.articleId = data.id
      comment.text = data.text
-     comment.author = data.author
+     comment.name = data.name
      comment.cover = data.cover
-     commet.createdTime = data.createdTime || ~~(new Date().getTime() / 1000)
+     comment.createdTime = ~~(new Date().getTime() / 1000)
      // 查询新闻
-     NewsModel.findOne({ _id: data.newsID }, function(err, news) {
+     Article.findById({ _id: data.id }, function(err, news) {
          if (err) {
              callback({
                  success: false,
@@ -62,12 +67,13 @@ Article.statics.postComment = function(data, callback) {
              });
          } else {
              if (news) {
-                 news.comments.push(comment);
-                 news.save(function(err) {});
+                 news.comments.unshift(comment);
+                 //  保存
+                 news.save()
+                 comment.save()
                  callback({ success: true, code: 520, message: '评论成功' });
              } else {
-                 callback({ success: false, code: 8888, message: '评论失败'
-                 });
+                 callback({ success: false, code: 8888, message: '评论失败'})
              }
          }
      });

@@ -3,10 +3,12 @@ const USER_INFO = require('./Api/UserInfo.js')
 const UPLOAD = require('./upload')
 const ARTICLE = require('./Api/Article.js')
 const ArticleFabulous = require('./Api/ArticleFabulous.js')
+const ArticleComments = require('./Api/ArticleComments.js')
 module.exports = [
   USER,
   USER_INFO,
   UPLOAD,
   ARTICLE,
-  ArticleFabulous
+  ArticleFabulous,
+  ArticleComments
 ]
