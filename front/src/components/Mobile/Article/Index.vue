@@ -5,7 +5,9 @@
     </tab>
     <scroller lock-y :scrollbar-x="false" height="150px" style="background-color:#fff;" v-show="itemIndex === 0">
       <div class="box">
-        <div class="box-item" v-for="item in 5" :style="'background:url(' + img + ') center center no-repeat;background-size: cover;'"></div>
+        <div class="box-item" v-for="item in recommend" :style="'background:url(' + item.cover + ') center center no-repeat;background-size: cover;'"  @click="$router.push({ name: 'ArticleDetail', query: { id: item.id }})" :key="item.id">
+          <div class="transparent"><span v-text="item.title"></span></div>
+        </div>
       </div>
     </scroller>
     <group v-show="itemIndex === 0">
@@ -116,6 +118,7 @@ export default {
     return {
       list: [],
       useTools: [],
+      recommend: [],
       page: 1,
       pageSize: 20,
       isEmpty: false,
@@ -161,16 +164,51 @@ export default {
       this.list = []
       this.page = 1
       this.noMore = this.isEmpty = false
-      if (index === 0) {
-        this.weekSort()
-      } else {
-        this.getList()
-      }
+      this.$nextTick(() => {
+        if (index === 0) {
+          this.weekSort()
+        } else {
+          this.getList()
+        }
+      })
     },
     weekSort: function () {
       this.$getData(this.$configs.api.readingRankings, `?page=1&pageSize=10&sort=pageViews&order=-1`, response => {
         this.list = response.list
       })
+      const recommend = localStorage.getItem('recommendList')
+      if (recommend) {
+        const list = JSON.parse(recommend)
+        const obj = {}
+        list.forEach((item, index) => {
+          if (obj[item.category]) {
+            obj[item.category]++
+          } else {
+            obj[item.category] = 1
+          }
+        })
+        const sortList = []
+        for (let variable in obj) {
+          if (obj.hasOwnProperty(variable)) {
+            sortList.push({ [variable]: obj[variable] })
+          }
+        }
+        let max = sortList[0]
+        sortList.forEach(item => {
+          const maxKey = Object.keys(max)
+          const itemKey = Object.keys(item)
+          if (item[itemKey] > max[maxKey]) {
+            max = item
+          }
+        })
+        this.$getData(this.$configs.api.readingRankings, `?page=1&pageSize=5&key=category&value=${Object.keys(max)[0]}&type=eq&sort=pageViews&order=-1`, response => {
+          this.recommend = response.list
+        })
+      } else {
+        this.$getData(this.$configs.api.readingRankings, `?page=1&pageSize=5&sort=fabulous&order=-1`, response => {
+          this.recommend = response.list
+        })
+      }
     },
     getList: function () {
       const url = `?page=${this.page}&pageSize=${this.pageSize}&key=category&value=${this.itemIndex}&type=eq`
@@ -261,7 +299,23 @@ export default {
   margin-left: 15px;
   float: left;
   text-align: center;
-  line-height: 100px;
+  overflow: hidden;
+}
+#article .box .transparent {
+  width: 200px;
+  height: 125px;
+  box-sizing: border-box;
+  padding: 20px;
+  display: table-cell;
+  vertical-align: middle;
+  background-color: rgba(7,17,27,.4);
+  color: #fff;
+}
+#article .box .transparent span {
+    max-height: 48px;
+    overflow: hidden;
+    display: block;
+    font-size: 15px;
 }
 #article .box-item:first-child {
   margin-left: 0;

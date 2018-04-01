@@ -185,6 +185,14 @@ export default {
     getDetail: function (id) {
       this.$getData(this.$configs.api.article, `/${id}`, response => {
         this.detail = response
+        const recommend = localStorage.getItem('recommendList')
+        if (recommend) {
+          const list = JSON.parse(recommend)
+          list.push({ category: this.detail.category })
+          localStorage.setItem('recommendList', JSON.stringify(list))
+        } else {
+          localStorage.setItem('recommendList', JSON.stringify([{ category: this.detail.category }]))
+        }
         this.$nextTick(() => {
           this.commentsLength = this.detail.comments.length
         })
