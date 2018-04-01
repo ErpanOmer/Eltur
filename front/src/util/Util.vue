@@ -2,7 +2,7 @@
   let Util = {}
   Util.install = function (Vue, options) {
     Vue.prototype.$configs = {
-      apiURL: 'http://192.168.191.1',
+      apiURL: 'http://www.eltur.cn',
       api: {
         login: '/application/login',
         register: '/application/register',
