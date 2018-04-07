@@ -67,9 +67,10 @@ export default {
 }
 </script>
 <style lang="scss">
+  $box-sizing: border-box;
   #consult {
     .consult-list {
-      box-sizing: border-box;
+      box-sizing: $box-sizing;
       padding: 10px;
       background-color: #fff;
       margin-bottom: 10px;
