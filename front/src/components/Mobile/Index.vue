@@ -16,23 +16,25 @@
       </div>
     </group>
     <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="30">
-      <div class="list" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item.id }})">
-        <flexbox :gutter="0">
-          <flexbox-item :span="3/12">
-            <div class="cover" :style="'background:url(' + item.cover + ') center center no-repeat;background-size: cover;'"></div>
-          </flexbox-item>
-          <flexbox-item :span="9/12">
-            <div class="tit">
-              <p class="name" v-text="item.title"></p>
-            </div>
-            <p class="info">
-              <span slot="icon" class="icon iconfont icon-linedesign-14" v-text="`${item.pageViews}人看过`"></span>
-              <!-- <span slot="icon" class="icon iconfont icon-linedesign-01" style="margin-left:20px;">4555</span> -->
-              <span style="float:right;font-size:13px;" v-text="$formatTime(item.createdTime)"></span>
-            </p>
-          </flexbox-item>
-        </flexbox>
-      </div>
+      <transition-group name="list-complete" tag="div">
+        <div class="list list-complete-item" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item.id }})" :key="item.id">
+          <flexbox :gutter="0">
+            <flexbox-item :span="3/12">
+              <div class="cover" :style="'background:url(' + item.cover + ') center center no-repeat;background-size: cover;'"></div>
+            </flexbox-item>
+            <flexbox-item :span="9/12">
+              <div class="tit">
+                <p class="name" v-text="item.title"></p>
+              </div>
+              <p class="info">
+                <span slot="icon" class="icon iconfont icon-linedesign-14" v-text="`${item.pageViews}人看过`"></span>
+                <!-- <span slot="icon" class="icon iconfont icon-linedesign-01" style="margin-left:20px;">4555</span> -->
+                <span style="float:right;font-size:13px;" v-text="$formatTime(item.createdTime)"></span>
+              </p>
+            </flexbox-item>
+          </flexbox>
+        </div>
+      </transition-group>
     </div>
     <Divider v-if="noMore" style="margin-top: 5px;font-size: 14px;">没有更多了</Divider>
     <Tabbar></Tabbar>

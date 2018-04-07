@@ -69,10 +69,10 @@
             <span class="icon iconfont icon-linedesign-01" style="font-size: 23px;"><badge v-show="commentsLength >= 1" :text="commentsLength"></badge></span>
           </flexbox-item>
           <flexbox-item>
-            <span class="icon iconfont icon-fenxiang"></span>
+            <span class="icon iconfont icon-ziyuan"></span>
           </flexbox-item>
           <flexbox-item>
-            <span class="icon iconfont icon-ziyuan"></span>
+            <span class="icon iconfont icon-fenxiang"></span>
           </flexbox-item>
         </flexbox>
       </div>

@@ -83,8 +83,8 @@
       </div>
     </group>
     <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="30">
-      <transition-group name="list-complete">
-        <div class="list list-complete-item" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item.id }})" :key="item.id">
+      <transition-group name="list-complete" tag="div">
+        <div class="list" :class="itemIndex === 0 ? 'list-complete-item' : ''" v-for="item in list" @click="$router.push({ name: 'ArticleDetail', query: { id: item.id }})" :key="item.id">
           <flexbox :gutter="0">
             <flexbox-item :span="3/12">
               <div class="cover" :style="'background:url(' + item.cover + ') center center no-repeat;background-size: cover;'"></div>

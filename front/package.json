@@ -14,8 +14,11 @@
   },
   "dependencies": {
     "fastclick": "^1.0.6",
+    "node-loader": "^0.6.0",
+    "node-sass": "^4.8.3",
     "pingpp-js": "^2.1.15",
     "progressbar.js": "^1.0.1",
+    "sass-loader": "^6.0.7",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "vue": "^2.5.16",
