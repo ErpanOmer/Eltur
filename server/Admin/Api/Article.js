@@ -64,13 +64,12 @@ router.put(`${api}/:id`, (req, res) => {
 router.get(api, (req, res) => {
   const { query, options } = Query(req.query)
   Article.paginate(query, options).then( results => {
-    const list = editPostList(results.docs)
     const data = {
       totalCount: results.total,
       pageSize: results.limit,
       currentPage: results.page,
       totalPage: results.pages,
-      list
+      list: results.docs
     }
     res.json({success: true, code: 520, message: '获取成功!', data});
   });
