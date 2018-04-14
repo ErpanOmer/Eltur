@@ -8,10 +8,11 @@
     </group>
     <div class="box">
       <swiper auto height="170px" direction="vertical" :interval="3000" :auto="true" :show-dots="false" :duration="1000">
-        <swiper-item v-for="item in 3" class="box-content" :key="item">
+        <swiper-item v-for="item in swiper" class="box-content" :key="item">
           <div class="child">
             <div class="user">
-              <img src="../../../assets/businessman.png" width="40px" alt="">
+              <img v-if="item.cover" :src="item.cover" width="40px">
+              <img v-else src="../../../assets/businessman.png" width="40px" alt="">
             </div>
             <p class="text">义务爱了 完成传奇世界H5-王者归来任务 获得20金币
             啊是零件冷镦机萨拉近段时间觉得时间多久啊是零件冷镦机萨拉近段时间觉得时间多久啊是零件冷镦机萨拉近段时间觉得时间多久啊是零件冷镦机萨拉近段时间觉得时间多久</p>
@@ -31,20 +32,19 @@
         <span>大家在问</span>
       </div>
     </group>
-    <div class="consult-list" v-for="item in 6">
+    <div class="consult-list" v-for="item in list">
       <div class="top clearfix">
-        <img src="../../../assets/businessman.png" width="40px" alt="">
+        <img v-if="item.cover" :src="item.cover" width="40px">
+        <img v-else src="../../../assets/businessman.png" width="40px" alt="">
         <p>name</p>
-        <p><span style="color:#ffa050;font-size: 12px;">10分钟前</span></p>
+        <p><span style="color:#ffa050;font-size: 12px;" v-text="$formatTime(item.createdTime)"></span></p>
       </div>
-      <div class="consult-text">
-        觉得时间多久啊是零件冷镦机萨拉近段时间觉得时间多久啊是零件冷镦机萨拉近段时间觉得时间多久啊是零件冷镦机萨拉近段时间觉得时间多久啊是零件冷镦机萨拉近段时间觉得时间多久啊是零件冷镦机萨拉近段时间觉得时间多久啊是零件冷镦机萨拉近段时间
-      </div>
-      <div class="success">已回答</div>
+      <div class="consult-text" v-text="item.question"></div>
+      <div class="success" v-show="item.alreadyAnswered">已回答</div>
       <p class="bottom-icon clearfix" style="margin-top: 10px;">
-        <span class="icon iconfont icon-zan">2222</span>
-        <span class="icon iconfont icon-linedesign-14">2222</span>
-        <span style="float:left;margin:0;">问题类型：<span style="color:#ffa050;">劳动纠缠</span></span>
+        <span class="icon iconfont icon-zan" v-text="item.views"></span>
+        <span class="icon iconfont icon-linedesign-14" v-text="item.fabulous"></span>
+        <span style="float:left;margin:0;">问题类型：<span style="color:#ffa050;" v-text="itemList[item.category]"></span></span>
       </p>
     </div>
     <Tabbar></Tabbar>
@@ -63,7 +63,29 @@ export default {
     SwiperItem
   },
   data: () => ({
-  })
+    list: [],
+    swiper: [],
+    itemList: ['推荐', '婚姻家庭', '交通事故', '劳动用工', '治安刑事', '医疗事故', '房产土地', '责权责务', '合同纠纷', '征地拆迁']
+  }),
+  mounted () {
+    //  do something after mounting vue instance
+    this.$nextTick(() => {
+      this.getList()
+      this.getSwiper()
+    })
+  },
+  methods: {
+    getList: function () {
+      this.$getData(this.$configs.api.issue, '', response => {
+        this.list = response.list
+      })
+    },
+    getSwiper: function () {
+      this.$getData(this.$configs.api.issue, '', response => {
+        this.swiper = response.list
+      })
+    }
+  }
 }
 </script>
 <style lang="scss">

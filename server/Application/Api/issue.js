@@ -2,6 +2,8 @@ const express = require('express');
 const Issue = require('../Model/issue.js');
 const config = require('../../db.config.js');
 const router = express.Router();
+//  查询函数
+const Query = require('../../Common/query.js')
 //  api
 const api = '/application/issue';
 router.use(api, require('../Interceptor.js'))

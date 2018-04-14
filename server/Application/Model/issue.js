@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const config = require('../../db.config.js')
 const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt');
+const mongoosePaginate = require('mongoose-paginate');
 
 const Issue = new Schema({
   question: {
@@ -45,7 +45,9 @@ const Issue = new Schema({
     default: 0
   }
 })
-
+//  分页插件
+Issue.plugin(mongoosePaginate);
+//  静态函数
 Issue.statics.saveIssue = function(data, callback) {
   const Issue = mongoose.model('Issue');
   const issue = new Issue();
