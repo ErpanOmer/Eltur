@@ -53,6 +53,22 @@ export default {
   },
   methods: {
     submit: function () {
+      if (this.$isEmptyParam(this.question)) {
+        this.$vux.toast.text('问题别留空')
+        return false
+      }
+      const data = {
+        question: this.question,
+        type: this.selecetIndex
+      }
+      this.$postData(this.$configs.api.issue, { data }, res => {
+        if (res) {
+          this.$vux.toast.text('操作成功')
+          setTimeout(() => {
+            this.$router.go(-1)
+          }, 2000)
+        }
+      })
     },
     onItemClick: function (value) {
       this.selecetIndex = value
@@ -62,32 +78,35 @@ export default {
   }
 }
 </script>
-<style media="screen">
+<style lang="scss">
   #quick-consultation {
     margin-top: 15px;
-  }
-  #quick-consultation .vux-step-item-head-process .vux-step-item-head-inner{
-    background-color: #fb0;
-    color: #fff;
-    border:1px solid #fc0;
-  }
-  #quick-consultation .vux-step-item-head-wait .vux-step-item-head-inner {
-    border:1px solid #fc0;
-    color: #fa0;
-  }
-  #quick-consultation .weui-grid::after, #quick-consultation .weui-grids::before {
-    border: none;
-  }
-  #quick-consultation .weui-icon-success-no-circle {
-    color: #fc0;
-  }
-  #quick-consultation .vux-step-item-head-finish .vux-step-item-head-inner {
-    border:1px solid #fc0;
-  }
-  #quick-consultation .vux-step-item-title{
-    color: #fa0;
-  }
-  #quick-consultation .vux-step-item-tail-process, #quick-consultation .vux-step-item-tail-wait, #quick-consultation .vux-step-item-tail-finish{
-    background-color: #fc0;
+    .vux-step-item-head-process .vux-step-item-head-inner {
+      background-color: #fb0;
+      color: #fff;
+      border:1px solid #fc0;
+    }
+    .vux-step-item-head-wait .vux-step-item-head-inner {
+      border:1px solid #fc0;
+      color: #fa0;
+    }
+    .weui-grid::after,
+    .weui-grids::before {
+      border: none;
+    }
+    .weui-icon-success-no-circle {
+      color: #fc0;
+    }
+    .vux-step-item-head-finish .vux-step-item-head-inner {
+      border:1px solid #fc0;
+    }
+    .vux-step-item-title{
+      color: #fa0;
+    }
+    .vux-step-item-tail-process,
+    .vux-step-item-tail-wait,
+    .vux-step-item-tail-finish {
+      background-color: #fc0;
+    }
   }
 </style>

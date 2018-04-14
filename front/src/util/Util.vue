@@ -2,7 +2,7 @@
   let Util = {}
   Util.install = function (Vue, options) {
     Vue.prototype.$configs = {
-      apiURL: 'http://www.eltur.cn',
+      apiURL: 'http://localhost',
       api: {
         login: '/application/login',
         register: '/application/register',
@@ -11,7 +11,8 @@
         article: '/application/Article',
         readingRankings: '/application/readingRankings',
         fabulous: '/application/Fabulous',
-        comments: '/application/Comments'
+        comments: '/application/Comments',
+        issue: '/application/issue'
       }
     }
     //   通用日期函数
