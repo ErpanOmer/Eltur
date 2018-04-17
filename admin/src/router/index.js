@@ -24,34 +24,45 @@ export const constantRouterMap = [
   {
     path: '',
     component: Layout,
-    redirect: 'Home',
+    redirect: 'home',
     children: [{
-      path: 'Home',
-      component: _import('Home/index'),
-      name: 'Home',
+      path: 'home',
+      component: _import('home/Index'),
+      name: 'home',
       meta: { title: '主页', icon: 'home', noCache: true }
     }]
   },
   {
-    path: '/News',
+    path: '/article',
     component: Layout,
-    redirect: 'News/Form',
-    name: 'News',
-    meta: { title: '新闻', icon: 'example' },
+    redirect: '/article/Publish',
+    name: 'article',
+    meta: { title: '文章管理', icon: 'example' },
     children: [
       {
-        path: 'Form',
-        name: 'Form',
-        component: _import('News/form'),
-        meta: { title: '发布新闻', icon: 'form' }
+        path: 'Publish',
+        name: 'Publish',
+        component: _import('article/Publish'),
+        meta: { title: '发布文章', icon: 'form' }
       },
       {
-        path: 'Table',
-        name: 'Table',
-        component: _import('News/table'),
-        meta: { title: '查看新闻', icon: 'table' }
+        path: 'ArticleList',
+        name: 'ArticleList',
+        component: _import('article/ArticleList'),
+        meta: { title: '文章列表', icon: 'table' }
       }
     ]
+  },
+  {
+    path: '',
+    component: Layout,
+    redirect: 'comment',
+    children: [{
+      path: 'comment',
+      component: _import('comment/Index'),
+      name: 'comment',
+      meta: { title: '评论管理', icon: 'home', noCache: true }
+    }]
   },
   { path: '*', redirect: '/404', hidden: true }
 ]

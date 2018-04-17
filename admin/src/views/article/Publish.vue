@@ -81,7 +81,7 @@ import { postNews } from '@/api/news'
 import { getToken } from '@/utils/auth'
 import { isEmptyParam } from '@/utils/validate'
 export default {
-  name: 'articleDetail',
+  name: 'Publish',
   components: { Tinymce, MDinput, Upload, Multiselect, Sticky },
   data() {
     return {

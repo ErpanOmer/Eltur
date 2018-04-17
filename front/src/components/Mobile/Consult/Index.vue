@@ -41,9 +41,9 @@
       <div class="consult-text" v-text="item.question"></div>
       <div class="success" v-show="item.alreadyAnswered">已回答</div>
       <p class="bottom-icon clearfix" style="margin-top: 10px;">
-        <!-- <span class="icon iconfont icon-zan" v-text="item.views"></span>
-        <span class="icon iconfont icon-linedesign-14" v-text="item.fabulous"></span> -->
-        <span style="float:left;margin:0;">问题类型：<span style="color:#ffa050;" v-text="itemList[item.category]"></span></span>
+        <!-- <span class="icon iconfont icon-zan" v-text="item.fabulous"></span> -->
+        <span class="icon iconfont icon-linedesign-14" v-text="item.views"></span>
+        <span style="float:left;margin:0;">问题类型：<span v-text="itemList[item.category]"></span></span>
       </p>
     </div>
     <Tabbar></Tabbar>
@@ -80,7 +80,7 @@ export default {
       })
     },
     getSwiper: function () {
-      this.$getData(this.$configs.api.issue, '', response => {
+      this.$getData(this.$configs.api.issue, `?page=1&pageSize=3&sort=views&order=-1`, response => {
         this.swiper = response.list
       })
     }
@@ -120,26 +120,25 @@ export default {
         color: #fff;
         border-bottom-left-radius: 90%;
       }
-      .bottom-icon .iconfont {
-        font-size: 14px;
-        margin-left: 15px;
-        float: right;
-        color: #666;
-        &:before {
-          margin-right: 3px;
+      .bottom-icon {
+        span {
+          color: #999;
+        }
+        .iconfont {
+          font-size: 14px;
+          margin-left: 15px;
+          float: right;
+          &:before {
+            margin-right: 3px;
+          }
         }
       }
       .consult-text {
-        margin: 5px 0;
+        margin: 10px 0;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 3;
         overflow: hidden;
-        color: #666;
-        background-color: #f5f5f5;
-        box-sizing: border-box;
-        padding:5px 10px;
-        border-radius: 5px;
       }
     }
     .title {
