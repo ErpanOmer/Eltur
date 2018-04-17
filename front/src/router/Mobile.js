@@ -10,6 +10,7 @@ const PersonalData = resolve => require(['@/components/Mobile/Member/PersonalDat
 const Textarea = resolve => require(['@/components/Mobile/Member/Textarea'], resolve)
 const ArticleDetail = resolve => require(['@/components/Mobile/ArticleDetail'], resolve)
 const QuickConsultation = resolve => require(['@/components/Mobile/QuickConsultation'], resolve)
+const ConsiltDetail = resolve => require(['@/components/Mobile/Consult/ConsiltDetail'], resolve)
 Vue.use(Router)
 export default new Router({
   mode: 'history', //   后端支持可开
@@ -24,7 +25,8 @@ export default new Router({
     { path: '/Register', name: 'Register', component: Register },
     { path: '/Textarea', name: 'Textarea', component: Textarea },
     { path: '/ArticleDetail', name: 'ArticleDetail', component: ArticleDetail },
-    { path: '/QuickConsultation', name: 'QuickConsultation', component: QuickConsultation }
+    { path: '/QuickConsultation', name: 'QuickConsultation', component: QuickConsultation },
+    { path: '/ConsiltDetail', name: 'ConsiltDetail', component: ConsiltDetail }
   ],
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {

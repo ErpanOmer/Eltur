@@ -7,15 +7,14 @@
       </div>
     </group>
     <div class="box">
-      <swiper auto height="170px" direction="vertical" :interval="3000" :auto="true" :show-dots="false" :duration="1000">
-        <swiper-item v-for="item in swiper" class="box-content" :key="item">
+      <swiper auto height="160px" direction="vertical" :interval="3000" :auto="true" :show-dots="false" :duration="1000">
+        <swiper-item v-for="item in swiper" class="box-content" :key="item._id" @click.native="$router.push({ name: 'ConsiltDetail', query: { id: item._id } })">
           <div class="child">
             <div class="user">
               <img v-if="item.cover" :src="item.cover" width="40px">
               <img v-else src="../../../assets/businessman.png" width="40px" alt="">
             </div>
-            <p class="text">义务爱了 完成传奇世界H5-王者归来任务 获得20金币
-            啊是零件冷镦机萨拉近段时间觉得时间多久啊是零件冷镦机萨拉近段时间觉得时间多久啊是零件冷镦机萨拉近段时间觉得时间多久啊是零件冷镦机萨拉近段时间觉得时间多久</p>
+            <p class="text" v-text="item.question"></p>
           </div>
         </swiper-item>
       </swiper>
@@ -32,18 +31,18 @@
         <span>大家在问</span>
       </div>
     </group>
-    <div class="consult-list" v-for="item in list">
+    <div class="consult-list" v-for="item in list" @click="$router.push({ name: 'ConsiltDetail', query: { id: item._id } })">
       <div class="top clearfix">
         <img v-if="item.cover" :src="item.cover" width="40px">
         <img v-else src="../../../assets/businessman.png" width="40px" alt="">
-        <p>name</p>
+        <p v-text="item.name"></p>
         <p><span style="color:#ffa050;font-size: 12px;" v-text="$formatTime(item.createdTime)"></span></p>
       </div>
       <div class="consult-text" v-text="item.question"></div>
       <div class="success" v-show="item.alreadyAnswered">已回答</div>
       <p class="bottom-icon clearfix" style="margin-top: 10px;">
-        <span class="icon iconfont icon-zan" v-text="item.views"></span>
-        <span class="icon iconfont icon-linedesign-14" v-text="item.fabulous"></span>
+        <!-- <span class="icon iconfont icon-zan" v-text="item.views"></span>
+        <span class="icon iconfont icon-linedesign-14" v-text="item.fabulous"></span> -->
         <span style="float:left;margin:0;">问题类型：<span style="color:#ffa050;" v-text="itemList[item.category]"></span></span>
       </p>
     </div>
@@ -130,18 +129,18 @@ export default {
           margin-right: 3px;
         }
       }
-    }
-    .consult-text {
-      margin: 5px 0;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
-      overflow: hidden;
-      color: #666;
-      background-color: #f5f5f5;
-      box-sizing: border-box;
-      padding:5px 10px;
-      border-radius: 5px;
+      .consult-text {
+        margin: 5px 0;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+        color: #666;
+        background-color: #f5f5f5;
+        box-sizing: border-box;
+        padding:5px 10px;
+        border-radius: 5px;
+      }
     }
     .title {
       font-size: 14px;
@@ -169,21 +168,26 @@ export default {
         padding: 10px 0;
         .child {
           display: -webkit-box;
+          height: 150px;
           -webkit-box-orient: vertical;
-          -webkit-line-clamp: 4;
+          -webkit-line-clamp: 3;
           overflow: hidden;
           box-sizing: border-box;
-          padding:5px 15px 15px;
+          padding:15px 15px;
           background-color: #444;
           border-radius: 12px;
           .user {
             height: 50px;
             text-align: center;
             box-sizing: border-box;
+            img {
+              border-radius: 50%;
+            }
           }
           .text {
             overflow: hidden;
             color:#ddd;
+            text-align: center;
           }
         }
       }

@@ -117,7 +117,7 @@ export default {
           return item.id === id
         })
       }
-      this.getDetail(this.$route.query.id)
+      this.getDetail(id)
     }
   },
   beforeRouteLeave (to, from, next) {
