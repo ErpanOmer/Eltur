@@ -35,7 +35,7 @@
 
                 <el-col :span="8">
                   <el-form-item label-width="80px" label="发布时间:" class="postInfo-container-item">
-                    <el-date-picker v-model="newsData.createdTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间">
+                    <el-date-picker v-model="newsData.createdTime" type="date" format="yyyy-MM-dd HH:mm:ss" value-format="timestamp" placeholder="选择日期时间">
                     </el-date-picker>
                   </el-form-item>
                 </el-col>
@@ -54,7 +54,7 @@
             class="avatar-uploader"
             action="http://www.eltur.cn/elturAdmin/upload"
             :headers="headers"
-            name="cover"
+            name="file"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
@@ -77,7 +77,7 @@ import MDinput from '@/components/MDinput'
 import Multiselect from 'vue-multiselect'// 使用的一个多选框组件，element-ui的select不能满足所有需求
 import 'vue-multiselect/dist/vue-multiselect.min.css'// 多选框组件css
 import Sticky from '@/components/Sticky' // 粘性header组件
-import { postNews } from '@/api/news'
+import { postNews } from '@/api/article'
 import { getToken } from '@/utils/auth'
 import { isEmptyParam } from '@/utils/validate'
 export default {
@@ -94,7 +94,7 @@ export default {
         contentShort: '', // 文章摘要
         sourceName: '', // 来源
         cover: '', // 文章图片
-        createdTime: undefined // 前台展示时间
+        createdTime: '' // 前台展示时间
       }
     }
   },
@@ -153,19 +153,16 @@ export default {
         this.$message.error('请输入作者！')
         return false
       }
-      // if (isEmptyParam(data.cover)) {
-      //   this.$message.error('请上传封面')
-      //   return false
-      // }
+      if (isEmptyParam(data.cover)) {
+        this.$message.error('请上传封面')
+        return false
+      }
       if (isEmptyParam(data.content)) {
         this.$message.error('请输入新闻内容')
         return false
       }
       data.author = isEmptyParam(data.sourceName) ? data.author : data.sourceName
-      data.createdTime = isNaN(data.createdTime) ? parseInt(new Date().getTime()) : data.createdTime
-      console.log(data)
       postNews(data).then(response => {
-        console.log(response)
         if (response.code === 520 && response.success) {
           this.$message.success('发布成功')
         } else {

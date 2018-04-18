@@ -7,7 +7,7 @@
       class="editor-slide-upload"
       action="http://www.eltur.cn/elturAdmin/upload"
       :headers="headers"
-      name="cover"
+      name="file"
       :multiple="true"
       :file-list="fileList"
       :show-file-list="true"

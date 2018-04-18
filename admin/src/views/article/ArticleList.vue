@@ -16,62 +16,55 @@
         </el-option>
       </el-select> -->
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
-      <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">导出</el-button>
-      <el-checkbox class="filter-item" style='margin-left:15px;' @change='tableKey=tableKey+1' v-model="showReviewer">审核人</el-checkbox>
+      <!-- <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button> -->
+      <!-- <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">导出</el-button> -->
+      <!-- <el-checkbox class="filter-item" style='margin-left:15px;' @change='tableKey=tableKey+1' v-model="showReviewer">审核人</el-checkbox> -->
     </div>
 
-    <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
-      style="width: 100%">
+    <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-rowstyle="width: 100%">
       <el-table-column align="center" label="序号" width="65">
         <template slot-scope="scope">
           <span>{{scope.$index + 1}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="150px" align="center" label="时间">
+      <el-table-column width="150px" align="center" label="发布时间">
         <template slot-scope="scope">
           <span>{{Time(scope.row.createdTime)}}</span>
         </template>
       </el-table-column>
       <el-table-column min-width="150px" label="标题">
         <template slot-scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
-          <el-tag>{{scope.row.type | typeFilter}}</el-tag>
+          <span class="link-type" @click="handleUpdate(scope.row)" v-text="scope.row.title"></span>
+          <el-tag type="warning" v-text="itemList[scope.row.category]"></el-tag>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" label="作者">
+      <el-table-column width="110px" align="center" label="来源">
         <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="110px" v-if='showReviewer' align="center" label="重要性">
-        <template slot-scope="scope">
-          <span style='color:red;'>scope.row.reviewer</span>
-        </template>
-      </el-table-column>
-      <el-table-column width="80px" label="重要性">
-        <template slot-scope="scope">
-          <svg-icon v-for="n in 3" icon-class="star" class="meta-item__icon" :key="n"></svg-icon>
+          <span v-text="scope.row.author?scope.row.author : scope.row.source"></span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="阅读数" width="95">
         <template slot-scope="scope">
-          <span v-if="scope.row.pageviews" class="link-type" @click='handleFetchPv(scope.row.pageviews)'>10</span>
-          <span v-else>0</span>
+          <span v-text="scope.row.pageViews"></span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="状态" width="100">
+      <el-table-column align="center" label="点赞数" width="95">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">scope.row.status</el-tag>
+          <span v-text="scope.row.fabulous"></span>
+        </template>
+      </el-table-column>
+      <el-table-column width="110px" align="center" label="评论数">
+        <template slot-scope="scope">
+          <span v-text="scope.row.comments.length"></span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button v-if="scope.row.status!='published'" size="mini" type="success" @click="handleModifyStatus(scope.row,'published')">发布
+          <!-- <el-button v-if="scope.row.status!='published'" size="mini" type="success" @click="handleModifyStatus(scope.row,'published')">发布
           </el-button>
           <el-button v-if="scope.row.status!='draft'" size="mini" @click="handleModifyStatus(scope.row,'draft')">草稿
-          </el-button>
+          </el-button> -->
           <el-button v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleDelete(scope.row,'deleted')">删除
           </el-button>
         </template>
@@ -80,76 +73,55 @@
 
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
-        :page-sizes="[10,20,30, 50]" :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+        :page-sizes="[10,25,50]" :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
-
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog title="编辑" :visible.sync="dialogFormVisible">
       <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item label="类型" prop="type">
-          <el-select class="filter-item" v-model="temp.type" placeholder="Please select">
+        <el-form-item label="类型" prop="category">
+          <el-select class="filter-item" v-model="temp.category" placeholder="Please select">
             <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="时间" prop="timestamp">
-          <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date">
+        <el-form-item label="时间" prop="createdTime">
+          <el-date-picker v-model="temp.createdTime" type="date" format="yyyy-MM-dd HH:mm:ss" value-format="timestamp" placeholder="选择日期时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="标题" prop="title">
           <el-input v-model="temp.title"></el-input>
         </el-form-item>
-        <el-form-item label="状态">
-          <el-select class="filter-item" v-model="temp.status" placeholder="Please select">
-            <el-option v-for="item in  statusOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
+        <el-form-item label="来源">
+          <el-input v-model="temp.source"></el-input>
         </el-form-item>
-        <el-form-item label="重要性">
-          <el-rate style="margin-top:8px;" v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :max='3'></el-rate>
-        </el-form-item>
-        <el-form-item label="点评">
-          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="Please input" v-model="temp.remark">
-          </el-input>
+        <el-form-item label="作者">
+          <el-input v-model="temp.author"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">确定</el-button>
-        <el-button v-else type="primary" @click="updateData">确定</el-button>
+        <el-button type="primary" @click="updateData">确定</el-button>
       </div>
     </el-dialog>
-
-    <el-dialog title="Reading statistics" :visible.sync="dialogPvVisible">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="Channel"> </el-table-column>
-        <el-table-column prop="pv" label="Pv"> </el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogPvVisible = false">确定</el-button>
-      </span>
-    </el-dialog>
-
   </div>
 </template>
 
 <script>
 import { parseTime } from '@/utils'
-import { getNews, deleteNews, fetchPv, createArticle } from '@/api/news'
+import { getNews, deleteNews } from '@/api/article'
 import waves from '@/directive/waves' // 水波纹指令
 const calendarTypeOptions = [
-  { key: 'CN', display_name: 'China' },
-  { key: 'US', display_name: 'USA' },
-  { key: 'JP', display_name: 'Japan' },
-  { key: 'EU', display_name: 'Eurozone' }
+  { key: 0, display_name: '推荐' },
+  { key: 1, display_name: '婚姻家庭' },
+  { key: 2, display_name: '交通事故' },
+  { key: 3, display_name: '劳动用工' },
+  { key: 4, display_name: '治安刑事' },
+  { key: 5, display_name: '医疗事故' },
+  { key: 6, display_name: '房产土地' },
+  { key: 7, display_name: '责权责务' },
+  { key: 8, display_name: '合同纠纷' },
+  { key: 9, display_name: '征地拆迁' }
 ]
-
-// arr to obj ,such as { CN : "China", US : "USA" }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
-
 export default {
   name: 'ArticleList',
   directives: {
@@ -170,28 +142,19 @@ export default {
       sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
       statusOptions: ['published', 'draft', 'deleted'],
       showReviewer: false,
-      temp: {
-        id: undefined,
-        importance: 1,
-        remark: '',
-        timestamp: new Date(),
-        title: '',
-        type: '',
-        status: 'published'
-      },
+      temp: {},
       dialogFormVisible: false,
-      dialogStatus: '',
       textMap: {
         update: 'Edit',
         create: 'Create'
       },
-      dialogPvVisible: false,
       pvData: [],
       rules: {
-        type: [{ required: true, message: 'type is required', trigger: 'change' }],
-        timestamp: [{ type: 'date', required: true, message: 'timestamp is required', trigger: 'change' }],
+        category: [{ required: true, message: '类型不能为空', trigger: 'change' }],
+        createdTime: [{ required: true, message: '发布时间不能为空', trigger: 'change' }],
         title: [{ required: true, message: 'title is required', trigger: 'blur' }]
       },
+      itemList: ['推荐', '婚姻家庭', '交通事故', '劳动用工', '治安刑事', '医疗事故', '房产土地', '责权责务', '合同纠纷', '征地拆迁'],
       downloadLoading: false
     }
   },
@@ -203,10 +166,10 @@ export default {
         deleted: 'danger'
       }
       return statusMap[status]
-    },
-    typeFilter(type) {
-      return calendarTypeKeyValue[type]
     }
+    // typeFilter(type) {
+    //   return calendarTypeKeyValue[type]
+    // }
   },
   created() {
     this.fetchList()
@@ -232,13 +195,13 @@ export default {
       this.listQuery.page = val
       this.fetchList()
     },
-    handleModifyStatus(row, status) {
-      this.$message({
-        message: '操作成功',
-        type: 'success'
-      })
-      row.status = status
-    },
+    // handleModifyStatus(row, status) {
+    //   this.$message({
+    //     message: '操作成功',
+    //     type: 'success'
+    //   })
+    //   row.status = status
+    // },
     resetTemp() {
       this.temp = {
         id: undefined,
@@ -250,39 +213,12 @@ export default {
         type: ''
       }
     },
-    handleCreate() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
     Time(time) {
       return parseTime(time, '{y}-{m}-{d} {h}:{i}')
     },
-    createData() {
-      this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-          this.temp.author = 'vue-element-admin'
-          createArticle(this.temp).then(() => {
-            this.list.unshift(this.temp)
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '创建成功',
-              type: 'success',
-              duration: 2000
-            })
-          })
-        }
-      })
-    },
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
-      this.temp.timestamp = new Date(this.temp.timestamp)
-      this.dialogStatus = 'update'
+      this.temp.createdTime = this.temp.createdTime * 1000
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
@@ -333,32 +269,26 @@ export default {
           }
         })
       }
-    },
-    handleFetchPv(pv) {
-      fetchPv(pv).then(response => {
-        this.pvData = response.data.pvData
-        this.dialogPvVisible = true
-      })
-    },
-    handleDownload() {
-      this.downloadLoading = true
-      import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
-        const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
-        const data = this.formatJson(filterVal, this.list)
-        excel.export_json_to_excel(tHeader, data, 'table-list')
-        this.downloadLoading = false
-      })
-    },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => {
-        if (j === 'timestamp') {
-          return parseTime(v[j])
-        } else {
-          return v[j]
-        }
-      }))
     }
+    // handleDownload() {
+    //   this.downloadLoading = true
+    //   import('@/vendor/Export2Excel').then(excel => {
+    //     const tHeader = ['timestamp', 'title', 'type', 'importance', 'status']
+    //     const filterVal = ['timestamp', 'title', 'type', 'importance', 'status']
+    //     const data = this.formatJson(filterVal, this.list)
+    //     excel.export_json_to_excel(tHeader, data, 'table-list')
+    //     this.downloadLoading = false
+    //   })
+    // },
+    // formatJson(filterVal, jsonData) {
+    //   return jsonData.map(v => filterVal.map(j => {
+    //     if (j === 'timestamp') {
+    //       return parseTime(v[j])
+    //     } else {
+    //       return v[j]
+    //     }
+    //   }))
+    // }
   }
 }
 </script>

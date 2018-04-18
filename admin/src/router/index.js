@@ -56,12 +56,45 @@ export const constantRouterMap = [
   {
     path: '',
     component: Layout,
+    redirect: 'issue',
+    children: [{
+      path: 'issue',
+      component: _import('issue/Index'),
+      name: 'issue',
+      meta: { title: '咨询管理', icon: 'home', noCache: true }
+    }]
+  },
+  {
+    path: '',
+    component: Layout,
     redirect: 'comment',
     children: [{
       path: 'comment',
       component: _import('comment/Index'),
       name: 'comment',
       meta: { title: '评论管理', icon: 'home', noCache: true }
+    }]
+  },
+  {
+    path: '',
+    component: Layout,
+    redirect: 'user',
+    children: [{
+      path: 'user',
+      component: _import('user/Index'),
+      name: 'user',
+      meta: { title: '用户管理', icon: 'home', noCache: true }
+    }]
+  },
+  {
+    path: '',
+    component: Layout,
+    redirect: 'swiper',
+    children: [{
+      path: 'swiper',
+      component: _import('swiper/Index'),
+      name: 'swiper',
+      meta: { title: '轮播图管理', icon: 'home', noCache: true }
     }]
   },
   { path: '*', redirect: '/404', hidden: true }
