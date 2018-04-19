@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const upload = require('../Public/upload');
+const upload = require('../../common/upload');
 require('./passport.js')(passport);
 
 router.post('/elturAdmin/upload', (req, res, next) => {

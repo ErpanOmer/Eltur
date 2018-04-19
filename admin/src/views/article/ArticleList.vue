@@ -65,12 +65,11 @@
           </el-button>
           <el-button v-if="scope.row.status!='draft'" size="mini" @click="handleModifyStatus(scope.row,'draft')">草稿
           </el-button> -->
-          <el-button v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleDelete(scope.row,'deleted')">删除
+          <el-button size="mini" type="danger" @click="handleDelete(scope.row,'deleted')">删除
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-
     <div class="pagination-container">
       <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
         :page-sizes="[10,25,50]" :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -178,8 +177,8 @@ export default {
     fetchList() {
       this.listLoading = true
       getNews(this.listQuery).then(response => {
-        this.list = response.data.list
-        this.total = response.data.totalCount
+        this.list = response.list
+        this.total = response.totalCount
         this.listLoading = false
       })
     },

@@ -1,10 +1,10 @@
 const express = require('express');
-const AdminUser = require('../Model/AdminUser.js');
+const AdminUser = require('../../model/admin_user.js');
 const jwt = require('jsonwebtoken');
 const config = require('../../db.config.js')
 const passport = require('passport');
 const router = express.Router();
-require('../passport.js')(passport, true);
+require('./passport.js')(passport, true);
 
 // 注册账户
 router.post('/elturAdmin/signup', (req, res) => {

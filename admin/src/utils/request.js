@@ -6,7 +6,7 @@ import { getToken } from '@/utils/auth'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'http://www.eltur.cn', // api的base_url
+  baseURL: 'http://localhost', // api的base_url
   timeout: 15000 // 请求超时时间
 })
 // request拦截器
@@ -47,7 +47,11 @@ service.interceptors.response.use(
       })
       return false
     } else if (responseData.code === 520 && responseData.success) {
-      return responseData
+      if (responseData.data) {
+        return responseData.data
+      } else {
+        return responseData
+      }
     } else {
       return Promise.reject('error')
     }

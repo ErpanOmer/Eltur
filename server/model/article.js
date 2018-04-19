@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 var mongoosePaginate = require('mongoose-paginate');
-const config = require('../../db.config.js')
+const config = require('../db.config.js')
 /************** 定义模型Comment **************/
 const Comment = new Schema({
   articleId: {

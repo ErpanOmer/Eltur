@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const config = require('../../db.config.js')
+const config = require('../db.config.js')
 const Schema = mongoose.Schema;
 const mongoosePaginate = require('mongoose-paginate');
 
@@ -70,6 +70,36 @@ Issue.statics.saveIssue = function(data, callback) {
           code: 520,
           message: '操作成功'
       });
+    }
+  })
+}
+//  回复咨询问题
+Issue.statics.replyIssue = function(data, callback) {
+  const Issue = mongoose.model('Issue');
+  Issue.findById({ _id: data.id }, function(err, issue) {
+    if (err) {
+      return next(err);
+    }
+    if (!issue) {
+      callback({success: false, code: 8888, message: '找不到此文章' });
+      return next(new Error('failed to load issue'));
+    }
+    if (issue) {
+      issue.answerText = data.answerText
+      issue.alreadyAnswered = true
+      issue.updateTime = ~~(new Date().getTime() / 1000);
+      issue.save(err => {
+        if (err) {
+          console.log(err)
+          return false
+        } else {
+          callback({
+            success: true,
+            code: 520,
+            message: '回复成功'
+          });
+        }
+      })
     }
   })
 }

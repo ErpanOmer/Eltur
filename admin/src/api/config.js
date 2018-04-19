@@ -3,5 +3,7 @@ export default {
   info: '/elturAdmin/Info',
   logout: '/elturAdmin/Logout',
   upload: '/elturAdmin/upload',
-  News: '/elturAdmin/Article'
+  News: '/elturAdmin/Article',
+  issue: '/elturAdmin/issue',
+  replyIssue: '/elturAdmin/replyIssue'
 }

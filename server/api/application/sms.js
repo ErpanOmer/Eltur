@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Sms = require('./Model')
-const send = require('./Send')
+const Sms = require('../../model/sms.js');
+const send = require('../../common/send.js')
 // 发生短信验证
 router.post('/eltur/sms', (req, res) => {
   // 修改为您要发送的手机号码，多个号码用逗号隔开

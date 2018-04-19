@@ -1,5 +1,5 @@
 const express = require('express');
-const Article = require('../../Common/Model/Article.js');
+const Article = require('../../model/article.js');
 const config = require('../../db.config.js')
 const router = express.Router();
 //  api

@@ -60,12 +60,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 //********************    请求api   ******************//
 //***************************************************//
 // 引入编写好的api
-const APPLICATION_API = require('./Application')
-const ADMIN_API = require('./Admin')
-const PUBLIC = require('./Public')
+const APPLICATION_API = require('./api/application')
+const ADMIN_API = require('./api/admin')
 app.use(...APPLICATION_API)
 app.use(...ADMIN_API)
-app.use(...PUBLIC)
 //***************************************************//
 //********************  结束  ******************//
 //***************************************************//

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../Model/User.js')
+const User = require('../../model/user.js')
 const api = '/application/userInfo'
 // passport-http-bearer token 中间件验证
 // 通过 header 发送 Authorization -> Bearer  + token
 // 或者通过 ?access_token = token
-router.use(api, require('../Interceptor.js'))
+router.use(api, require('./interceptor.js'))
 router.get(api, function(req, res, next) {
   res.json({success: true, code: 520, message: '成功', data: req.user })
 })

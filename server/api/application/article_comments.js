@@ -1,10 +1,10 @@
 const express = require('express');
-const Article = require('../../Common/Model/Article.js');
+const Article = require('../../model/article.js');
 const config = require('../../db.config.js')
 const router = express.Router();
 //  api
 const api = '/application/Comments'
-router.use(api, require('../Interceptor.js'))
+router.use(api, require('./interceptor.js'))
 router.post(api, (req, res) => {
   const body = req.body
   if (!body.id || !body.text) {

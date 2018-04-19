@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../Public/upload');
+const upload = require('../../common/upload');
 const api = '/application/'
 
 router.use(`${api}upload`, require('./Interceptor.js'))
