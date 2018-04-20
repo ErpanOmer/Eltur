@@ -16,10 +16,10 @@ export function deleteNews(query) {
   })
 }
 
-export function createArticle(data) {
+export function editArticle(query, data) {
   return request({
-    url: '/article/create',
-    method: 'post',
+    url: `${config.News}/${query}`,
+    method: 'put',
     data
   })
 }

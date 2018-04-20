@@ -99,7 +99,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
-        <el-button type="primary" @click="updateData">确定</el-button>
+        <el-button type="primary" @click="updateData(temp)">确定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -107,7 +107,7 @@
 
 <script>
 import { parseTime } from '@/utils'
-import { getNews, deleteNews } from '@/api/article'
+import { getNews, deleteNews, editArticle } from '@/api/article'
 import waves from '@/directive/waves' // 水波纹指令
 const calendarTypeOptions = [
   { key: 0, display_name: '推荐' },
@@ -223,27 +223,15 @@ export default {
         this.$refs['dataForm'].clearValidate()
       })
     },
-    updateData() {
+    updateData: function(item) {
       this.$refs['dataForm'].validate((valid) => {
+        const data = {
+          source: item.source
+        }
         if (valid) {
-          const tempData = Object.assign({}, this.temp)
-          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-          // updateArticle(tempData).then(() => {
-          //   for (const v of this.list) {
-          //     if (v.id === this.temp.id) {
-          //       const index = this.list.indexOf(v)
-          //       this.list.splice(index, 1, this.temp)
-          //       break
-          //     }
-          //   }
-          //   this.dialogFormVisible = false
-          //   this.$notify({
-          //     title: '成功',
-          //     message: '更新成功',
-          //     type: 'success',
-          //     duration: 2000
-          //   })
-          // })
+          editArticle(`${item.id}`, data).then(response => {
+            console.log(response)
+          })
         }
       })
     },

@@ -22,7 +22,7 @@
                   <p v-text="item.question" style="margin-top:5px;color: #666;"></p>
                 </div>
                 <div>
-                  <el-button type="primary" size="mini" @click="openReply(item)">回复</el-button>
+                  <el-button type="primary" v-if="!item.alreadyAnswered" size="mini" @click="openReply(item)">回复</el-button>
                   <el-button size="mini" type="danger" @click="open()">删除</el-button>
                   <el-button type="text" v-text="formatTime(item.createdTime)" style="float:right;padding: 6px;"></el-button>
                 </div>
@@ -102,6 +102,7 @@ export default {
             type: 'success',
             message: '回复成功'
           })
+          this.dialogReply = false
         }
       })
     },
