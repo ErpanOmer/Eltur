@@ -3,7 +3,7 @@ const Article = require('../../model/article.js');
 const config = require('../../db.config.js')
 const router = express.Router();
 //  查询函数
-const Query = require('../../common/query');
+const Query = require('../../common/query.js');
 //  api
 const api = '/application/Article'
 const readingRankings = '/application/readingRankings'
