@@ -5,5 +5,7 @@ export default {
   upload: '/elturAdmin/upload',
   News: '/elturAdmin/Article',
   issue: '/elturAdmin/issue',
-  replyIssue: '/elturAdmin/replyIssue'
+  replyIssue: '/elturAdmin/replyIssue',
+  comment: '/elturAdmin/comment',
+  user: '/elturAdmin/user'
 }

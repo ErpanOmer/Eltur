@@ -2,30 +2,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 var mongoosePaginate = require('mongoose-paginate');
-const config = require('../db.config.js')
-/************** 定义模型Comment **************/
-const Comment = new Schema({
-  articleId: {
-    type: String,
-    default: ''
-  },
-  text: {
-    type: String,
-    required: true
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  cover: {
-    type: String,
-    default: ''
-  },
-  createdTime: {
-    type: Number,
-    default: 0
-  }
-});
+const config = require('../db.config.js');
+const { Comment } = require('./comment.js');
 /************** 定义模式Article **************/
 const Article = new Schema({
   author: { type: String, default : '', require: true },   //  作者
@@ -51,14 +29,8 @@ Article.statics.postComment = function(data, callback) {
      const Article = mongoose.model('Article');
      const CommentModel = mongoose.model('Comment');
      const comment = new CommentModel();
-     //   写入评论
-     comment.articleId = data.id
-     comment.text = data.text
-     comment.name = data.name
-     comment.cover = data.cover
-     comment.createdTime = ~~(new Date().getTime() / 1000)
      // 查询新闻
-     Article.findById({ _id: data.id }, function(err, news) {
+     Article.findById({ _id: data.id }, function(err, article) {
          if (err) {
              callback({
                  success: false,
@@ -66,18 +38,25 @@ Article.statics.postComment = function(data, callback) {
                  message: '找不到新闻文章'
              });
          } else {
-             if (news) {
-                 news.comments.unshift(comment);
-                 //  保存
-                 news.save()
-                 comment.save()
-                 callback({ success: true, code: 520, message: '评论成功' });
+             if (article) {
+               //   写入评论
+               comment.articleId = data.id
+               comment.text = data.text
+               comment.name = data.name
+               comment.cover = data.cover
+               comment.createdTime = ~~(new Date().getTime() / 1000)
+               comment.articleTitle = article.title
+               comment.articlecategory = article.category
+               article.comments.unshift(comment);
+               //  保存
+               article.save()
+               comment.save()
+               callback({ success: true, code: 520, message: '评论成功' });
              } else {
                  callback({ success: false, code: 8888, message: '评论失败'})
              }
          }
      });
  }
-/************** 定义模型Model **************/
-mongoose.model('Comment', Comment);
+
 module.exports = mongoose.model('Article', Article);

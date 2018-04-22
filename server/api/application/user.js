@@ -87,14 +87,16 @@ router.post(`${api}login`, (req, res) => {
               } else {
                 let token = jwt.sign({mobile: user.mobile}, 'YouLoveMe',{ expiresIn: 10080 });
                 user.token = token;
+                user.updateTime = now;
                 user.save(function(err){
                   if (err) {
                     return console.log(err)
                   }
                   sms.code = '';
                   sms.save(err => {})
-                  const data = {}
-                  data.token = token
+                  const data = {
+                    token
+                  }
                   res.json({ success: true, message: '登陆成功!', data, code: 520 })
                 })
               }
@@ -115,12 +117,14 @@ router.post(`${api}login`, (req, res) => {
           if (isMatch && !err) {
             let token = jwt.sign({mobile: user.mobile}, 'YouLoveMe',{ expiresIn: 10080 })
             user.token = token;
+            user.updateTime = ~~(new Date().getTime() / 1000);
             user.save(function(err){
               if (err) {
                 return console.log(err)
               }
-              const data = {}
-              data.token = token
+              const data = {
+                token
+              }
               res.json({ success: true, message: '登陆成功!', data, code: 520 })
             })
           } else {

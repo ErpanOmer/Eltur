@@ -32,7 +32,7 @@
           <span>{{Time(scope.row.createdTime)}}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="150px" label="标题">
+      <el-table-column min-width="150px" align="center" label="标题">
         <template slot-scope="scope">
           <span class="link-type" @click="handleUpdate(scope.row)" v-text="scope.row.title"></span>
           <el-tag type="warning" v-text="itemList[scope.row.category]"></el-tag>

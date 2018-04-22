@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const config = require('../db.config.js')
+const config = require('../db.config.js');
+const mongoosePaginate = require('mongoose-paginate');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 const User = new Schema({
@@ -52,6 +53,7 @@ const User = new Schema({
     default: 0
   }
 });
+User.plugin(mongoosePaginate);
 
 // 添加用户保存时中间件对password进行bcrypt加密,这样保证用户密码只有用户本人知道
 User.pre('save', function (next) {
