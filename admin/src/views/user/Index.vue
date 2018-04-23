@@ -46,7 +46,7 @@
           <span>{{Time(scope.row.createdTime)}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="操作" class-name="small-padding fixed-width">
+      <el-table-column align="center" label="操作" min-width="240px" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">查看</el-button>
           <el-button size="mini" type="success">审核</el-button>

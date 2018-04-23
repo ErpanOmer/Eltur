@@ -1,11 +1,14 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text" v-text="`Hello! ${name}`"></div>
+    <!-- <div class="dashboard-text" v-text="`Hello! ${name}`"></div> -->
+    <chart height='100%' width='100%'></chart>
   </div>
 </template>
 <script>
+import Chart from '@/components/Charts/mixChart'
 export default {
   name: 'home',
+  components: { Chart },
   data: () => ({
   }),
   computed: {
@@ -30,11 +33,10 @@ export default {
 <style rel="stylesheet/scss" lang="scss" scoped>
 .dashboard {
   &-container {
-    margin: 30px;
-  }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
+    padding: 30px;
+    position: relative;
+    width: 100%;
+    height:85vh;
   }
 }
 </style>

@@ -4,6 +4,7 @@ const ISSUE = require('./issue.js')
 const UPLOAD = require('./upload.js')
 const COMMENT = require('./comment.js')
 const USER = require('./user.js')
+const SWIPER = require('./swiper')
 //    接口
 module.exports = [
   ADMIN_USER,
@@ -11,5 +12,6 @@ module.exports = [
   ISSUE,
   UPLOAD,
   COMMENT,
-  USER
+  USER,
+  SWIPER
 ]

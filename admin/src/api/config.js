@@ -7,5 +7,6 @@ export default {
   issue: '/elturAdmin/issue',
   replyIssue: '/elturAdmin/replyIssue',
   comment: '/elturAdmin/comment',
-  user: '/elturAdmin/user'
+  user: '/elturAdmin/user',
+  swiper: '/elturAdmin/swiper'
 }
