@@ -1,19 +1,16 @@
 import request from '@/utils/request'
 import config from '@/api/config'
 
-// 获取咨询列表
 export function getSwiper(query) {
   return request({
-    url: config.swiper,
-    method: 'get',
-    params: query
+    url: `${config.swiper}/${query}`,
+    method: 'get'
   })
 }
-//  删除评论
-export function postSwiper(data) {
+export function postSwiper(query, data) {
   return request({
-    url: config.swiper,
-    method: 'post',
+    url: `${config.swiper}/${query}`,
+    method: 'put',
     data
   })
 }

@@ -3,17 +3,16 @@
     <el-container>
       <el-main>
         <el-carousel :interval="3000" type="card" height="300px">
-          <el-carousel-item v-for="item in list" :key="item">
-            <div :style="'height: 300px;background:url(' + item + ') center center no-repeat;background-size: cover;'"></div>
+          <el-carousel-item v-for="item in list" :key="item.src">
+            <div :style="'height: 300px;background:url(' + item.src + ') center center no-repeat;background-size: cover;'"></div>
           </el-carousel-item>
         </el-carousel>
       </el-main>
       <el-footer>
         <div style="margin:20px auto;text-align: center;">
           <el-button type="primary" v-waves icon="el-icon-plus" @click="dialogSwiper=true">增加轮播图</el-button>
-          <el-button type="primary" v-waves @click="ok()">确定</el-button>
         </div>
-        <el-table :data="list" row-key="id"  v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
+        <el-table :data="list" row-key="src"  v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
           <el-table-column align="center" label="序号" width="65px">
             <template slot-scope="scope">
               <span>{{scope.$index + 1}}</span>
@@ -21,7 +20,7 @@
           </el-table-column>
           <el-table-column align="center" label="轮播图">
             <template slot-scope="scope">
-              <div :style="'height: 100px;width:150px;background:url(' + scope.row + ') center center no-repeat;background-size: cover;margin: 0 auto;'"></div>
+              <div :style="'height: 100px;width:150px;background:url(' + scope.row.src + ') center center no-repeat;background-size: cover;margin: 0 auto;'"></div>
             </template>
           </el-table-column>
           <el-table-column align="center" label="上传时间">
@@ -84,26 +83,30 @@ export default {
     listLoading: false,
     newList: [],
     dialogSwiper: false,
-    temp: ''
+    temp: '',
+    sortable: null
   }),
   computed: {
     headers: function() {
       return { 'Authorization': getToken() }
     }
   },
+  beforeRouteLeave(to, from, next) {
+    postSwiper('5addfa73fe04b53170f7fe42', { list: this.list }).then(response => {
+      if (response.success && response.code === 520) {
+        next()
+      }
+    })
+  },
   mounted() {
-    this.newList = this.list
-    //  do something after mounting vue instance
+    getSwiper('5addfa73fe04b53170f7fe42').then(response => {
+      this.list = response.list
+    })
     this.$nextTick(() => {
       this.setSort()
     })
   },
   methods: {
-    ok: function() {
-      postSwiper({ list: this.list }).then(response => {
-        console.log(response)
-      })
-    },
     handleAvatarSuccess(response, file) {
       if (response.code === 520 && response.success) {
         this.$message.success('上传成功')
@@ -118,16 +121,16 @@ export default {
 
       if (!isImage) {
         this.$message.error('上传图片只能是 JPG 或者 PNG 格式!')
-        return
+        return false
       }
       if (!isLt2M) {
         this.$message.error('上传图片大小不能超过 2MB!')
-        return
+        return false
       }
       return isImage && isLt2M
     },
     submit: function() {
-      this.$set(this.list, this.list.length, this.temp)
+      this.$set(this.list, this.list.length, { src: this.temp })
       this.temp = ''
       this.dialogSwiper = false
     },
@@ -158,10 +161,12 @@ export default {
         onEnd: evt => {
           const targetRow = this.list.splice(evt.oldIndex, 1)[0]
           this.list.splice(evt.newIndex, 0, targetRow)
-
+          this.list.forEach((item, index) => {
+            this.$set(this.list, index, item)
+          })
           // for show the changes, you can delete in you code
-          const tempIndex = this.newList.splice(evt.oldIndex, 1)[0]
-          this.newList.splice(evt.newIndex, 0, tempIndex)
+          // const tempIndex = this.newList.splice(evt.oldIndex, 1)[0]
+          // this.newList.splice(evt.newIndex, 0, tempIndex)
         }
       })
     }
