@@ -25,7 +25,7 @@
           </el-table-column>
           <el-table-column align="center" label="上传时间">
             <template slot-scope="scope">
-              <span>2018-4-23</span>
+              <span v-text="parseTime(time)"></span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作"class-name="small-padding fixed-width">
@@ -66,6 +66,7 @@
 </template>
 <script>
 import Sortable from 'sortablejs'
+import { parseTime } from '@/utils'
 import waves from '@/directive/waves' // 水波纹指令
 import { getToken } from '@/utils/auth'
 import Upload from '@/components/Upload/singleImage3'
@@ -84,7 +85,8 @@ export default {
     newList: [],
     dialogSwiper: false,
     temp: '',
-    sortable: null
+    sortable: null,
+    time: null
   }),
   computed: {
     headers: function() {
@@ -101,12 +103,14 @@ export default {
   mounted() {
     getSwiper('5addfa73fe04b53170f7fe42').then(response => {
       this.list = response.list
+      this.time = response.updateTime
     })
     this.$nextTick(() => {
       this.setSort()
     })
   },
   methods: {
+    parseTime,
     handleAvatarSuccess(response, file) {
       if (response.code === 520 && response.success) {
         this.$message.success('上传成功')
