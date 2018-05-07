@@ -16,17 +16,32 @@
         <span v-text="$formatTime(item.createdTime)" style="float:right;"></span>
       </p>
     </div>
+    <group>
+      <div slot="default" class="title">
+        <span style="display:inline-block;"></span>
+        <span>回答内容</span>
+      </div>
+    </group>
+    <div class="answer-text" v-text="item.answerText"></div>
+    <div class="fabulous">
+      <transition name="fade" mode="out-in">
+        <div class="back" v-if="!isUp" :key="isUp" @click="giveUp()"><img src="../../../assets/fabulous.png"></div>
+        <div class="back down" v-else :key="isUp" @click="giveUp()"><img src="../../../assets/fabulous.png"></div>
+      </transition>
+      <p>3人攒过</p>
+    </div>
   </div>
 </template>
 <script>
-import { Flexbox, FlexboxItem } from 'vux'
+import { Flexbox, FlexboxItem, Group } from 'vux'
 export default {
   components: {
-    Flexbox, FlexboxItem
+    Flexbox, FlexboxItem, Group
   },
   data: () => ({
     item: {},
-    itemList: ['推荐', '婚姻家庭', '交通事故', '劳动用工', '治安刑事', '医疗事故', '房产土地', '责权责务', '合同纠纷', '征地拆迁']
+    itemList: ['推荐', '婚姻家庭', '交通事故', '劳动用工', '治安刑事', '医疗事故', '房产土地', '责权责务', '合同纠纷', '征地拆迁'],
+    isUp: false
   }),
   mounted () {
     const id = this.$route.query.id
@@ -40,6 +55,10 @@ export default {
     })
   },
   methods: {
+    giveUp: function () {
+      this.isUp = !this.isUp
+      this.$vux.toast.text('点赞成功')
+    },
     getDetail: function (id) {
       this.$getData(this.$configs.api.issue, `/${id}`, response => {
         this.item = response
@@ -97,6 +116,73 @@ export default {
       box-sizing: border-box;
       padding:5px 10px;
       border-radius: 5px;
+    }
+  }
+  .title {
+    font-size: 14px;
+    box-sizing: border-box;
+    padding: 10px;
+    > span:first-child {
+      float: left;
+      width: 5px;
+      height: 20px;
+      background-color: #f90;
+      border-radius: 5px;
+      vertical-align: middle;
+    }
+    > span:last-child {
+      margin-left: 10px;
+    }
+  }
+  .answer-text {
+    box-sizing: border-box;
+    padding: 15px 10px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #333;
+  }
+  .fabulous {
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: #fff;
+    .back {
+      width: 70px;
+      height: 70px;
+      background-color: #f90;
+      border-radius: 50%;
+      margin: 0 auto;
+      box-sizing: border-box;
+      padding-top: 18px;
+      img {
+        width: 40%;
+        display: block;
+        margin: 0 auto;
+      }
+    }
+    .down {
+      background-color: #ccc;
+      padding-top: 23px;
+      img {
+        transform:rotateX(180deg);
+      }
+    }
+    p {
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+      margin: 20px;
+    }
+    .fabulous-list img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    .vux-flexbox img {
+      width: 70%;
+      height: 70%;
+      display: block;
+      margin: 0 auto;
+      border-radius: 50%;
     }
   }
 }

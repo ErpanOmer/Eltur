@@ -225,178 +225,182 @@ export default {
   }
 }
 </script>
-<style media="screen">
-  #article-detail .main {
-    box-sizing: border-box;
-    padding: 10px;
-    background-color: #fff;
-  }
-  #article-detail .main .tit {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  #article-detail .main .time {
-    font-size: 12px;
-    box-sizing: border-box;
-    padding-bottom: 10px;
-    color: #999;
-    border-bottom: 1px solid #e8e8e8;
-  }
-  #article-detail .main .cover {
-    margin: 10px 0;
-    height: 180px;
-    border-radius: 5px;
-  }
-  #article-detail .main .text {
-    box-sizing: border-box;
-    padding-top: 10px;
-    font-size: 16px;
-    line-height: 1.8;
-    color: #333;
-  }
-  #article-detail .main .text p {
-    margin-bottom: 10px;
-  }
-  #article-detail .main .text p:first-child {
-    margin: 0;
-  }
-  .tc {
-    text-align: center;
-  }
-  #article-detail .main .text img {
-    max-width: 100%;
-  }
-  #article-detail .main .fabulous {
-    box-sizing: border-box;
-    padding-top: 20px;
-  }
-  #article-detail .main .fabulous .back {
-    width: 70px;
-    height: 70px;
-    background-color: #f90;
-    border-radius: 50%;
-    margin: 0 auto;
-    box-sizing: border-box;
-    padding-top: 18px;
-  }
-  #article-detail .main .fabulous .back img {
-    width: 40%;
-    display: block;
-    margin: 0 auto;
-  }
-  #article-detail .main .fabulous .down {
-    background-color: #ccc;
-    padding-top: 23px;
-  }
-  #article-detail .main .fabulous .down img {
-    transform:rotateX(180deg);
-  }
-  #article-detail .main .fabulous p {
-    text-align: center;
-    font-size: 12px;
-    color: #999;
-    margin: 20px;
-  }
-  #article-detail .main .fabulous .fabulous-list img{
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-  }
-  #article-detail .main .fabulous .vux-flexbox img {
-    width: 70%;
-    height: 70%;
-    display: block;
-    margin: 0 auto;
-    border-radius: 50%;
-  }
-  #article-detail .title {
-    font-size: 14px;
-    box-sizing: border-box;
-    padding: 10px;
-  }
-  #article-detail .title span:first-child {
-    float: left;
-    width: 5px;
-    height: 20px;
-    background-color: #f90;
-    border-radius: 5px;
-    vertical-align: middle;
-  }
-  #article-detail .title span:last-child {
-    margin-left: 10px;
-  }
-  #article-detail .comment {
-    box-sizing: border-box;
-    padding: 0 10px;
-    font-size: 14px;
-    color: #444;
-    background-color: #fff;
-  }
-  #article-detail .comment .comment-list {
-    border-bottom: 1px solid #eee;
-    box-sizing: border-box;
-    padding: 7.5px 0;
-  }
-  #article-detail .comment .comment-list .cover {
-    width: 41px;
-    height: 41px;
-    float: left;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  #article-detail .comment .comment-list .right {
-    float: left;
-    width: calc(100% - 60px);
-    margin-left: 10px;
-  }
-  #article-detail .comment .comment-list .right .content {
-    margin: 2.5px 0;
-  }
-  #article-detail .write-comment {
-    position: fixed;
-    bottom: 0;
-    height: 48px;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 5px 10px;
-    background-color: #fff;
-    border-top: 1px solid #eee;
-  }
-  #article-detail .write-comment .left {
-    float: left;
-    width: 55%;
-    box-sizing: border-box;
-    margin-top: 2.5px;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 12px;
-    font-size: 13px;
-    color: #aaa;
-    padding-left: 15px;
-  }
-  #article-detail .write-comment .right {
-    float: right;
-    width: 45%;
-    box-sizing: border-box;
-    margin-top: 2.5px;
-    line-height: 30px;
-    color: #f90;
-    padding-left: 15px;
-  }
-  #article-detail .write-comment .right .iconfont {
-    font-size: 20px;
-  }
-  #article-detail .write-comment .right .vux-flexbox-item {
-    text-align: center;
-  }
-  #article-detail .write-comment .right .vux-badge {
-    margin-bottom: 10px;
-    margin-left: -5px;
-  }
-  #article-detail .comment-popup {
-    box-sizing: border-box;
-    padding:0 10px;
-    height:200px;
+<style lang="scss">
+  #article-detail {
+    .main {
+      box-sizing: border-box;
+      padding: 10px;
+      background-color: #fff;
+      .tit {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .time {
+        font-size: 12px;
+        box-sizing: border-box;
+        padding-bottom: 10px;
+        color: #999;
+        border-bottom: 1px solid #e8e8e8;
+      }
+      .cover {
+        margin: 10px 0;
+        height: 180px;
+        border-radius: 5px;
+      }
+      .text {
+        box-sizing: border-box;
+        padding-top: 10px;
+        font-size: 16px;
+        line-height: 1.8;
+        color: #333;
+        p {
+          margin-bottom: 10px;
+          &:first-child {
+            margin: 0;
+          }
+        }
+        img {
+          max-width: 100%;
+        }
+      }
+      .fabulous {
+        box-sizing: border-box;
+        padding-top: 20px;
+        .back {
+          width: 70px;
+          height: 70px;
+          background-color: #f90;
+          border-radius: 50%;
+          margin: 0 auto;
+          box-sizing: border-box;
+          padding-top: 18px;
+          img {
+            width: 40%;
+            display: block;
+            margin: 0 auto;
+          }
+        }
+        .down {
+          background-color: #ccc;
+          padding-top: 23px;
+          img {
+            transform:rotateX(180deg);
+          }
+        }
+        p {
+          text-align: center;
+          font-size: 12px;
+          color: #999;
+          margin: 20px;
+        }
+        .fabulous-list img {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+        }
+        .vux-flexbox img {
+          width: 70%;
+          height: 70%;
+          display: block;
+          margin: 0 auto;
+          border-radius: 50%;
+        }
+      }
+    }
+    .tc {
+      text-align: center;
+    }
+    .title {
+      font-size: 14px;
+      box-sizing: border-box;
+      padding: 10px;
+      span {
+        &:first-child {
+          float: left;
+          width: 5px;
+          height: 20px;
+          background-color: #f90;
+          border-radius: 5px;
+          vertical-align: middle;
+        }
+        &:last-child {
+          margin-left: 10px;
+        }
+      }
+    }
+    .comment {
+      box-sizing: border-box;
+      padding: 0 10px;
+      font-size: 14px;
+      color: #444;
+      background-color: #fff;
+      .comment-list {
+        border-bottom: 1px solid #eee;
+        box-sizing: border-box;
+        padding: 7.5px 0;
+        .cover {
+          width: 41px;
+          height: 41px;
+          float: left;
+          border-radius: 12px;
+          overflow: hidden;
+        }
+        .right {
+          float: left;
+          width: calc(100% - 60px);
+          margin-left: 10px;
+          .content {
+            margin: 2.5px 0;
+          }
+        }
+      }
+    }
+    .write-comment {
+      position: fixed;
+      bottom: 0;
+      height: 48px;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 5px 10px;
+      background-color: #fff;
+      border-top: 1px solid #eee;
+      .left {
+        float: left;
+        width: 55%;
+        box-sizing: border-box;
+        margin-top: 2.5px;
+        line-height: 30px;
+        background-color: #eee;
+        border-radius: 12px;
+        font-size: 13px;
+        color: #aaa;
+        padding-left: 15px;
+      }
+      .right {
+        float: right;
+        width: 45%;
+        box-sizing: border-box;
+        margin-top: 2.5px;
+        line-height: 30px;
+        color: #f90;
+        padding-left: 15px;
+        .iconfont {
+          font-size: 20px;
+        }
+        .vux-flexbox-item {
+          text-align: center;
+        }
+        .vux-badge {
+          margin-bottom: 10px;
+          margin-left: -5px;
+        }
+      }
+    }
+    .comment-popup {
+      box-sizing: border-box;
+      padding:0 10px;
+      height:200px;
+    }
   }
 </style>
