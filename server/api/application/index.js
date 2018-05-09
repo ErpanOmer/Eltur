@@ -6,6 +6,7 @@ const ARTICLE_FABULOUS = require('./article_fabulous.js')
 const ARTICLE_COMMENTS = require('./article_comments.js')
 const ISSUE = require('./issue.js')
 const SWIPER = require('./swiper.js')
+const SMS = require('./sms.js')
 module.exports = [
   USER,
   USER_INFO,
@@ -14,5 +15,6 @@ module.exports = [
   ARTICLE_FABULOUS,
   ARTICLE_COMMENTS,
   ISSUE,
-  SWIPER
+  SWIPER,
+  SMS
 ]

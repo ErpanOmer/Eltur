@@ -1,6 +1,6 @@
 <template>
   <div id="member">
-    <blur :blur-amount=3 :url="url">
+    <blur :blur-amount=0 :url="url">
       <div v-if="isLoading" class="center" @click="avatar()">
         <img v-if="$isEmptyParam(userInfo.avatar)" src="../../../assets/businessman.png">
         <img v-else :src="userInfo.avatar">
@@ -77,7 +77,7 @@ export default {
     Tabbar, Blur, Flexbox, FlexboxItem, Card, Cell, Group, AvatarCropper
   },
   data: () => ({
-    url: '',
+    url: 'http://www.eltur.cn/images/eltur_152561271155616882.jpg',
     show: false,
     per: null,
     options: {
