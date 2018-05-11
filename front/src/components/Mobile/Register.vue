@@ -88,11 +88,12 @@ export default {
         this.$vux.toast.text('两次密码不一致')
         return false
       }
-      let data = {}
-      data.mobile = this.mobile.replace(/\s/g, '')
-      data.code = this.code
-      data.password = this.password2
-      this.$postData(this.$configs.api.register, data, response => {
+      let data = {
+        mobile: this.mobile.replace(/\s/g, ''),
+        code: this.code,
+        password: this.password2
+      }
+      this.$postData(this.$configs.api.a, data, response => {
         if (response) {
           const currentRoutePath = localStorage.getItem('currentRoutePath')
           this.$postData(this.$configs.api.login, { mobile: data.mobile, password: data.password, status: 2 }, response => {

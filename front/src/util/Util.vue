@@ -5,7 +5,7 @@
       apiURL: 'http://www.eltur.cn',
       api: {
         login: '/application/login',
-        register: '/application/register',
+        a: '/application/a',
         sms: '/eltur/sms',
         userInfo: '/application/userInfo',
         article: '/application/Article',

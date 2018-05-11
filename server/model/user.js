@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const User = new Schema({
   name: {
     type: String,
-    default: ''
+    default: 'eltur'
   },
   password: {
     type: String,
@@ -26,7 +26,6 @@ const User = new Schema({
   },
   mobile: {
     type: String,
-    unique: true,
     default: ''
   },
   avatar: {

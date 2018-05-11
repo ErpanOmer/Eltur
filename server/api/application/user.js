@@ -6,7 +6,7 @@ const config = require('../../db.config.js')
 const router = express.Router();
 const api = '/application/'
 // 注册账户
-router.post(`${api}register`, (req, res) => {
+router.post(`${api}a`, (req, res) => {
   const body = req.body
   if (!body.mobile || !body.code || !body.password) {
     res.json({success: false, code: 8888, message: '参数错误'});
@@ -29,6 +29,7 @@ router.post(`${api}register`, (req, res) => {
               if ((now - sendingTime) > 60*10) {
                 res.json({success: false, code: 8888, message: '验证码无效，可能过期'})
               } else {
+                console.log(typeof now)
                 let user = new User({
                   mobile: body.mobile,
                   password: body.password,
