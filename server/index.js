@@ -64,30 +64,6 @@ const APPLICATION_API = require('./api/application')
 const ADMIN_API = require('./api/admin')
 app.use(...APPLICATION_API)
 app.use(...ADMIN_API)
-//***************************************************//
-//********************  结束  ******************//
-//***************************************************//
-//
-//
-//
-//
-// 访问静态资源文件 这里是访问所有dist目录下的静态资源文件
-// 因为是单页应用 所有请求都走/dist/index.html
-// 服务器 图片文件
-app.use(express.static(path.resolve(__dirname, '../public/')))
-//  服务器静态资源
-app.get(/index/, function(req, res) {
-  //   eltur  前端模板
-  app.use(express.static(path.resolve(__dirname, '../dist/front')))
-  const html = fs.readFileSync(path.resolve(__dirname, '../dist/front/index.html'), 'utf-8')
-  res.send(html)
-})
-app.get(/admin/, function(req, res) {
-  //   eltur  后台模板
-  app.use(express.static(path.resolve(__dirname, '../dist/admin')))
-  const html = fs.readFileSync(path.resolve(__dirname, '../dist/admin/index.html'), 'utf-8')
-  res.send(html)
-})
 // 监听7373端口
-app.listen(80);
+app.listen(8080);
 console.log('Eltur project is success!');
